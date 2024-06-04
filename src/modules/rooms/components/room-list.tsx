@@ -9,38 +9,32 @@ import {
   Tooltip,
   Card,
   theme,
-  Spin,
-  Grid
+  Spin
 } from 'antd';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { HomeOutlined, FileAddOutlined, UndoOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 
 import { IHTTPSParams } from '@/services/adapter-config/config';
 import {
   convertFormDataToQueryParams,
-  inputPlaceholderText,
-  selectPlaceholderText
+  inputPlaceholderText
 } from '@/utils/functions/functions';
 import AppPagination from '@/components/display/pagination/pagination';
 
 import { toast } from 'react-toastify';
-import RejectModal from '@/components/feedback/reject-modal/reject-modal';
-import ReturnModal from '@/components/feedback/return-modal/return-modal';
 
 import { toastOptions } from '@/configs/global-configs';
 import AppHandledButton from '@/components/display/button/handle-button';
 import DeleteConfirmationModal from '@/components/display/DeleteConfirmationModal/delete-confirmation-modal';
 import AppEmpty from '@/components/display/empty/app-empty';
 import AppHandledInput from '@/components/forms/input/handled_input';
-import AppHandledSelect from '@/components/forms/select/handled-select';
 import { useTranslation } from 'react-i18next';
 import { EdcServies } from '@/services/edc-services/edc-services';
 
 import RoomListItemCard from './room-list-item-card';
-import { DocumentTypeId } from '../../constants/static-options';
-import SelectTemplateForDocument from '../../modals/selectTemplateForDocument';
+import AddRoomModal from '../modals/add-room-modal';
 
 // fake data for test
 const fakeData = [
@@ -94,9 +88,6 @@ function RoomList() {
     }
   });
 
-  const { useBreakpoint } = Grid;
-  const { md } = useBreakpoint();
-
   const { t } = useTranslation();
 
   const [RoomListData, setRoomListData] = useState<any>();
@@ -106,20 +97,13 @@ function RoomList() {
   const [page, setCurrentPage] = useState<number>(1);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [selectedItem, setSelectedItem] = useState<Partial<any> | null>(null);
-  const [showRejectForm, setShowRejectForm] = useState<boolean>(false);
-  const [showReturnForm, setShowReturnForm] = useState<boolean>(false);
+  const [showAddRoomModal, setShowAddRoomModal] = useState<boolean>(false);
 
   useState<boolean>(false);
-
-  const [
-    showSelectTemplatesForDocumentForm,
-    setShowSelectTemplatesForDocumentForm
-  ] = useState<boolean>(false);
 
   const { Text } = Typography;
   const { useToken } = theme;
   const { token } = useToken();
-  const navigate = useNavigate();
 
   // Fetch the Room list data from the server
   const fetchRoomList = async () => {
@@ -206,28 +190,9 @@ function RoomList() {
     setRefreshComponent(z => !z);
   };
 
-  // Delete draft
-  const deleteDraft = async () => {
-    if (selectedItem) {
-      const res: any = await EdcServies.getInstance().deleteExtra(
-        selectedItem.Id,
-        () => setLoading(false)
-      );
-      if (res.isSuccess) {
-        toast.success(res.Data?.message, toastOptions);
-        setModalVisible(false);
-      }
-    }
-    setRefreshComponent(z => !z);
-  };
-
   // Confirm delete
   const onConfirmDelete = () => {
-    if (selectedItem?.isDraft) {
-      deleteDraft();
-    } else {
-      deleteDocument();
-    }
+    deleteDocument();
   };
 
   // useEffect to fetch Room list data on component mount and when dependencies change
@@ -263,7 +228,7 @@ function RoomList() {
               <div>
                 <AppHandledButton
                   onClick={() => {
-                    navigate('create-room');
+                    setShowAddRoomModal(true);
                   }}
                   type="primary"
                 >
@@ -307,59 +272,13 @@ function RoomList() {
                     md={8}
                     lg={6}
                   >
-                    <AppHandledSelect
-                      label={t('documentType')}
-                      name="DocumentTypeId"
-                      control={control}
-                      required={false}
-                      placeholder={inputPlaceholderText(t('documentType'))}
-                      formItemProps={{
-                        style: { fontSize: md ? '10px' : '12px', color: 'red' }
-                      }}
-                      errors={errors}
-                      selectProps={{
-                        allowClear: true,
-                        showSearch: true,
-                        id: 'DocumentTypeId',
-                        placeholder: selectPlaceholderText(t('documentType')),
-                        className: 'w-full',
-                        options: DocumentTypeId
-                      }}
-                    />
-                  </Col>
-                  <Col
-                    className="gutter-row"
-                    style={{ marginBottom: token.marginSM }}
-                    xs={24}
-                    sm={12}
-                    md={8}
-                    lg={6}
-                  >
                     <AppHandledInput
-                      label={t('documentNumber')}
+                      label={t('name')}
                       name="DocumentCode"
                       control={control}
                       required={false}
                       inputType="text"
-                      placeholder={inputPlaceholderText(t('documentNumber'))}
-                      errors={errors}
-                    />
-                  </Col>
-                  <Col
-                    className="gutter-row"
-                    style={{ marginBottom: token.marginSM }}
-                    xs={24}
-                    sm={12}
-                    md={8}
-                    lg={6}
-                  >
-                    <AppHandledInput
-                      label={t('documentNumber')}
-                      name="DocumentCode"
-                      control={control}
-                      required={false}
-                      inputType="text"
-                      placeholder={inputPlaceholderText(t('documentNumber'))}
+                      placeholder={inputPlaceholderText(t('name'))}
                       errors={errors}
                     />
                   </Col>
@@ -421,11 +340,6 @@ function RoomList() {
                       CanSelectCirculation={z.CanSelectCirculation}
                       CanDelete={z?.CanDelete}
                       setRefreshComponent={setRefreshComponent}
-                      setShowRejectForm={setShowRejectForm}
-                      setShowReturnForm={setShowReturnForm}
-                      setShowSelectTemplatesForDocumentForm={
-                        setShowSelectTemplatesForDocumentForm
-                      }
                     />
                   </Col>
                 ))}
@@ -452,26 +366,14 @@ function RoomList() {
         onOk={onConfirmDelete}
         visible={modalVisible}
       />
-      <RejectModal
-        setRefreshComponent={setRefreshComponent}
-        id={selectedItem?.Id}
-        showRejectForm={showRejectForm}
-        setShowRejectForm={setShowRejectForm}
-      />
-      <ReturnModal
-        setRefreshComponent={setRefreshComponent}
-        id={selectedItem?.Id}
-        showReturnForm={showReturnForm}
-        setShowReturnForm={setShowReturnForm}
-      />
-      <SelectTemplateForDocument
-        setRefreshComponent={setRefreshComponent}
-        id={selectedItem?.Id}
-        showSelectTemplatesForDocumentForm={showSelectTemplatesForDocumentForm}
-        setShowSelectTemplatesForDocumentForm={
-          setShowSelectTemplatesForDocumentForm
-        }
-      />
+
+      {showAddRoomModal && (
+        <AddRoomModal
+          setShowAddRoomModal={setShowAddRoomModal}
+          setRefreshComponent={setRefreshComponent}
+          showAddRoomModal={showAddRoomModal}
+        />
+      )}
     </div>
   );
 }

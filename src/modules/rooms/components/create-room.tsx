@@ -1,6 +1,15 @@
 /* eslint-disable no-unused-vars */
 // Ant Design components
-import { Breadcrumb, Card, Col, Row, Space, Tooltip } from 'antd';
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  Form,
+  Row,
+  Space,
+  Tooltip,
+  UploadFile
+} from 'antd';
 
 // Ant Design icons
 import { HomeOutlined, CloseOutlined } from '@ant-design/icons';
@@ -13,6 +22,14 @@ import { useForm } from 'react-hook-form';
 import AppHandledButton from '@/components/display/button/handle-button';
 
 import { t } from 'i18next';
+import {
+  inputPlaceholderText,
+  inputValidationText,
+  minLengthCheck
+} from '@/utils/functions/functions';
+import AppHandledInput from '@/components/forms/input/handled_input';
+import { useState } from 'react';
+import AppFileUploadNew from '@/components/forms/file-upload/file-upload';
 
 function CreateRoom() {
   const {
@@ -39,6 +56,11 @@ function CreateRoom() {
       tableFileList: []
     }
   });
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
+
+  function onSubmit(data: any) {
+    console.log(data);
+  }
 
   return (
     <div>
@@ -93,6 +115,50 @@ function CreateRoom() {
         </Row>
       </Card>
       <Card size="small" className="box box-margin-y">
+        <Form
+          id="add-book-modal-form"
+          layout="vertical"
+          className="addPordductTabOneContainer"
+          onFinish={handleSubmit(onSubmit)}
+        >
+          <Row gutter={16}>
+            <Col span={24}>
+              <div className="pb-10">
+                <AppHandledInput
+                  label={t('name')}
+                  name="name"
+                  inputProps={{
+                    id: 'Name'
+                  }}
+                  rules={{
+                    required: {
+                      value: true,
+                      message: inputValidationText(t('name'))
+                    },
+                    minLength: {
+                      value: 3,
+                      message: minLengthCheck(t('name'), '3')
+                    }
+                  }}
+                  required
+                  control={control}
+                  inputType="text"
+                  placeholder={inputPlaceholderText(t('name'))}
+                  errors={errors}
+                />
+              </div>
+
+              <div className="pb-10">
+                <Form.Item label={t('coverPhoto')}>
+                  <AppFileUploadNew
+                    setFileList={setFileList}
+                    fileList={fileList}
+                  />
+                </Form.Item>
+              </div>
+            </Col>
+          </Row>
+        </Form>
         salam
       </Card>
     </div>

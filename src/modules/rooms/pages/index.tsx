@@ -1,4 +1,4 @@
-import RoomList from '../components/list/room-list';
+import RoomList from '../components/room-list';
 
 function RoomListPage() {
   return <RoomList />;

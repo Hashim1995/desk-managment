@@ -1,4 +1,4 @@
-import CreateRoom from '../components/contract/create/create-contract';
+import CreateRoom from '../components/create-room';
 
 function CreateRoomPage() {
   return <CreateRoom />;

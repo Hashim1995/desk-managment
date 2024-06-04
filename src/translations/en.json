@@ -81,7 +81,7 @@
     "send": "Send",
     "addNewCategoryName": "Enter new category name",
     "addNewCategory": "Add New Category",
-    "add": "Add User",
+    "add": "Add",
     "openAll": "Open All",
     "closeAll": "Close All",
     "editCategoryList": "Edit Category Lists",
@@ -300,6 +300,7 @@
     "sentSuccessfuly": "Sent successfully",
     "test": "test",
     "rooms": "Rooms",
-    "roomName": "Room name"
+    "roomName": "Room name",
+    "roomBackgroundPhoto": "Room background photo"
   }
 }
