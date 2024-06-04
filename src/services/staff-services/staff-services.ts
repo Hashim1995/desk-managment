@@ -5,7 +5,7 @@ import { IStaff, IStaffCreate, IStaffUpdate } from '@/modules/staff/types';
 
 import {
   ErrorCallBack,
-  HttpUtil,
+  HttpUtil
   // IHTTPSParams
 } from '../adapter-config/config';
 
@@ -13,7 +13,7 @@ export class StaffService {
   // eslint-disable-next-line no-use-before-define
   private static instance: StaffService | null;
 
-  private constructor() { }
+  private constructor() {}
 
   public static getInstance(): StaffService {
     if (!this.instance) {
@@ -26,17 +26,9 @@ export class StaffService {
     // params: IHTTPSParams[],
     onError?: ErrorCallBack
   ): Promise<IStaff[]> {
-    const res = await HttpUtil.get(
-      '/Users',
-      null,
-      false,
-      onError
-    );
+    const res = await HttpUtil.get('/Users', null, false, onError);
     return res;
   }
-
-
-
 
   public async createStaffMain(
     payload: IStaffCreate,
@@ -46,16 +38,11 @@ export class StaffService {
     return res;
   }
 
-
   public async updateStaffMain(
     payload: IStaffUpdate,
     onError?: ErrorCallBack
   ): Promise<{ id: number }> {
-    const res = await HttpUtil.put(
-      '/Users',
-      payload,
-      onError
-    );
+    const res = await HttpUtil.put('/Users', payload, onError);
     return res;
   }
 
@@ -63,7 +50,4 @@ export class StaffService {
     const res = await HttpUtil.delete(`Users/${id}`, onError);
     return res;
   }
-
-
-
 }
