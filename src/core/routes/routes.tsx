@@ -2,6 +2,7 @@ import FallbackSpinner from '@/components/display/FallbackSpinner/fallback-spinn
 import { Navigate } from 'react-router-dom';
 
 import React, { Suspense } from 'react';
+import EditRoomPlanPage from '@/modules/rooms/pages/edit-room-plan-page';
 
 const LoginPage = React.lazy(() => import('@/core/static-pages/login_page'));
 const RegisterPage = React.lazy(
@@ -10,13 +11,9 @@ const RegisterPage = React.lazy(
 const HomePage = React.lazy(() => import('@/modules/home/pages/index'));
 const LayoutPage = React.lazy(() => import('@core/layout/layout'));
 
-const BooksPage = React.lazy(
-  () => import('@/modules/settings/entities/books/pages')
-);
-
 const RoomsList = React.lazy(() => import('@/modules/rooms/pages'));
 const UpdateContractPage = React.lazy(
-  () => import('@/modules/rooms/pages/update-contract-page')
+  () => import('@/modules/rooms/pages/edit-room-plan-page')
 );
 const ViewContractPage = React.lazy(
   () => import('@/modules/rooms/pages/view-contract-page')
@@ -54,10 +51,10 @@ const routes = [
       },
 
       {
-        path: '/edc/update-contract/:id',
+        path: '/edc/edit-room-plan/:id',
         element: (
           <Suspense fallback={<FallbackSpinner />}>
-            <UpdateContractPage />
+            <EditRoomPlanPage />
           </Suspense>
         )
       },
@@ -86,22 +83,7 @@ const routes = [
           </Suspense>
         )
       },
-      {
-        path: '/entities',
-        children: [
-          { path: '/entities', element: <Navigate to="books" /> },
-          {
-            path: 'books',
-            key: 'books',
-            index: true,
-            element: (
-              <Suspense fallback={<FallbackSpinner />}>
-                <BooksPage />
-              </Suspense>
-            )
-          }
-        ]
-      },
+
       {
         path: 'no-permission',
         element: <h1>no permission</h1>

@@ -1,13 +1,11 @@
-import { Layout, Menu, Tooltip } from 'antd';
+import { Layout, Menu } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import type { MenuProps } from 'antd';
-import { FiSettings } from 'react-icons/fi';
 import { useLocalStorage, useReadLocalStorage } from 'usehooks-ts';
 import { TiHomeOutline } from 'react-icons/ti';
 import AppHandledButton from '@/components/display/button/handle-button';
 import {
-  FaLayerGroup,
   FaRegArrowAltCircleLeft,
   FaRegArrowAltCircleRight
 } from 'react-icons/fa';
@@ -69,21 +67,6 @@ function Sidebar() {
       <BiFile size={18} />,
       undefined,
       'show'
-    ),
-    getItem(
-      <Tooltip title={t('settings')}>{t('settings')}</Tooltip>,
-      '/entities',
-      <FiSettings size={18} />,
-      [
-        getItem(
-          <Link to="/entities/books">{t('books')}</Link>,
-          '/entities/books',
-          <FaLayerGroup size={18} />,
-          undefined,
-          'books'
-        )
-      ],
-      'entities'
     )
   ];
 

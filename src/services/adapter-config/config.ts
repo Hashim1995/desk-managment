@@ -6,8 +6,8 @@ import axios, {
   InternalAxiosRequestConfig
 } from 'axios';
 import { selectOption } from '@/models/common';
-import { HttpError } from './http_error';
-import { ErrorHandler } from './error_handler';
+import { HttpError } from './http-error';
+import { ErrorHandler } from './error-handler';
 import i18n from '../../i18n';
 
 // Create a new instance of Axios with default configuration

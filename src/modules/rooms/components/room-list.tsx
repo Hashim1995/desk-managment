@@ -1,3 +1,5 @@
+/* eslint-disable no-use-before-define */
+/* eslint-disable no-unused-vars */
 import {
   Breadcrumb,
   Typography,
@@ -9,16 +11,25 @@ import {
   Tooltip,
   Card,
   theme,
-  Spin
+  Spin,
+  Switch,
+  MenuProps,
+  Dropdown
 } from 'antd';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import { HomeOutlined, FileAddOutlined, UndoOutlined } from '@ant-design/icons';
-import { useEffect, useState } from 'react';
+import {
+  HomeOutlined,
+  FileAddOutlined,
+  MoreOutlined,
+  UndoOutlined
+} from '@ant-design/icons';
+import { useEffect, useRef, useState } from 'react';
 
 import { IHTTPSParams } from '@/services/adapter-config/config';
 import {
   convertFormDataToQueryParams,
+  getLanguageName,
   inputPlaceholderText
 } from '@/utils/functions/functions';
 import AppPagination from '@/components/display/pagination/pagination';
@@ -32,38 +43,10 @@ import AppEmpty from '@/components/display/empty/app-empty';
 import AppHandledInput from '@/components/forms/input/handled_input';
 import { useTranslation } from 'react-i18next';
 import { EdcServies } from '@/services/edc-services/edc-services';
+import { ColumnsType } from 'antd/es/table';
+import AppHandledTable from '@/components/display/table/table';
 
-import RoomListItemCard from './room-list-item-card';
 import AddRoomModal from '../modals/add-room-modal';
-
-// fake data for test
-const fakeData = [
-  {
-    CreatedUser: 'Sübhan Əzimli',
-    Id: 81,
-    DocumentCode: '1-2024-02-27-0007',
-    DocumentType: 'Müqavilə',
-    DocumentStatus: 'Gözləmədə',
-    DocumentStatusId: 1,
-    DocumentTypeId: 1,
-    SenderLegalEntity: 'SETCLAPP IT SOLUTIONS',
-    RecieverLegalEntity: 'AZKREDIT BOKT ASC',
-    SenderLegalEntityVoen: '2348593049',
-    RecieverLegalEntityVoen: '3259890394',
-    isDraft: false,
-    DocumentCirculationStatus: 0,
-    CanVerify: false,
-    CanReject: false,
-    CanSign: false,
-    CanReturn: false,
-    ForInfo: false,
-    AlertClosed: false,
-    CanSelectCirculation: false,
-    CanDelete: false,
-    CanEdit: true,
-    RenewalDate: '2024-02-29T00:00:00'
-  }
-];
 
 function RoomList() {
   const {
@@ -90,6 +73,15 @@ function RoomList() {
 
   const { t } = useTranslation();
 
+  const renderEllipsisText = (record: string) => (
+    <Typography.Paragraph
+      style={{ margin: 0 }}
+      ellipsis={{ rows: 2, tooltip: record }}
+    >
+      {record}
+    </Typography.Paragraph>
+  );
+
   const [RoomListData, setRoomListData] = useState<any>();
   const [loading, setLoading] = useState<boolean>(true);
   const [refreshComponent, setRefreshComponent] = useState<boolean>(false);
@@ -98,8 +90,7 @@ function RoomList() {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [selectedItem, setSelectedItem] = useState<Partial<any> | null>(null);
   const [showAddRoomModal, setShowAddRoomModal] = useState<boolean>(false);
-
-  useState<boolean>(false);
+  const forceUpdate = useRef<number>(0);
 
   const { Text } = Typography;
   const { useToken } = theme;
@@ -125,10 +116,68 @@ function RoomList() {
     }
   };
 
-  // Handle modal visibility
-  const handleModalVisibility = () => {
-    setModalVisible(true);
-  };
+  const fakeData = [
+    {
+      name: 'Room 1',
+      backgroundImage: '',
+      status: true
+    }
+  ];
+
+  const columns: ColumnsType<any> = [
+    {
+      title: t('name'),
+      dataIndex: 'name',
+      key: 'name',
+      render: record => renderEllipsisText(record)
+    },
+    {
+      title: t('status'),
+      dataIndex: 'isActive',
+      align: 'end',
+
+      key: 'isActive',
+      render: (record: boolean, raw: any) => (
+        <Tooltip placement="top" title="Statusu dəyiş">
+          <Switch checked={record} onChange={() => console.log(raw?.id)} />
+        </Tooltip>
+      )
+    },
+    {
+      title: '',
+      key: 'actions',
+      align: 'end',
+      width: 0,
+      render: (_, raw: any) => (
+        <Space>
+          <Dropdown
+            menu={{
+              items,
+              onClick: e => console.log(e, raw)
+            }}
+            key={raw?.id}
+            trigger={['click']}
+          >
+            <AppHandledButton icon={<MoreOutlined />} />
+          </Dropdown>
+        </Space>
+      )
+    }
+  ];
+  const items: MenuProps['items'] = [
+    {
+      label: <Typography.Text>{t('editBtn')}</Typography.Text>,
+      key: '0'
+    },
+    {
+      label: <Typography.Text>{t('view')}</Typography.Text>,
+      key: '1'
+    },
+    {
+      label: <Typography.Text>{t('delete')}</Typography.Text>,
+      key: '2'
+    }
+  ];
 
   const onCloseModal = () => {
     setModalVisible(false);
@@ -309,48 +358,24 @@ function RoomList() {
           </Collapse>
         </div>
       </Card>
-      <Card size="small" className="box box-margin-y">
-        <Row justify="center" style={{ padding: token.paddingXS }}>
-          {fakeData.length ? (
-            <Spin size="large" spinning={loading}>
-              <Row gutter={[0, 10]}>
-                {fakeData.map((z: any) => (
-                  <Col span={24} key={z.Id}>
-                    {' '}
-                    <RoomListItemCard
-                      isDraft={z?.isDraft}
-                      Id={z?.Id}
-                      DocumentStatus={z?.DocumentStatus}
-                      DocumentTypeId={z?.DocumentTypeId}
-                      DocumentType={z?.DocumentType}
-                      DocumentCode={z?.DocumentCode}
-                      RecieverLegalEntity={z?.RecieverLegalEntity}
-                      RecieverLegalEntityVoen={z?.RecieverLegalEntityVoen}
-                      SenderLegalEntity={z?.SenderLegalEntity}
-                      SenderLegalEntityVoen={z?.SenderLegalEntityVoen}
-                      DocumentStatusId={z?.DocumentStatusId}
-                      setSelectedItem={setSelectedItem}
-                      handleModalVisibility={handleModalVisibility}
-                      permission={z?.permission}
-                      CanReject={z?.CanReject}
-                      CanVerify={z.CanVerify}
-                      CanEdit={z.CanEdit}
-                      CanSign={z?.CanSign}
-                      CanReturn={z.CanReturn}
-                      CanSelectCirculation={z.CanSelectCirculation}
-                      CanDelete={z?.CanDelete}
-                      setRefreshComponent={setRefreshComponent}
-                    />
-                  </Col>
-                ))}
-              </Row>
-            </Spin>
-          ) : (
-            <Spin size="large" spinning={loading}>
-              <AppEmpty />
-            </Spin>
-          )}
-        </Row>
+      <Card className="box">
+        {fakeData.length ? (
+          <Spin size="large" spinning={loading}>
+            <AppHandledTable
+              columns={columns}
+              data={fakeData}
+              currentPage={page}
+              totalPage={20}
+              onChangePage={(e: number) => setCurrentPage(e)}
+              key={forceUpdate.current}
+              rowKey="id"
+            />
+          </Spin>
+        ) : (
+          <Spin size="large" spinning={loading}>
+            <AppEmpty />
+          </Spin>
+        )}
         <Row justify="end" className="generalPagination">
           {RoomListData?.Data?.Datas?.length ? (
             <AppPagination
