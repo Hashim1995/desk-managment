@@ -1,0 +1,67 @@
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+* {
+  font-family: 'Montserrat';
+}
+
+.box-shadow {
+  box-shadow: '5px 8px 24px 5px rgba(208, 216, 243, 0.6)';
+}
+
+.box-title {
+  padding: 8px;
+}
+
+.box-content {
+  padding: 12px;
+}
+
+.custom-text {
+  font-size: 13px !important;
+}
+
+div.notification::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+div.notification::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 2px grey;
+  border-radius: 5px;
+}
+
+/* Handle */
+div.notification::-webkit-scrollbar-thumb {
+  background: grey;
+  border-radius: 5px;
+}
+
+.row-pointer {
+  cursor: pointer !important;
+}
+
+.file-height {
+  height: 862px !important;
+}
+
+.textTypeFileUpload {
+  display: flex;
+  align-items: initial;
+  border: 1px dashed #e6e1e1;
+  padding: 10px;
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.02);
+  cursor: pointer;
+}
+
+.no-border-end {
+  border-inline-end: 0px !important;
+  border-radius: 8px !important;
+}
+
+.align-center-breadcrump > ol {
+  align-items: center;
+}

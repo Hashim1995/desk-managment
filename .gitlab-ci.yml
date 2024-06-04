@@ -1,0 +1,22 @@
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "web"'
+      when: always
+    - when: never
+
+stages:         
+  - build
+  - deploy
+
+build:   
+  stage: build
+  script:
+    - echo "Compiling the code..."
+    - CI="" yarn install
+    - echo $ENV > .env
+    - CI="" yarn build
+    - echo "Compile complete."
+    - echo "Deploying application..."
+    - cp -r dist/* /var/www/8295-rmsfront
+    - chmod 777 /var/www/8295-rmsfront --recursive
+    - echo "Application successfully deployed."

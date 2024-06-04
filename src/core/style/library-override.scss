@@ -1,0 +1,161 @@
+.box {
+  width: 100%;
+  width: 100%;
+  padding: 0 !important;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  padding: 8px;
+  border-radius: 6px;
+  transition: all 0.4s ease 0s;
+
+  .ant-card-body {
+    padding: 10px;
+  }
+}
+
+.user-dropdown {
+  width: 200px;
+
+  .ant-row {
+    align-items: center;
+
+    svg {
+      font-size: 16px;
+      margin-right: 5px;
+    }
+  }
+}
+
+.ant-select-selection-placeholder {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji' !important;
+  font-style: italic;
+  font-weight: 400 !important;
+}
+
+.ant-input::placeholder,
+.ant-picker-input > input::placeholder {
+  font-style: italic;
+}
+
+.ant-timeline-item-tail {
+  background-color: rgb(22, 119, 255);
+}
+
+.ant-popover-inner {
+  padding: 0 !important;
+}
+
+.ant-popover-title {
+  margin: 0 !important;
+}
+
+.ant-upload-list-item-thumbnail img {
+  object-fit: cover !important;
+}
+
+.ant-upload-list-item-container {
+  margin: 0 !important;
+}
+
+.ant-upload-select {
+  margin: 0 !important;
+}
+
+.ant-timeline-item-head-custom {
+  margin-top: 10px !important;
+}
+
+.ant-tabs-nav-wrap {
+  justify-content: flex-end;
+}
+
+.ant-popover-inner-content {
+  padding: 10px;
+}
+
+.ant-modal-confirm {
+  top: 200px !important;
+}
+
+.ant-image-error {
+  width: 100% !important;
+}
+
+.ant-skeleton {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.ant-tabs > .ant-tabs-nav .ant-tabs-nav-wrap {
+  justify-content: start;
+}
+
+// .ant-menu-submenu:has(> .ant-menu-sub) > .ant-menu-submenu-title {
+//   color: #fff;
+// }
+// .ant-menu-submenu-vertical .ant-menu-item-icon circle,
+// .ant-menu-submenu-vertical .ant-menu-item-icon path {
+//   color: #fff;
+// }
+// .ant-menu-submenu-popup .ant-menu-item {
+//   color: #000;
+// }
+
+.confirmModalDark {
+  .ant-modal-content {
+    background: #1f1f1f !important;
+    color: #fff !important;
+  }
+
+  .ant-modal-body {
+    background-color: #1f1f1f;
+  }
+
+  .ant-modal-confirm-title {
+    color: #fff !important;
+  }
+
+  .ant-modal-confirm-content {
+    // background: #1f1f1f !important;
+    color: #fff !important;
+  }
+}
+
+.ant-menu-inline > .ant-menu-submenu-selected > .ant-menu-submenu-title {
+  background-color: #006fee;
+}
+
+.ant-menu-submenu-title:hover {
+  color: #fff !important;
+}
+
+.ant-menu-vertical > .ant-menu-submenu-selected > .ant-menu-submenu-title {
+  background-color: #006fee;
+}
+
+.ant-menu-item {
+  transition: 0 !important;
+}
+
+.ant-menu-item:hover {
+  transition: 0 !important;
+}
+
+// .drawer-to-left {
+//   .ant-drawer > .ant-drawer-content-wrapper {
+//     left: -101px !important;
+//   }
+// }
+
+.ant-picker-ranges {
+  gap: 10px !important;
+}
+
+.styled-controlled-date-picker {
+  height: 32px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
