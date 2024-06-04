@@ -34,6 +34,7 @@
     }
   },
 
-  "include": ["src"],
+  "include": ["src", "src/react-resizable.d.ts"],
+
   "references": [{ "path": "./tsconfig.node.json" }]
 }

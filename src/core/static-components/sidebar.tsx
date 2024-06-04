@@ -11,16 +11,10 @@ import {
 } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 import { BiFile } from 'react-icons/bi';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 
 const { Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
-interface IPermission {
-  Key: string;
-  Status: boolean;
-}
 
 function getItem(
   label: React.ReactNode,
@@ -40,7 +34,6 @@ function getItem(
 
 function Sidebar() {
   const darkMode = useReadLocalStorage('darkTheme');
-  const permissions = useSelector((state: RootState) => state.user.permissions);
   const { t } = useTranslation();
 
   const [collapsed, setCollapsed] = useLocalStorage('menuCollapse', false);
@@ -69,23 +62,6 @@ function Sidebar() {
       'show'
     )
   ];
-
-  // @ts-ignore
-  const filterSidebarItems = (itemsX, permissionsX) =>
-    // @ts-ignore
-    itemsX.filter(item => {
-      const permission = permissionsX.find(
-        (p: IPermission) => p.Key === item.permissionkey
-      );
-
-      if (item.permissionkey === 'show' || (permission && permission.Status)) {
-        if (item.children) {
-          item.children = filterSidebarItems(item.children, permissionsX);
-        }
-        return true;
-      }
-      return false;
-    });
 
   return (
     <Sider
@@ -153,7 +129,7 @@ function Sidebar() {
               setSelectedItem(key);
             }}
             mode="inline"
-            items={filterSidebarItems(items, permissions.pages)}
+            items={items}
           />
         </div>
       </div>

@@ -98,7 +98,7 @@ function AddRoomModal({
       >
         <Row gutter={16}>
           <Col span={24}>
-            <div className="pb-10">
+            <div className="pb-3">
               <AppHandledInput
                 label={t('name')}
                 name="name"
@@ -123,7 +123,7 @@ function AddRoomModal({
               />
             </div>
 
-            <div className="pb-10">
+            <div className="pb-3">
               <Form.Item label={t('roomBackgroundPhoto')}>
                 <AppFileUploadNew
                   setFileList={setFileList}

@@ -51,7 +51,7 @@ const routes = [
       },
 
       {
-        path: '/edc/edit-room-plan/:id',
+        path: '/rooms/edit-room-plan/:id',
         element: (
           <Suspense fallback={<FallbackSpinner />}>
             <EditRoomPlanPage />
@@ -87,11 +87,11 @@ const routes = [
       {
         path: 'no-permission',
         element: <h1>no permission</h1>
-      },
-      {
-        path: '404',
-        element: <h1>404</h1>
       }
+      // {
+      //   path: '404',
+      //   element: <h1>404</h1>
+      // }
     ]
   },
   {
@@ -101,11 +101,11 @@ const routes = [
   {
     path: 'register',
     element: <RegisterPage />
-  },
-  {
-    path: '*',
-    element: <Navigate to="/404" />
   }
+  // {
+  //   path: '*',
+  //   element: <Navigate to="/404" />
+  // }
 ];
 
 export default routes;

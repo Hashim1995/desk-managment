@@ -33,7 +33,7 @@ export class EdcServies {
   // eslint-disable-next-line no-use-before-define
   private static instance: EdcServies | null;
 
-  private constructor() { }
+  private constructor() {}
 
   public static getInstance(): EdcServies {
     if (!this.instance) {

@@ -51,8 +51,8 @@ function Login() {
         () => setIsFormSubmiting(false)
       );
 
-      if (res.isSuccess) {
-        setUserToken({ token: res.data.token });
+      if (res.token) {
+        setUserToken({ token: res?.token });
         navigate('/home');
       }
       setIsFormSubmiting(false);
@@ -69,7 +69,7 @@ function Login() {
           <Col span={12}>
             <Row className="w-full" align="middle" justify="center">
               <Col span={24}>
-                <h1>Welcome to Admin Dashboard</h1>
+                <h1 className="pb-3 text-2xl">Welcome to Admin Dashboard</h1>
 
                 <Form
                   layout="vertical"
@@ -84,11 +84,6 @@ function Login() {
                         required: {
                           value: true,
                           message: inputValidationText(t('email'))
-                        },
-                        validate: {
-                          checkOnlyEnglishChars: (value: string) =>
-                            /^[\w\\.-]+@[\w\\.-]+\.\w+$/.test(value) ||
-                            `${t('enterValidEmailAddressErrorMessage')}`
                         }
                       }}
                       required

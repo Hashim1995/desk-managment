@@ -17,7 +17,7 @@ import {
   Dropdown
 } from 'antd';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   HomeOutlined,
   FileAddOutlined,
@@ -94,6 +94,7 @@ function RoomList() {
 
   const { Text } = Typography;
   const { useToken } = theme;
+  const navigate = useNavigate();
   const { token } = useToken();
 
   // Fetch the Room list data from the server
@@ -120,7 +121,8 @@ function RoomList() {
     {
       name: 'Room 1',
       backgroundImage: '',
-      status: true
+      status: true,
+      id: 1
     }
   ];
 
@@ -153,7 +155,11 @@ function RoomList() {
           <Dropdown
             menu={{
               items,
-              onClick: e => console.log(e, raw)
+              onClick: e => {
+                if (e?.key === '0') {
+                  navigate(`edit-room-plan/${raw?.id}`);
+                }
+              }
             }}
             key={raw?.id}
             trigger={['click']}
@@ -251,7 +257,7 @@ function RoomList() {
 
   return (
     <div>
-      <Card size="small" className="box box-margin-y">
+      <Card size="small" className="mb-4 box">
         <Row justify="space-between" gutter={[24, 24]} align="middle">
           <Col>
             <Space>
@@ -291,7 +297,7 @@ function RoomList() {
           </Col>
         </Row>
       </Card>
-      <Card size="small" className="box box-margin-y">
+      <Card size="small" className="mb-4 box">
         <div className="generalFilter">
           <Collapse
             expandIconPosition="end"

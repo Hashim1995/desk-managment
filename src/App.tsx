@@ -22,7 +22,7 @@ function App() {
     const hasToken = !!userTokenData?.token;
 
     if (!hasToken && window.location.pathname !== '/login') {
-      // navigate('/login');
+      navigate('/login');
     } else if (hasToken && window.location.pathname === '/') {
       navigate('/home');
     }
