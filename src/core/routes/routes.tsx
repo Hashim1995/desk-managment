@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom';
 
 import React, { Suspense } from 'react';
 import EditRoomPlanPage from '@/modules/rooms/pages/edit-room-plan-page';
+import StaffPage from '@/modules/staff/pages/staff-page';
 
 const LoginPage = React.lazy(() => import('@/core/static-pages/login_page'));
 const RegisterPage = React.lazy(
@@ -40,6 +41,10 @@ const routes = [
             <HomePage />
           </Suspense>
         )
+      },
+      {
+        path: '/staff',
+        element: <StaffPage />
       },
       {
         path: '/rooms',

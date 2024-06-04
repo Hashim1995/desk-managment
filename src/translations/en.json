@@ -211,7 +211,7 @@
     "position": "Position",
     "createdAt": "Date Added",
     "updatedAt": "Date Updated",
-    "addStaff": "Add User",
+    "addStaff": "Add Staff",
     "permissions": "Permissions",
     "editAndSend": "Edit and Send",
     "toApprove": "To Approve",
@@ -242,7 +242,7 @@
     "additionDate": "Addition Date",
     "relatedDocs": "Related Documents",
     "changeLog": "Change History",
-    "updateStaff": "Edit User",
+    "updateStaff": "Edit Staff",
     "edcCreateInvoice": "Invoice Creation",
     "voen": "VOEN",
     "activityField": "Activity field",
@@ -301,6 +301,10 @@
     "test": "test",
     "rooms": "Rooms",
     "roomName": "Room name",
-    "roomBackgroundPhoto": "Room background photo"
+    "roomBackgroundPhoto": "Room background photo",
+    "staff": "Staff",
+    "firstName": "Firstname",
+    "lastName": "Lastname",
+    "phoneNumber": "Phone number"
   }
 }

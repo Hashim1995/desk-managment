@@ -14,6 +14,8 @@ import Bg from '@assets/images/bg-2.png';
 import AppHandledButton from '@/components/display/button/handle-button';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { setUser } from '@/redux/auth/auth_slice';
 
 function Login() {
   const {
@@ -23,7 +25,7 @@ function Login() {
   } = useForm<ILogin>({
     mode: 'onChange',
     defaultValues: {
-      email: '',
+      emailOrPhone: '',
       password: ''
     }
   });
@@ -33,6 +35,7 @@ function Login() {
   const { token } = useToken();
   const darkMode = useReadLocalStorage('darkTheme');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [isFormSubmiting, setIsFormSubmiting] = useState<boolean>(false);
   // eslint-disable-next-line no-unused-vars
@@ -42,7 +45,7 @@ function Login() {
 
     try {
       const payload = {
-        email: data.email,
+        emailOrPhone: data.emailOrPhone,
         password: data.password
       };
 
@@ -50,11 +53,18 @@ function Login() {
         payload,
         () => setIsFormSubmiting(false)
       );
+      setUserToken({ token: res.token });
 
-      if (res.token) {
-        setUserToken({ token: res?.token });
-        navigate('/home');
+      if (res?.token) {
+        try {
+          const getMeRes = await AuthService.getInstance().getMe();
+          dispatch(setUser(getMeRes));
+          navigate('/home');
+        } catch (err) {
+          console.log(err);
+        }
       }
+
       setIsFormSubmiting(false);
     } catch (err) {
       toast.error(`${t('errorOccurred')}`);
@@ -79,7 +89,7 @@ function Login() {
                   <Space className="w-full" direction="vertical">
                     <AppHandledInput
                       label={t('email')}
-                      name="email"
+                      name="emailOrPhone"
                       rules={{
                         required: {
                           value: true,

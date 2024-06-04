@@ -3,14 +3,13 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { IAuth } from '@/models/user';
 
-
 interface AuthState {
   user?: IAuth; // User can be undefined initially
 }
 
 // Define the initial state
 const initialState: AuthState = {
-  user: undefined, // User is initially undefined
+  user: undefined // User is initially undefined
 };
 
 export const userSlice = createSlice({
@@ -19,12 +18,11 @@ export const userSlice = createSlice({
   reducers: {
     setUser: (state, action: PayloadAction<any>) => {
       state.user = action.payload;
-    },
-
+    }
   }
 });
 
 // Action creators are generated for each case reducer function
-export const { setUser, } = userSlice.actions;
+export const { setUser } = userSlice.actions;
 
 export default userSlice.reducer;

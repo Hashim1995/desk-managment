@@ -5,11 +5,13 @@ import { BiLogOut, BiUser } from 'react-icons/bi';
 import TokenizedImage from '@/components/display/image/tokenized_image';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import LanguageSelector from '@/components/langauge-selector/language-selector';
-import { useDispatch, useSelector } from 'react-redux';
+// import LanguageSelector from '@/components/langauge-selector/language-selector';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { RootState } from '@/redux/store';
+// import { setCurrentLayoutLanguage } from '@/redux/core/core-slice';
+// import { LayoutLanguage } from '@/models/common';
 import { RootState } from '@/redux/store';
-import { setCurrentLayoutLanguage } from '@/redux/core/core-slice';
-import { LayoutLanguage } from '@/models/common';
+import { useSelector } from 'react-redux';
 import Sidebar from '../static-components/sidebar';
 import Footer from '../static-components/footer';
 
@@ -17,21 +19,26 @@ const { Header, Content } = Layout;
 const { Text } = Typography;
 
 function LayoutPage() {
-  const { t, i18n } = useTranslation();
+  const {
+    t
+    // i18n
+  } = useTranslation();
+
+  const user = useSelector((state: RootState) => state.user.user);
 
   const [, setUserToken] = useLocalStorage<any>('userToken', null);
   const [isDarkTheme, setDarkTheme] = useLocalStorage('darkTheme', true);
   const navigate = useNavigate();
   const darkMode = useReadLocalStorage('darkTheme');
-  const dispatch = useDispatch();
-  const currentLayoutLanguage = useSelector(
-    (state: RootState) => state.core.currentLayoutLanguage
-  );
+  // const dispatch = useDispatch();
+  // const currentLayoutLanguage = useSelector(
+  //   (state: RootState) => state.core.currentLayoutLanguage
+  // );
 
-  const changeLanguageHandler = (lang: string) => {
-    i18n.changeLanguage(lang);
-    dispatch(setCurrentLayoutLanguage(lang as LayoutLanguage));
-  };
+  // const changeLanguageHandler = (lang: string) => {
+  //   i18n.changeLanguage(lang);
+  //   dispatch(setCurrentLayoutLanguage(lang as LayoutLanguage));
+  // };
 
   const toggleTheme = () => {
     setDarkTheme(prevValue => !prevValue);
@@ -121,7 +128,7 @@ function LayoutPage() {
             <Row align={'middle'} gutter={16}>
               <Col>{/* <NotificationsPopover /> */}</Col>
               <Col>
-                <Text style={{ color: '#fff' }}> Admin Adminov </Text>
+                <Text style={{ color: '#fff' }}> {user?.fullName || '-'} </Text>
               </Col>
               <Col>
                 <Dropdown
@@ -141,10 +148,10 @@ function LayoutPage() {
                 </Dropdown>
               </Col>
               <Col>
-                <LanguageSelector
+                {/* <LanguageSelector
                   onLanguageChange={lang => changeLanguageHandler(lang)}
                   selectedLanguage={currentLayoutLanguage}
-                />
+                /> */}
               </Col>
             </Row>
           </div>

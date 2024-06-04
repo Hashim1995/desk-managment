@@ -10,7 +10,8 @@ import {
   FaRegArrowAltCircleRight
 } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
-import { BiFile } from 'react-icons/bi';
+import { BiFile, BiUser } from 'react-icons/bi';
+import lg from '@assets/images/logo.png';
 
 const { Sider } = Layout;
 
@@ -60,6 +61,13 @@ function Sidebar() {
       <BiFile size={18} />,
       undefined,
       'show'
+    ),
+    getItem(
+      <Link to="/staff"> {t('staff')} </Link>,
+      '/staff',
+      <BiUser size={18} />,
+      undefined,
+      'show'
     )
   ];
 
@@ -80,7 +88,6 @@ function Sidebar() {
           <div
             style={{
               width: '100%',
-              height: 70,
               padding: 15,
               display: 'flex',
               justifyContent: 'center',
@@ -88,9 +95,13 @@ function Sidebar() {
             }}
           >
             {collapsed ? (
-              <Link to="/home">logo</Link>
+              <Link to="/home">
+                <img alt="" src={lg} />
+              </Link>
             ) : (
-              <Link to="/home">logo</Link>
+              <Link to="/home">
+                <img alt="" src={lg} />
+              </Link>
             )}
             <AppHandledButton
               icon={

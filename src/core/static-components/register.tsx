@@ -8,7 +8,7 @@ import {
   minLengthCheck,
   inputPlaceholderText
 } from '@/utils/functions/functions';
-import { IRegister, ILoginResponse } from '@/models/user';
+import { ILoginResponse } from '@/models/user';
 import { AuthService } from '@/services/auth-services/auth_services';
 import { ReactComponent as Illustration } from '@/assets/images/illustration.svg';
 import { useNavigate } from 'react-router-dom';
@@ -22,7 +22,7 @@ function Register() {
     control,
     handleSubmit,
     formState: { errors }
-  } = useForm<IRegister>({
+  } = useForm<any>({
     mode: 'onChange',
     defaultValues: {
       name: '',

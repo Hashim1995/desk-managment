@@ -13,7 +13,7 @@ export class AuthService {
   // eslint-disable-next-line no-use-before-define
   private static instance: AuthService | null;
 
-  private constructor() {}
+  private constructor() { }
 
   public static getInstance(): AuthService {
     if (!this.instance) {
@@ -31,7 +31,15 @@ export class AuthService {
     body: ILogin,
     onError?: ErrorCallBack
   ): Promise<ILoginResponse> {
-    const res = await HttpUtil.post('/User/login', body, onError);
+    const res = await HttpUtil.post('/Account/Authentication', body, onError);
     return res;
   }
+
+  public async getMe(onError?: ErrorCallBack): Promise<IAuth> {
+    const res = await HttpUtil.get('/Account/UserInfo', null, false, onError);
+    return res;
+  }
+
+
+
 }
