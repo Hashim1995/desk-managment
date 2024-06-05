@@ -180,7 +180,7 @@ export default function Staff() {
       </Card>
 
       <Card>
-        {staffList.length ? (
+        {staffList?.length ? (
           <Spin size="large" spinning={loading}>
             <Row className="pb-10">
               <Col span={24}>

@@ -1,10 +1,7 @@
-/* eslint-disable no-octal-escape */
-/* eslint-disable no-nonoctal-decimal-escape */
 import { Controller, FieldValues, RegisterOptions } from 'react-hook-form';
 import { Form, FormItemProps, Input, InputProps } from 'antd';
-import InputMask from 'react-input-mask';
 
-interface IAppHandledInputMask {
+interface IAppHandledInput {
   label?: string;
   name: string;
   control: any;
@@ -16,14 +13,12 @@ interface IAppHandledInputMask {
   inputType?: string;
   placeholder?: string;
   errors?: any;
-  mask: string;
-  maskChar?: string | null;
   onChangeApp?: any;
   inputProps?: InputProps;
   formItemProps?: FormItemProps;
 }
-// @ts-ignore: Unreachable code error
-function AppHandledInputMask({
+
+function AppHandledInput({
   label,
   name,
   control,
@@ -33,14 +28,12 @@ function AppHandledInputMask({
   placeholder,
   errors,
   onChangeApp,
-  formItemProps,
-  mask,
   inputProps,
-  maskChar = null
-}: IAppHandledInputMask) {
+  formItemProps
+}: IAppHandledInput) {
   return (
     <Form.Item
-      label={<span style={{ whiteSpace: 'nowrap' }}>{label}</span>}
+      label={label && <span style={{ whiteSpace: 'nowrap' }}>{label}</span>}
       // labelCol={{ span: 24, }}
       required={required}
       htmlFor={name}
@@ -52,34 +45,37 @@ function AppHandledInputMask({
         name={name}
         control={control}
         rules={rules}
-        render={({ field: { onChange, value } }) => (
-          <InputMask
-            mask={mask}
-            maskChar={maskChar}
-            alwaysShowMask
-            value={value}
-            onChange={(e: any) => {
-              const rawValue: string =
-                e?.target?.value?.replace(/[\s()\-_]/g, '') || '';
-              onChange(rawValue);
-              onChangeApp && onChangeApp(rawValue);
-            }}
-          >
-            {/* 
-// @ts-ignore */}
-            <Input
-              {...inputProps}
-              status={required && errors[name] ? 'error' : undefined}
+        render={({ field: { onChange, value } }) =>
+          inputType === 'password' ? (
+            <Input.Password
               id={name}
-              type={inputType || 'text'}
+              onChange={e => {
+                onChange(e);
+                onChangeApp && onChangeApp(e);
+              }}
               value={value}
+              status={required && errors[name] ? 'error' : undefined}
               placeholder={placeholder || ''}
+              {...inputProps}
             />
-          </InputMask>
-        )}
+          ) : (
+            <Input
+              type={inputType || 'text'}
+              id={name}
+              onChange={e => {
+                onChange(e);
+                onChangeApp && onChangeApp(e);
+              }}
+              value={value}
+              status={required && errors[name] ? 'error' : undefined}
+              placeholder={placeholder || ''}
+              {...inputProps}
+            />
+          )
+        }
       />
     </Form.Item>
   );
 }
 
-export default AppHandledInputMask;
+export default AppHandledInput;

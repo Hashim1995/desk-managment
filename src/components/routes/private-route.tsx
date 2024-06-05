@@ -2,8 +2,8 @@ import React, { ReactNode, Suspense } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { RootState } from '@/redux/store';
-import { IUserPermissions } from '@/configs/global-configs';
-import FallbackSpinner from '../display/FallbackSpinner/fallback-spinner';
+import { IUserPermissions } from '@/models/user';
+import FallbackSpinner from '../display/FallbackSpinner';
 
 interface IPrivateRoute {
   children: ReactNode;
