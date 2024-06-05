@@ -27,6 +27,7 @@ import { ColumnsType } from 'antd/es/table';
 import { IStaff } from '../types';
 import AddStaffModal from './add-staff-modal';
 import EditStaffModal from './edit-staff-modal';
+import ChangePasswordStaffModal from './change-password-staff-modal';
 
 export default function Staff() {
   const renderEllipsisText = (record: string) => (
@@ -44,12 +45,14 @@ export default function Staff() {
   const [refreshComponent, setRefreshComponent] = useState<boolean>(false);
   const [showAddStaffModal, setShowAddStaffModal] = useState<boolean>(false);
   const [showEditStaffModal, setShowEditStaffModal] = useState<boolean>(false);
+  const [showChangePasswordStaffModal, setShowChangePasswordStaffModal] =
+    useState<boolean>(false);
   const [showDeleteStaffModal, setShowDeleteStaffModal] =
     useState<boolean>(false);
 
   const columns: ColumnsType<IStaff> = [
     {
-      title: t('photo'),
+      title: t('userPhoto'),
       dataIndex: 'photoFileId',
       key: (Math.random() + 1).toString(12).substring(7),
       render: record => (
@@ -111,6 +114,10 @@ export default function Staff() {
                   setSelectedItem(raw);
                   setShowDeleteStaffModal(true);
                 }
+                if (e?.key === '2') {
+                  setSelectedItem(raw);
+                  setShowChangePasswordStaffModal(true);
+                }
               }
             }}
             key={raw?.id}
@@ -131,6 +138,10 @@ export default function Staff() {
     {
       label: <Typography.Text>{t('delete')}</Typography.Text>,
       key: '1'
+    },
+    {
+      label: <Typography.Text>{t('changePassword')}</Typography.Text>,
+      key: '2'
     }
   ];
 
@@ -200,7 +211,6 @@ export default function Staff() {
           </Col>
         </Row>
       </Card>
-
       <Card>
         {staffList?.length ? (
           <Spin size="large" spinning={loading}>
@@ -208,6 +218,7 @@ export default function Staff() {
               <Col span={24}>
                 <Table
                   columns={columns}
+                  pagination={false}
                   locale={{
                     emptyText: <AppEmpty />
                   }}
@@ -237,7 +248,14 @@ export default function Staff() {
           selectedItem={selectedItem!}
         />
       )}
-
+      {showChangePasswordStaffModal && (
+        <ChangePasswordStaffModal
+          setShowChangePasswordStaffModal={setShowChangePasswordStaffModal}
+          setRefreshComponent={setRefreshComponent}
+          showChangePasswordStaffModal={showChangePasswordStaffModal}
+          selectedItem={selectedItem!}
+        />
+      )}
       <Modal
         title={t('confirmTitle')}
         open={showDeleteStaffModal}

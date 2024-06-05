@@ -237,7 +237,6 @@ function deepClone<T>(obj: T): T {
   return objCopy as T;
 }
 
-
 export {
   convertFormDataToQueryParams,
   generateOptionListPerNumber,

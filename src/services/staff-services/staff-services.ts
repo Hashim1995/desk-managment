@@ -1,7 +1,7 @@
 /* eslint-disable no-empty-function */
 /* eslint-disable no-useless-constructor */
 /* eslint-disable class-methods-use-this */
-import { IStaff, IStaffCreate, IStaffUpdate } from '@/modules/staff/types';
+import { IStaff, IStaffChangePassword, IStaffCreate, IStaffUpdate } from '@/modules/staff/types';
 
 import {
   ErrorCallBack,
@@ -13,7 +13,7 @@ export class StaffService {
   // eslint-disable-next-line no-use-before-define
   private static instance: StaffService | null;
 
-  private constructor() {}
+  private constructor() { }
 
   public static getInstance(): StaffService {
     if (!this.instance) {
@@ -43,6 +43,14 @@ export class StaffService {
     onError?: ErrorCallBack
   ): Promise<{ id: number }> {
     const res = await HttpUtil.put('/Users', payload, onError);
+    return res;
+  }
+
+  public async changePasswordStaffMain(
+    payload: IStaffChangePassword,
+    onError?: ErrorCallBack
+  ): Promise<{ id: number }> {
+    const res = await HttpUtil.put('/Users/PasswordReset', payload, onError);
     return res;
   }
 

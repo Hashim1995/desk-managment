@@ -12,11 +12,18 @@ interface IStaff {
 }
 
 interface IStaffCreate
-  extends Pick<IStaff, 'firstName' | 'lastName' | 'email' | 'phoneNumber' | 'photoFileId'> {
+  extends Pick<
+    IStaff,
+    'firstName' | 'lastName' | 'email' | 'phoneNumber' | 'photoFileId'
+  > {
   password: string;
 }
 interface IStaffUpdate extends Omit<IStaffCreate, 'password'> {
   id: number;
 }
+interface IStaffChangePassword {
+  userId: number,
+  newPassword: string
+}
 
-export type { IStaff, IStaffCreate, IStaffUpdate };
+export type { IStaff, IStaffCreate, IStaffUpdate, IStaffChangePassword };
