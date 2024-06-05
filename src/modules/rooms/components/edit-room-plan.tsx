@@ -23,9 +23,7 @@ import { useForm } from 'react-hook-form';
 import AppHandledButton from '@/components/display/button/handle-button';
 
 import { t } from 'i18next';
-import AppHandledInput from '@/components/forms/input/handled_input';
 import { useState } from 'react';
-import AppFileUploadNew from '@/components/forms/file-upload/file-upload';
 import GridCanvas from './generator/GridCanvas';
 
 function EditRoomPlan() {

@@ -1,9 +1,9 @@
-import FallbackSpinner from '@/components/display/FallbackSpinner/fallback-spinner';
 import { Navigate } from 'react-router-dom';
 
 import React, { Suspense } from 'react';
 import EditRoomPlanPage from '@/modules/rooms/pages/edit-room-plan-page';
 import StaffPage from '@/modules/staff/pages/staff-page';
+import FallbackSpinner from '@/components/display/FallbackSpinner';
 
 const LoginPage = React.lazy(() => import('@/core/static-pages/login_page'));
 const RegisterPage = React.lazy(

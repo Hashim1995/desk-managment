@@ -2,7 +2,6 @@ import { Col, Dropdown, Layout, MenuProps, Row, Typography } from 'antd';
 import { useLocalStorage, useReadLocalStorage } from 'usehooks-ts';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import { BiLogOut, BiUser } from 'react-icons/bi';
-import TokenizedImage from '@/components/display/image/tokenized_image';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 // import LanguageSelector from '@/components/langauge-selector/language-selector';
@@ -12,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 // import { LayoutLanguage } from '@/models/common';
 import { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
+import TokenizedImage from '@/components/display/image';
 import Sidebar from '../static-components/sidebar';
 import Footer from '../static-components/footer';
 

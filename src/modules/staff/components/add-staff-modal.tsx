@@ -10,9 +10,9 @@ import {
 } from '@/utils/functions/functions';
 import { useReadLocalStorage } from 'usehooks-ts';
 import { StaffService } from '@/services/staff-services/staff-services';
+import AppHandledInput from '@/components/forms/input/handled-input';
 
 import AppHandledButton from '@/components/display/button/handle-button';
-import AppHandledInput from '@/components/forms/input/handled_input';
 import { useTranslation } from 'react-i18next';
 import { IStaffCreate } from '../types';
 

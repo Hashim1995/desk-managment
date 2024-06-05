@@ -1,6 +1,5 @@
 /* eslint-disable no-use-before-define */
 import AppHandledButton from '@/components/display/button/handle-button';
-import AppEmpty from '@/components/display/empty/app-empty';
 import { HomeOutlined, FileAddOutlined, MoreOutlined } from '@ant-design/icons';
 import {
   Card,
@@ -21,6 +20,7 @@ import { Link } from 'react-router-dom';
 import { toastOptions } from '@/configs/global-configs';
 import { toast } from 'react-toastify';
 import { StaffService } from '@/services/staff-services/staff-services';
+import AppEmpty from '@/components/display/empty';
 import { ColumnsType } from 'antd/es/table';
 import { IStaff } from '../types';
 import AddStaffModal from './add-staff-modal';
