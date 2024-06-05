@@ -22,8 +22,8 @@ interface IStaffUpdate extends Omit<IStaffCreate, 'password'> {
   id: number;
 }
 interface IStaffChangePassword {
-  userId: number,
-  newPassword: string
+  userId: number;
+  newPassword: string;
 }
 
 export type { IStaff, IStaffCreate, IStaffUpdate, IStaffChangePassword };
