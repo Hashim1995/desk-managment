@@ -1,6 +1,7 @@
 {
-  "name": "TRS",
+  "name": "desk-managment",
   "private": true,
+  "author": "Hashim Hashimli",
   "version": "1.0.0",
   "type": "module",
   "scripts": {

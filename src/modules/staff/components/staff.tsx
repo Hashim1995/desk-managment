@@ -185,7 +185,7 @@ export default function Staff() {
                     )
                   },
                   {
-                    title: t('rooms')
+                    title: t('staff')
                   }
                 ]}
               />
