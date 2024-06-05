@@ -8,13 +8,14 @@ interface IStaff {
   nickName?: string | null;
   email: string;
   phoneNumber?: string | null;
+  photoFileId: number | string | null;
 }
 
 interface IStaffCreate
-  extends Pick<IStaff, 'firstName' | 'lastName' | 'email' | 'phoneNumber'> {
+  extends Pick<IStaff, 'firstName' | 'lastName' | 'email' | 'phoneNumber' | 'photoFileId'> {
   password: string;
 }
-interface IStaffUpdate extends IStaffCreate {
+interface IStaffUpdate extends Omit<IStaffCreate, 'password'> {
   id: number;
 }
 

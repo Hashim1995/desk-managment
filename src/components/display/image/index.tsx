@@ -50,10 +50,14 @@ function TokenizedImage({
           setImageUrl(objectUrl);
         } else {
           const headers = new Headers();
-          tokenized && headers.append('AuthPerson', userToken);
-          const response = await fetch(src, {
-            headers
-          });
+          tokenized &&
+            headers.append('Authorization', `Bearer ${userToken?.token}`);
+          const response = await fetch(
+            `${import.meta.env.VITE_BASE_URL}Files/${src}`,
+            {
+              headers
+            }
+          );
           if (response.ok) {
             const blob = await response.blob();
             const objectUrl = URL.createObjectURL(blob);
@@ -66,11 +70,14 @@ function TokenizedImage({
           }
         }
       } else if (tokenized) {
-        const response = await fetch(src, {
-          headers: {
-            Authperson: userToken
+        const response = await fetch(
+          `${import.meta.env.VITE_BASE_URL}Files/${src}`,
+          {
+            headers: {
+              Authorization: `Bearer ${userToken?.token}`
+            }
           }
-        });
+        );
         if (response.ok) {
           const blob = await response.blob();
           const objectUrl = URL.createObjectURL(blob);

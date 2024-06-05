@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import { Col, Form, Modal, Row } from 'antd';
+import { Col, Form, Modal, Row, UploadFile } from 'antd';
 import { useForm } from 'react-hook-form';
 
 import {
@@ -11,8 +11,11 @@ import {
 import { useReadLocalStorage } from 'usehooks-ts';
 import { StaffService } from '@/services/staff-services/staff-services';
 import { useTranslation } from 'react-i18next';
+import { BiTrash } from 'react-icons/bi';
 
 import AppHandledButton from '@/components/display/button/handle-button';
+import AppFileUpload from '@/components/forms/file-upload';
+import TokenizedImage from '@/components/display/image';
 import AppHandledInput from '@/components/forms/input/handled-input';
 import { IStaff, IStaffUpdate } from '../types';
 
@@ -32,6 +35,8 @@ function EditStaffModal({
   const {
     formState: { errors, isSubmitting },
     control,
+    setValue,
+    watch,
     handleSubmit
   } = useForm<IStaffUpdate>({
     defaultValues: {
@@ -39,7 +44,7 @@ function EditStaffModal({
       lastName: selectedItem?.lastName || '-',
       email: selectedItem?.email || '-',
       phoneNumber: selectedItem?.phoneNumber || '-',
-      password: ''
+      photoFileId: selectedItem?.photoFileId || null
     },
     mode: 'onChange'
   });
@@ -201,31 +206,51 @@ function EditStaffModal({
                 errors={errors}
               />
             </div>
-            <div className="pb-3">
-              <AppHandledInput
-                label={t('password')}
-                name="password"
-                inputProps={{
-                  id: 'password'
-                }}
-                rules={{
-                  required: {
-                    value: true,
-                    message: inputValidationText(t('password'))
-                  },
-                  minLength: {
-                    value: 6,
-                    message: minLengthCheck(t('password'), '6')
-                  }
-                }}
-                required
-                control={control}
-                inputType="text"
-                placeholder={inputPlaceholderText(t('password'))}
-                errors={errors}
-              />
-            </div>
+            {selectedItem?.photoFileId ? (
+              <>
+                <p className="">Current photo:</p>
+                <div className="relative w-[200px]">
+                  <TokenizedImage
+                    useCach
+                    tokenized
+                    imgType="avatar"
+                    style={{
+                      width: 200,
+                      height: 200,
+                      objectFit: 'contain'
+                    }}
+                    src={String(watch('photoFileId')) || ''}
+                  />
+                  <AppHandledButton
+                    className="-top-0 -right-1 absolute"
+                    onClick={() => {
+                      setValue('photoFileId', null);
+                    }}
+                    danger
+                    icon={<BiTrash />}
+                  />
+                </div>
+              </>
+            ) : null}
           </Col>
+          <Form.Item className="mt-2 uploadIcon" label={t('userPhoto')}>
+            <AppFileUpload
+              listType="text"
+              loadingText={t('uploading')}
+              accept=".jpg, .png, .jpeg, .webp"
+              isProfile
+              length={1}
+              getValues={(e: UploadFile[]) => {
+                console.log(e, 'test');
+
+                if (e && e.length > 0) {
+                  const selectedFile = e[0];
+                  const fileData = selectedFile?.response?.id;
+                  fileData && setValue('photoFileId', fileData);
+                }
+              }}
+            />
+          </Form.Item>
         </Row>
       </Form>
     </Modal>

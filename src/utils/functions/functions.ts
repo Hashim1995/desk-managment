@@ -196,6 +196,48 @@ function getLanguageName(languageNumber: number): string {
   }
 }
 
+function deepClone<T>(obj: T): T {
+  if (obj === null || typeof obj !== 'object') {
+    return obj;
+  }
+
+  if (obj instanceof Date) {
+    return new Date(obj.getTime()) as any;
+  }
+
+  if (obj instanceof Array) {
+    const arrCopy = [] as any[];
+    obj.forEach((_, i) => {
+      arrCopy[i] = deepClone(obj[i]);
+    });
+    return arrCopy as T;
+  }
+
+  if (obj instanceof Set) {
+    const setCopy = new Set<any>();
+    obj.forEach(value => {
+      setCopy.add(deepClone(value));
+    });
+    return setCopy as T;
+  }
+
+  if (obj instanceof Map) {
+    const mapCopy = new Map<any, any>();
+    obj.forEach((value, key) => {
+      mapCopy.set(key, deepClone(value));
+    });
+    return mapCopy as T;
+  }
+
+  const objCopy = {} as { [key: string]: any };
+  Object.keys(obj).forEach(key => {
+    objCopy[key] = deepClone((obj as { [key: string]: any })[key]);
+  });
+
+  return objCopy as T;
+}
+
+
 export {
   convertFormDataToQueryParams,
   generateOptionListPerNumber,
@@ -211,6 +253,7 @@ export {
   inputPlaceholderText,
   selectPlaceholderText,
   onlyNumber,
+  deepClone,
   inputValidationText,
   minLengthCheck,
   maxLengthCheck

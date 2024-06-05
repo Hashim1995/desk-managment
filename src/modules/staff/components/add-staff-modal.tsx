@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import { Col, Form, Modal, Row } from 'antd';
+import { Col, Form, Modal, Row, UploadFile } from 'antd';
 import { useForm } from 'react-hook-form';
 
 import {
@@ -13,6 +13,7 @@ import { StaffService } from '@/services/staff-services/staff-services';
 import AppHandledInput from '@/components/forms/input/handled-input';
 
 import AppHandledButton from '@/components/display/button/handle-button';
+import AppFileUpload from '@/components/forms/file-upload';
 import { useTranslation } from 'react-i18next';
 import { IStaffCreate } from '../types';
 
@@ -28,6 +29,7 @@ function AddStaffModal({
   showAddStaffModal
 }: IAddStaffProps) {
   const {
+    setValue,
     formState: { errors, isSubmitting },
     control,
     handleSubmit
@@ -221,6 +223,26 @@ function AddStaffModal({
               />
             </div>
           </Col>
+          <Form.Item className="uploadIcon" label={t('userPhoto')}>
+            <AppFileUpload
+              listType="text"
+              loadingText={t('uploading')}
+              accept=".jpg, .png, .jpeg, .webp"
+              isProfile
+              length={1}
+              getValues={(e: UploadFile[]) => {
+                console.log(e, 'test');
+
+                if (e && e.length > 0) {
+                  const selectedFile = e[0];
+                  const fileData = selectedFile?.response?.id;
+                  fileData && setValue('photoFileId', fileData);
+                } else {
+                  setValue('photoFileId', null);
+                }
+              }}
+            />
+          </Form.Item>
         </Row>
       </Form>
     </Modal>

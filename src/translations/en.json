@@ -305,6 +305,9 @@
     "staff": "Staff",
     "firstName": "Firstname",
     "lastName": "Lastname",
-    "phoneNumber": "Phone number"
+    "phoneNumber": "Phone number",
+    "userPhoto": "User Photo",
+    "uploading": "Uploading",
+    "dragOrSelect": "Seçin və ya sürüşdürün"
   }
 }

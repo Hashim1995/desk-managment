@@ -9,10 +9,8 @@ import type {
 import TokenizedImage from '@/components/display/image';
 
 import { convertBytesToReadableSize } from '@/utils/functions/functions';
-import ViewFileModal from '@/components/display/view-file-modal';
 import { toast } from 'react-toastify';
 import { useReadLocalStorage } from 'usehooks-ts';
-import AppHandledButton from '@/components/display/button/handle-button';
 import { t } from 'i18next';
 
 interface IProps {
@@ -20,7 +18,6 @@ interface IProps {
   accept?: string;
   getValues: any;
   length?: number;
-  folderType: number;
   loadingText?: string;
   size?: {
     max?: number;
@@ -40,7 +37,6 @@ interface IProps {
 
 function AppFileUpload({
   listType,
-  folderType,
   accept,
   getValues,
   length = 5,
@@ -83,7 +79,7 @@ function AppFileUpload({
     <div className={`${listType === 'text' ? 'textTypeFileUpload' : ''}`}>
       <PlusOutlined rev={undefined} />
       <div style={{ fontSize: '12px', marginTop: listType === 'text' ? 0 : 6 }}>
-        Seçin və ya sürüşdürün
+        {t('dragOrSelect')}
       </div>
     </div>
   );
@@ -176,16 +172,31 @@ function AppFileUpload({
           onPreview={handlePreview}
           onChange={handleChange}
           accept={accept}
-          action={`${import.meta.env.VITE_BASE_URL}/file/${folderType}`}
+          action={`${import.meta.env.VITE_BASE_URL}Files`}
           headers={{
-            AuthPerson: userToken
+            Authorization: `Bearer ${userToken?.token}`
           }}
         >
           {fileList?.length >= length ? null : uploadButton}
         </Upload>
       </div>
 
-      {previewImage?.mimeType !== 'application/pdf' ? (
+      <Modal
+        open={previewOpen}
+        title={t('photo')}
+        footer={null}
+        onCancel={handleCancel}
+        destroyOnClose
+        className="generalModal"
+      >
+        <TokenizedImage
+          tokenized
+          imgType={imgType}
+          style={{ width: '100%' }}
+          src={previewImage?.response?.id}
+        />
+      </Modal>
+      {/* {previewImage?.response?.id !== 'application/pdf' ? (
         <Modal
           open={previewOpen}
           title={t('photo')}
@@ -219,7 +230,7 @@ function AppFileUpload({
         >
           <ViewFileModal src={previewImage} />
         </Modal>
-      )}
+      )} */}
     </>
   );
 }

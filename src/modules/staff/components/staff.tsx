@@ -21,6 +21,8 @@ import { toastOptions } from '@/configs/global-configs';
 import { toast } from 'react-toastify';
 import { StaffService } from '@/services/staff-services/staff-services';
 import AppEmpty from '@/components/display/empty';
+import TokenizedImage from '@/components/display/image';
+import { deepClone } from '@/utils/functions/functions';
 import { ColumnsType } from 'antd/es/table';
 import { IStaff } from '../types';
 import AddStaffModal from './add-staff-modal';
@@ -46,6 +48,26 @@ export default function Staff() {
     useState<boolean>(false);
 
   const columns: ColumnsType<IStaff> = [
+    {
+      title: t('photo'),
+      dataIndex: 'photoFileId',
+      key: (Math.random() + 1).toString(12).substring(7),
+      render: record => (
+        <TokenizedImage
+          useCach
+          tokenized
+          imgType="avatar"
+          circle
+          style={{
+            width: 40,
+            height: 40,
+            borderRadius: '50%',
+            objectFit: 'unset'
+          }}
+          src={record ?? null}
+        />
+      )
+    },
     {
       title: t('firstName'),
       dataIndex: 'firstName',
@@ -189,7 +211,7 @@ export default function Staff() {
                   locale={{
                     emptyText: <AppEmpty />
                   }}
-                  dataSource={staffList}
+                  dataSource={deepClone(staffList)}
                 />
               </Col>
             </Row>
