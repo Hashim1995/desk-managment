@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Col, Form, Row, Space, theme } from 'antd';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useLocalStorage, useReadLocalStorage } from 'usehooks-ts';
-import AppHandledInput from '@/components/forms/input/handled_input';
 import {
   inputValidationText,
   inputPlaceholderText
@@ -16,6 +15,7 @@ import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { setUser } from '@/redux/auth/auth_slice';
+import AppHandledInput from '@/components/forms/input/handled-input';
 
 function Login() {
   const {
