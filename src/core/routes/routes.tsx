@@ -1,5 +1,5 @@
+/* eslint-disable no-use-before-define */
 import { Navigate } from 'react-router-dom';
-
 import React, { Suspense } from 'react';
 import EditRoomPlanPage from '@/modules/rooms/pages/edit-room-plan-page';
 import StaffPage from '@/modules/staff/pages/staff-page';
@@ -16,6 +16,7 @@ const RoomsList = React.lazy(() => import('@/modules/rooms/pages'));
 const UpdateContractPage = React.lazy(
   () => import('@/modules/rooms/pages/edit-room-plan-page')
 );
+
 const routes = [
   {
     path: '/',

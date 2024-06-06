@@ -31,7 +31,9 @@
     "no-unsafe-optional-chaining": "off",
     "no-unused-expressions": "off",
     "no-param-reassign": "off",
-    "no-octal-escape" : "off",
+    "no-octal-escape" : "off",   
+    
+      "simple-import-sort/imports": "off",
     "no-undef": "off",
     "no-nonoctal-decimal-escape" : "off"
   },
