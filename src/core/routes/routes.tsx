@@ -6,9 +6,7 @@ import StaffPage from '@/modules/staff/pages/staff-page';
 import FallbackSpinner from '@/components/display/FallbackSpinner';
 
 const LoginPage = React.lazy(() => import('@/core/static-pages/login_page'));
-const RegisterPage = React.lazy(
-  () => import('@/core/static-pages/register_page')
-);
+
 const HomePage = React.lazy(() => import('@/modules/home/pages/index'));
 const LayoutPage = React.lazy(() => import('@core/layout/layout'));
 
@@ -76,10 +74,7 @@ const routes = [
     path: 'login',
     element: <LoginPage />
   },
-  {
-    path: 'register',
-    element: <RegisterPage />
-  }
+
   // {
   //   path: '*',
   //   element: <Navigate to="/404" />
