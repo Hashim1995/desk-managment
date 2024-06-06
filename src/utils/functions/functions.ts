@@ -3,9 +3,9 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-prototype-builtins */
 import { Modal } from 'antd';
+import i18next from 'i18next';
 import { selectOption } from '@/models/common';
 import { IHTTPSParams } from '@/services/adapter-config/config';
-import i18next from 'i18next';
 
 const userToken: any = JSON.parse(localStorage.getItem('userToken') || '');
 /* eslint-disable no-restricted-syntax */

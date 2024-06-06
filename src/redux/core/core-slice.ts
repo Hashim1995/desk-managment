@@ -1,5 +1,5 @@
-import { LayoutLanguage } from '@/models/common';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { LayoutLanguage } from '@/models/common';
 
 /**
  * The coreSlice represents a slice of the Redux store for the 'core' module.

@@ -1,9 +1,9 @@
 /* eslint-disable radix */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-restricted-globals */
+import i18next from 'i18next';
 import { selectOption } from '@/models/common';
 import { NomeclaturaType } from '@/enums';
-import i18next from 'i18next';
 
 const statusOptions: selectOption[] = [
   {

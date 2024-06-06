@@ -1,5 +1,5 @@
-import { LayoutLanguage } from '@/models/common';
 import { configureStore } from '@reduxjs/toolkit';
+import { LayoutLanguage } from '@/models/common';
 import authReducer from './auth/auth_slice';
 import drawerReducer from './drawer_slice';
 import coreReducer from './core/core-slice';
