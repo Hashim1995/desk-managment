@@ -16,13 +16,6 @@ const RoomsList = React.lazy(() => import('@/modules/rooms/pages'));
 const UpdateContractPage = React.lazy(
   () => import('@/modules/rooms/pages/edit-room-plan-page')
 );
-const ViewContractPage = React.lazy(
-  () => import('@/modules/rooms/pages/view-contract-page')
-);
-const CreateRoomPage = React.lazy(
-  () => import('@/modules/rooms/pages/create-room-page')
-);
-
 const routes = [
   {
     path: '/',
@@ -50,10 +43,6 @@ const routes = [
         path: '/rooms',
         element: <RoomsList />
       },
-      {
-        path: '/rooms/create-room',
-        element: <CreateRoomPage />
-      },
 
       {
         path: '/rooms/edit-room-plan/:id',
@@ -68,23 +57,6 @@ const routes = [
         element: (
           <Suspense fallback={<FallbackSpinner />}>
             <UpdateContractPage />
-          </Suspense>
-        )
-      },
-
-      {
-        path: '/edc/view-contract/:id',
-        element: (
-          <Suspense fallback={<FallbackSpinner />}>
-            <ViewContractPage />
-          </Suspense>
-        )
-      },
-      {
-        path: '/edc/view-contract/draft/:id',
-        element: (
-          <Suspense fallback={<FallbackSpinner />}>
-            <ViewContractPage />
           </Suspense>
         )
       },

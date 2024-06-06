@@ -1,78 +1,36 @@
 /* eslint-disable no-use-before-define */
-/* eslint-disable no-unused-vars */
 import {
   Breadcrumb,
   Typography,
   Space,
   Col,
   Row,
-  Form,
-  Collapse,
-  Tooltip,
   Card,
-  theme,
   Spin,
-  Switch,
   MenuProps,
   Dropdown
 } from 'antd';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import {
-  HomeOutlined,
-  FileAddOutlined,
-  MoreOutlined,
-  UndoOutlined
-} from '@ant-design/icons';
+import { HomeOutlined, FileAddOutlined, MoreOutlined } from '@ant-design/icons';
 import { useEffect, useRef, useState } from 'react';
-
-import { IHTTPSParams } from '@/services/adapter-config/config';
-import {
-  convertFormDataToQueryParams,
-  getLanguageName,
-  inputPlaceholderText
-} from '@/utils/functions/functions';
-import AppPagination from '@/components/display/pagination/pagination';
 
 import { toast } from 'react-toastify';
 
 import { toastOptions } from '@/configs/global-configs';
 import AppHandledButton from '@/components/display/button/handle-button';
-import DeleteConfirmationModal from '@/components/display/DeleteConfirmationModal/delete-confirmation-modal';
-import AppEmpty from '@/components/display/empty/app-empty';
-import AppHandledInput from '@/components/forms/input/handled_input';
 import { useTranslation } from 'react-i18next';
-import { EdcServies } from '@/services/edc-services/edc-services';
-import { ColumnsType } from 'antd/es/table';
-import AppHandledTable from '@/components/display/table/table';
+import Table, { ColumnsType } from 'antd/es/table';
 
+import AppEmpty from '@/components/display/empty';
+import { RoomsService } from '@/services/rooms-services/rooms-services';
+import DeleteConfirmationModal from '@/components/display/DeleteConfirmationModal';
+import TokenizedImage from '@/components/display/image';
 import AddRoomModal from '../modals/add-room-modal';
+import { IRooms } from '../types';
 
 function RoomList() {
-  const {
-    reset,
-    control,
-    handleSubmit,
-    formState: { errors }
-  } = useForm<any>({
-    mode: 'onChange',
-    defaultValues: {
-      DocumentCode: '',
-      SenderLegalEntityId: '',
-      SenderLegalEntityVoen: '',
-      RecieverLegalEntityId: '',
-      RecieverLegalEntityVoen: '',
-      StartDateRange: '',
-      CreatedDateRange: '',
-      ExpireDateRange: '',
-      DocumentTypeId: null,
-      DocumentStatusId: null,
-      status: null
-    }
-  });
-
   const { t } = useTranslation();
-
+  const navigate = useNavigate();
   const renderEllipsisText = (record: string) => (
     <Typography.Paragraph
       style={{ margin: 0 }}
@@ -82,86 +40,86 @@ function RoomList() {
     </Typography.Paragraph>
   );
 
-  const [RoomListData, setRoomListData] = useState<any>();
+  const [roomListData, setRoomListData] = useState<IRooms[]>();
   const [loading, setLoading] = useState<boolean>(true);
   const [refreshComponent, setRefreshComponent] = useState<boolean>(false);
-  const [queryParams, setQueryParams] = useState<IHTTPSParams[]>([]);
-  const [page, setCurrentPage] = useState<number>(1);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
+  // eslint-disable-next-line no-unused-vars
   const [selectedItem, setSelectedItem] = useState<Partial<any> | null>(null);
   const [showAddRoomModal, setShowAddRoomModal] = useState<boolean>(false);
   const forceUpdate = useRef<number>(0);
-
-  const { Text } = Typography;
-  const { useToken } = theme;
-  const navigate = useNavigate();
-  const { token } = useToken();
 
   // Fetch the Room list data from the server
   const fetchRoomList = async () => {
     setLoading(true);
 
     try {
-      const res: any = await EdcServies.getInstance().getEdcList([
-        ...queryParams,
-        { name: 'page', value: page }
-      ]);
+      const res: any = await RoomsService.getInstance().getRoomsList();
 
-      if (res.isSuccess) {
-        setRoomListData(res);
-      }
+      setRoomListData(res);
+      setLoading(false);
     } catch (error) {
       console.log(error);
-    } finally {
-      setLoading(false);
     }
   };
 
-  const fakeData = [
+  const columns: ColumnsType<IRooms> = [
     {
-      name: 'Room 1',
-      backgroundImage: '',
-      status: true,
-      id: 1
-    }
-  ];
-
-  const columns: ColumnsType<any> = [
+      title: t('photo'),
+      dataIndex: 'photoFileId',
+      key: (Math.random() + 1).toString(12).substring(7),
+      render: record => (
+        <TokenizedImage
+          useCach
+          tokenized
+          imgType="avatar"
+          circle
+          style={{
+            width: 40,
+            height: 40,
+            borderRadius: '50%',
+            objectFit: 'unset'
+          }}
+          src={record ?? null}
+        />
+      )
+    },
     {
       title: t('name'),
       dataIndex: 'name',
       key: 'name',
       render: record => renderEllipsisText(record)
     },
-    {
-      title: t('status'),
-      dataIndex: 'isActive',
-      align: 'end',
 
-      key: 'isActive',
-      render: (record: boolean, raw: any) => (
-        <Tooltip placement="top" title="Statusu dəyiş">
-          <Switch checked={record} onChange={() => console.log(raw?.id)} />
-        </Tooltip>
-      )
-    },
     {
       title: '',
       key: 'actions',
       align: 'end',
       width: 0,
-      render: (_, raw: any) => (
+      render: (_, raw: IRooms) => (
         <Space>
           <Dropdown
             menu={{
               items,
               onClick: e => {
                 if (e?.key === '0') {
-                  navigate(`edit-room-plan/${raw?.id}`);
+                  // setShowEditStaffModal(true);
+                  navigate(
+                    `/rooms/edit-room-plan/${raw?.roomId}?photoFileId=${raw?.photoFileId}`
+                  );
+                  setSelectedItem(raw);
+                }
+                if (e?.key === '1') {
+                  setSelectedItem(raw);
+                  // setShowDeleteStaffModal(true);
+                }
+                if (e?.key === '2') {
+                  setSelectedItem(raw);
+                  // setShowChangePasswordStaffModal(true);
                 }
               }
             }}
-            key={raw?.id}
+            key={raw?.roomId}
             trigger={['click']}
           >
             <AppHandledButton icon={<MoreOutlined />} />
@@ -175,12 +133,13 @@ function RoomList() {
       label: <Typography.Text>{t('editBtn')}</Typography.Text>,
       key: '0'
     },
+
     {
-      label: <Typography.Text>{t('view')}</Typography.Text>,
+      label: <Typography.Text>{t('delete')}</Typography.Text>,
       key: '1'
     },
     {
-      label: <Typography.Text>{t('delete')}</Typography.Text>,
+      label: <Typography.Text>{t('changePassword')}</Typography.Text>,
       key: '2'
     }
   ];
@@ -189,54 +148,10 @@ function RoomList() {
     setModalVisible(false);
   };
 
-  const onSubmit: SubmitHandler<any> = async (data: any) => {
-    setCurrentPage(1);
-
-    const dates = {
-      StartDateMin: Array.isArray(data?.StartDateRange)
-        ? data?.StartDateRange[0]
-        : null,
-      StartDateMax: Array.isArray(data?.StartDateRange)
-        ? data?.StartDateRange[1]
-        : null,
-
-      CreatedDateMin: Array.isArray(data?.CreatedDateRange)
-        ? data?.CreatedDateRange[0]
-        : null,
-      CreatedDateMax: Array.isArray(data?.CreatedDateRange)
-        ? data?.CreatedDateRange[1]
-        : null,
-
-      ExpireDateMin: Array.isArray(data?.ExpireDateRange)
-        ? data?.ExpireDateRange[0]
-        : null,
-      ExpireDateMax: Array.isArray(data?.ExpireDateRange)
-        ? data?.ExpireDateRange[1]
-        : null
-    };
-
-    const {
-      StartDateRange,
-      CreatedDateRange,
-      ExpireDateRange,
-      ...filteredData
-    } = data;
-
-    const queryParamsData: IHTTPSParams[] = convertFormDataToQueryParams<any>({
-      ...dates,
-      ...filteredData
-    });
-    setQueryParams(queryParamsData);
-
-    setRefreshComponent(!refreshComponent);
-  };
-
   // Delete document
   const deleteDocument = async () => {
     if (selectedItem) {
-      const res: any = await EdcServies.getInstance().deleteDocument(
-        selectedItem.Id
-      );
+      const res: any = await RoomsService.getInstance().delete(selectedItem.Id);
       if (res.isSuccess) {
         toast.success(t('successTxt'), toastOptions);
         setModalVisible(false);
@@ -253,7 +168,7 @@ function RoomList() {
   // useEffect to fetch Room list data on component mount and when dependencies change
   useEffect(() => {
     fetchRoomList();
-  }, [page, refreshComponent]);
+  }, [refreshComponent]);
 
   return (
     <div>
@@ -297,82 +212,15 @@ function RoomList() {
           </Col>
         </Row>
       </Card>
-      <Card size="small" className="mb-4 box">
-        <div className="generalFilter">
-          <Collapse
-            expandIconPosition="end"
-            ghost
-            style={{
-              padding: '0'
-            }}
-            defaultActiveKey="1"
-            size="small"
-          >
-            <Collapse.Panel
-              key={1}
-              className="p-0"
-              header={<Text type="secondary">{t('filter')}</Text>}
-            >
-              <Form
-                onFinish={handleSubmit(onSubmit)}
-                layout="vertical"
-                labelWrap={false}
-              >
-                <Row gutter={16}>
-                  <Col
-                    className="gutter-row"
-                    style={{ marginBottom: token.marginSM }}
-                    xs={24}
-                    sm={12}
-                    md={8}
-                    lg={6}
-                  >
-                    <AppHandledInput
-                      label={t('name')}
-                      name="DocumentCode"
-                      control={control}
-                      required={false}
-                      inputType="text"
-                      placeholder={inputPlaceholderText(t('name'))}
-                      errors={errors}
-                    />
-                  </Col>
-                </Row>
-                <Row justify="end">
-                  <div style={{ textAlign: 'right' }}>
-                    <Space size="small">
-                      <Tooltip title={t('resetTxt')}>
-                        <AppHandledButton
-                          onClick={() => {
-                            reset();
-                            setCurrentPage(1);
-                            setQueryParams([]);
-                            setRefreshComponent(r => !r);
-                          }}
-                          type="dashed"
-                          icon={<UndoOutlined rev={undefined} />}
-                        />
-                      </Tooltip>
-                      <AppHandledButton type="primary" htmlType="submit">
-                        {t('searchTxt')}
-                      </AppHandledButton>
-                    </Space>
-                  </div>
-                </Row>
-              </Form>
-            </Collapse.Panel>
-          </Collapse>
-        </div>
-      </Card>
       <Card className="box">
-        {fakeData.length ? (
+        {roomListData?.length ? (
           <Spin size="large" spinning={loading}>
-            <AppHandledTable
+            <Table
               columns={columns}
-              data={fakeData}
-              currentPage={page}
-              totalPage={20}
-              onChangePage={(e: number) => setCurrentPage(e)}
+              dataSource={roomListData}
+              // currentPage={page}
+              // totalPage={20}
+              // onChangePage={(e: number) => setCurrentPage(e)}
               key={forceUpdate.current}
               rowKey="id"
             />
@@ -382,22 +230,12 @@ function RoomList() {
             <AppEmpty />
           </Spin>
         )}
-        <Row justify="end" className="generalPagination">
-          {RoomListData?.Data?.Datas?.length ? (
-            <AppPagination
-              current={page}
-              total={RoomListData?.Data?.TotalDataCount}
-              onChange={(z: number) => setCurrentPage(z)}
-            />
-          ) : null}
-        </Row>
       </Card>
       <DeleteConfirmationModal
         onCancel={onCloseModal}
         onOk={onConfirmDelete}
         visible={modalVisible}
       />
-
       {showAddRoomModal && (
         <AddRoomModal
           setShowAddRoomModal={setShowAddRoomModal}

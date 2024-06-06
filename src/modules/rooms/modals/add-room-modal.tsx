@@ -1,8 +1,6 @@
-/* eslint-disable no-unused-vars */
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { Col, Form, Modal, Row, UploadFile } from 'antd';
 import { useForm } from 'react-hook-form';
-
 import {
   inputPlaceholderText,
   inputValidationText,
@@ -10,12 +8,12 @@ import {
   showCloseConfirmationModal
 } from '@/utils/functions/functions';
 import { useReadLocalStorage } from 'usehooks-ts';
-
-import { languagesOptions } from '@/utils/constants/options';
 import AppHandledButton from '@/components/display/button/handle-button';
-import AppHandledInput from '@/components/forms/input/handled_input';
-import { useTranslation } from 'react-i18next';
-import AppFileUploadNew from '@/components/forms/file-upload/file-upload';
+import { t } from 'i18next';
+import { RoomsService } from '@/services/rooms-services/rooms-services';
+import AppHandledInput from '@/components/forms/input/handled-input';
+import AppFileUpload from '@/components/forms/file-upload';
+import { IRoomsCreate } from '../types';
 
 interface IAddRoomProps {
   showAddRoomModal: boolean;
@@ -29,29 +27,18 @@ function AddRoomModal({
   showAddRoomModal
 }: IAddRoomProps) {
   const {
-    formState: { errors },
+    formState: { errors, isSubmitting },
     control,
     handleSubmit,
     setValue
-  } = useForm<any>({
+  } = useForm<IRoomsCreate>({
     defaultValues: {
-      name: '',
-      author: '',
-      description: '',
-      price: null,
-      coverPhoto: '',
-      audioFile: null,
-      pdfFile: null,
-      showOnFirstScreen: false,
-      language: languagesOptions[0]
+      name: ''
     },
     mode: 'onChange'
   });
 
-  const { t } = useTranslation();
   const darkMode = useReadLocalStorage('darkTheme');
-  const [isFormSubmiting, setIsFormSubmiting] = useState<boolean>(false);
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   const handleClose = () => {
     console.log('aaa');
@@ -64,7 +51,17 @@ function AddRoomModal({
     });
   };
 
-  const onSubmit = (data: any) => console.log(data);
+  async function onSubmit(data: IRoomsCreate) {
+    try {
+      const res = await RoomsService.getInstance().createRoomsMain(data);
+      if (res?.id) {
+        setRefreshComponent(z => !z);
+        setShowAddRoomModal(false);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   return (
     <Modal
@@ -83,8 +80,8 @@ function AddRoomModal({
           type="primary"
           key="submit"
           htmlType="submit"
-          disabled={isFormSubmiting}
-          loading={isFormSubmiting}
+          disabled={isSubmitting}
+          loading={isSubmitting}
         >
           {t('save')}
         </AppHandledButton>
@@ -124,10 +121,27 @@ function AddRoomModal({
             </div>
 
             <div className="pb-3">
-              <Form.Item label={t('roomBackgroundPhoto')}>
-                <AppFileUploadNew
-                  setFileList={setFileList}
-                  fileList={fileList}
+              <Form.Item
+                className="uploadIcon"
+                label={t('roomBackgroundPhoto')}
+              >
+                <AppFileUpload
+                  listType="text"
+                  loadingText={t('uploading')}
+                  accept=".jpg, .png, .jpeg, .webp, .svg"
+                  isProfile
+                  length={1}
+                  getValues={(e: UploadFile[]) => {
+                    console.log(e, 'test');
+
+                    if (e && e.length > 0) {
+                      const selectedFile = e[0];
+                      const fileData = selectedFile?.response?.id;
+                      fileData && setValue('photoFileId', fileData);
+                    } else {
+                      setValue('photoFileId', null);
+                    }
+                  }}
                 />
               </Form.Item>
             </div>
