@@ -11,7 +11,6 @@ import { setUser } from './redux/auth/auth_slice';
 // import { useTranslation } from 'react-i18next';
 
 function App() {
-
   const router = useRoutes(routesList);
   const { defaultAlgorithm, darkAlgorithm } = theme;
   // eslint-disable-next-line no-unused-vars
