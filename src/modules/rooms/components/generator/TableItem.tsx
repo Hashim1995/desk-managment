@@ -1,11 +1,6 @@
-
 import { useDraggable } from '@dnd-kit/core';
-import { Button, Dropdown, Menu,  } from 'antd';
-import {
-  DeleteOutlined,
-  EditOutlined,
-  DragOutlined,
-} from '@ant-design/icons';
+import { Button, Dropdown, Menu } from 'antd';
+import { DeleteOutlined, EditOutlined, DragOutlined } from '@ant-design/icons';
 import { BiPen } from 'react-icons/bi';
 
 interface TableItemProps {

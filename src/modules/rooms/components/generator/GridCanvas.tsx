@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   DndContext,
   DragEndEvent,

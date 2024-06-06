@@ -13,7 +13,7 @@ import {
   Modal
 } from 'antd';
 import { t } from 'i18next';
-import  { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ColumnsType } from 'antd/es/table';
 import { toast } from 'react-toastify';

@@ -4,7 +4,6 @@ import { Link, useLocation } from 'react-router-dom';
 import type { MenuProps } from 'antd';
 import { useLocalStorage, useReadLocalStorage } from 'usehooks-ts';
 import { TiHomeOutline } from 'react-icons/ti';
-import AppHandledButton from '@/components/display/button/handle-button';
 import {
   FaRegArrowAltCircleLeft,
   FaRegArrowAltCircleRight
@@ -12,6 +11,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { BiFile, BiUser } from 'react-icons/bi';
 import lg from '@assets/images/logo.png';
+import AppHandledButton from '@/components/display/button/handle-button';
 
 const { Sider } = Layout;
 

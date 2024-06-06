@@ -1,6 +1,8 @@
 import { Dispatch, SetStateAction } from 'react';
 import { Col, Form, Modal, Row, UploadFile } from 'antd';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { useReadLocalStorage } from 'usehooks-ts';
 
 import {
   inputPlaceholderText,
@@ -8,13 +10,11 @@ import {
   minLengthCheck,
   showCloseConfirmationModal
 } from '@/utils/functions/functions';
-import { useReadLocalStorage } from 'usehooks-ts';
 import { StaffService } from '@/services/staff-services/staff-services';
 import AppHandledInput from '@/components/forms/input/handled-input';
 
 import AppHandledButton from '@/components/display/button/handle-button';
 import AppFileUpload from '@/components/forms/file-upload';
-import { useTranslation } from 'react-i18next';
 import { IStaffCreate } from '../types';
 
 interface IAddStaffProps {

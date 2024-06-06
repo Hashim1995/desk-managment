@@ -24,6 +24,7 @@
     "import/extensions": "off",
     "react/require-default-props": "off",
     "import/prefer-default-export": "off",
+    "import/order" : "off",
     "react/jsx-props-no-spreading": "off",
     "react/no-unescaped-entities": "off",
     "react/jsx-curly-brace-presence": "off",
@@ -32,7 +33,7 @@
     "no-unused-expressions": "off",
       "no-use-before-define": "off",
     "no-param-reassign": "off",
-     "import/order" : "off",
+    //  "import/order" : "off",
     "no-octal-escape" : "off",
     "no-undef": "off",
     "no-nonoctal-decimal-escape" : "off"
