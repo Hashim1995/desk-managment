@@ -1,5 +1,3 @@
-/* eslint-disable no-use-before-define */
-import AppHandledButton from '@/components/display/button/handle-button';
 import { HomeOutlined, FileAddOutlined, MoreOutlined } from '@ant-design/icons';
 import {
   Card,
@@ -15,15 +13,16 @@ import {
   Modal
 } from 'antd';
 import { t } from 'i18next';
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { toastOptions } from '@/configs/global-configs';
+import { ColumnsType } from 'antd/es/table';
 import { toast } from 'react-toastify';
+import { toastOptions } from '@/configs/global-configs';
+import AppHandledButton from '@/components/display/button/handle-button';
 import { StaffService } from '@/services/staff-services/staff-services';
 import AppEmpty from '@/components/display/empty';
 import TokenizedImage from '@/components/display/image';
 import { deepClone } from '@/utils/functions/functions';
-import { ColumnsType } from 'antd/es/table';
 import { IStaff } from '../types';
 import AddStaffModal from './add-staff-modal';
 import EditStaffModal from './edit-staff-modal';
@@ -104,6 +103,7 @@ export default function Staff() {
         <Space>
           <Dropdown
             menu={{
+              // eslint-disable-next-line no-use-before-define
               items,
               onClick: e => {
                 if (e?.key === '0') {

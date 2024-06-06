@@ -1,6 +1,9 @@
 import { Dispatch, SetStateAction } from 'react';
 import { Col, Form, Modal, Row, UploadFile } from 'antd';
 import { useForm } from 'react-hook-form';
+import { useReadLocalStorage } from 'usehooks-ts';
+import { useTranslation } from 'react-i18next';
+import { BiTrash } from 'react-icons/bi';
 
 import {
   inputPlaceholderText,
@@ -8,11 +11,8 @@ import {
   minLengthCheck,
   showCloseConfirmationModal
 } from '@/utils/functions/functions';
-import { useReadLocalStorage } from 'usehooks-ts';
-import { StaffService } from '@/services/staff-services/staff-services';
-import { useTranslation } from 'react-i18next';
-import { BiTrash } from 'react-icons/bi';
 
+import { StaffService } from '@/services/staff-services/staff-services';
 import AppHandledButton from '@/components/display/button/handle-button';
 import AppFileUpload from '@/components/forms/file-upload';
 import TokenizedImage from '@/components/display/image';

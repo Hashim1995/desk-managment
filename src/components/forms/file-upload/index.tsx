@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PlusOutlined, EyeOutlined } from '@ant-design/icons';
 import { Modal, Upload } from 'antd';
 import type {
@@ -6,12 +6,12 @@ import type {
   UploadListType,
   UploadProps
 } from 'antd/es/upload/interface';
-import TokenizedImage from '@/components/display/image';
-
-import { convertBytesToReadableSize } from '@/utils/functions/functions';
 import { toast } from 'react-toastify';
 import { useReadLocalStorage } from 'usehooks-ts';
 import { t } from 'i18next';
+import TokenizedImage from '@/components/display/image';
+
+import { convertBytesToReadableSize } from '@/utils/functions/functions';
 
 interface IProps {
   listType: UploadListType;

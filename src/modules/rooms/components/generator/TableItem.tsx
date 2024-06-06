@@ -1,12 +1,10 @@
-/* eslint-disable no-unused-vars */
-import React from 'react';
+
 import { useDraggable } from '@dnd-kit/core';
-import { Button, Dropdown, Menu, Tooltip } from 'antd';
+import { Button, Dropdown, Menu,  } from 'antd';
 import {
   DeleteOutlined,
   EditOutlined,
   DragOutlined,
-  MoreOutlined
 } from '@ant-design/icons';
 import { BiPen } from 'react-icons/bi';
 
@@ -17,7 +15,9 @@ interface TableItemProps {
     y: number;
     active: boolean;
   };
+  // eslint-disable-next-line no-unused-vars
   onRemove: (id: string) => void;
+  // eslint-disable-next-line no-unused-vars
   onToggle: (id: string) => void;
 }
 

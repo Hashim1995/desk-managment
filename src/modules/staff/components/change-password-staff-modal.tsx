@@ -1,6 +1,8 @@
 import { Dispatch, SetStateAction } from 'react';
 import { Col, Form, Modal, Row } from 'antd';
 import { useForm } from 'react-hook-form';
+import { useReadLocalStorage } from 'usehooks-ts';
+import { useTranslation } from 'react-i18next';
 
 import {
   inputPlaceholderText,
@@ -8,9 +10,7 @@ import {
   minLengthCheck,
   showCloseConfirmationModal
 } from '@/utils/functions/functions';
-import { useReadLocalStorage } from 'usehooks-ts';
 import { StaffService } from '@/services/staff-services/staff-services';
-import { useTranslation } from 'react-i18next';
 
 import AppHandledButton from '@/components/display/button/handle-button';
 import AppHandledInput from '@/components/forms/input/handled-input';
