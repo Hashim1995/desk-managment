@@ -7,8 +7,21 @@ import i18next from 'i18next';
 import { selectOption } from '@/models/common';
 import { IHTTPSParams } from '@/services/adapter-config/config';
 
-const userToken: any = JSON.parse(localStorage.getItem('userToken') || '');
-/* eslint-disable no-restricted-syntax */
+let userToken: any = null;
+const storedToken = localStorage.getItem('userToken');
+
+if (storedToken) {
+  try {
+    userToken = JSON.parse(storedToken);
+  } catch (error) {
+    console.error('Error parsing JSON:', error);
+  }
+}
+
+if (userToken === null) {
+  // Handle the case where the userToken is not available
+  console.log('No valid user token found in localStorage.');
+}/* eslint-disable no-restricted-syntax */
 function convertFormDataToQueryParams<T>(formData: T): IHTTPSParams[] {
   const z: IHTTPSParams[] = [];
   for (const key in formData) {
