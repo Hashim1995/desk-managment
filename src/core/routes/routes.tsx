@@ -73,7 +73,7 @@ const routes = [
   {
     path: 'login',
     element: <LoginPage />
-  },
+  }
 
   // {
   //   path: '*',
