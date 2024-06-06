@@ -21,7 +21,7 @@ if (storedToken) {
 if (userToken === null) {
   // Handle the case where the userToken is not available
   console.log('No valid user token found in localStorage.');
-}/* eslint-disable no-restricted-syntax */
+} /* eslint-disable no-restricted-syntax */
 function convertFormDataToQueryParams<T>(formData: T): IHTTPSParams[] {
   const z: IHTTPSParams[] = [];
   for (const key in formData) {
