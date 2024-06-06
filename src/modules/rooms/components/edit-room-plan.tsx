@@ -1,32 +1,43 @@
-/* eslint-disable no-unused-vars */
 // Ant Design components
-import {
-  Breadcrumb,
-  Button,
-  Card,
-  Col,
-  Form,
-  Row,
-  Space,
-  Tooltip,
-  UploadFile
-} from 'antd';
+import { Breadcrumb, Card, Col, Row, Space, Tooltip } from 'antd';
 
 // Ant Design icons
 import { HomeOutlined, CloseOutlined } from '@ant-design/icons';
 
 // React and related libraries
-import { Link } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
+import { Link, useLocation } from 'react-router-dom';
 
 // Constants
 import AppHandledButton from '@/components/display/button/handle-button';
 
 import { t } from 'i18next';
-import { useState } from 'react';
+import { tokenizeImage } from '@/utils/functions/functions';
+import { useEffect, useState } from 'react';
 import GridCanvas from './generator/GridCanvas';
 
 function EditRoomPlan() {
+  const [photoUrl, setPhotoUrl] = useState<{ fileUrl: string; url: string }>();
+
+  const location = useLocation();
+
+  const fetchTokenizedImage = async (id: string) => {
+    try {
+      const tokenizedFile = await tokenizeImage({
+        url: '',
+        fileUrl: `${import.meta.env.VITE_BASE_URL}Files/${id}`
+      });
+      setPhotoUrl(tokenizedFile);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    const query = new URLSearchParams(location?.search);
+
+    fetchTokenizedImage(query.get('photoFileId') || '');
+  }, [location]);
+
   return (
     <div>
       <Card size="small" className="mb-4 box">
@@ -80,7 +91,7 @@ function EditRoomPlan() {
         </Row>
       </Card>
       <Card size="small" className="mb-4 box">
-        <GridCanvas />
+        <GridCanvas photoUrl={photoUrl!} />
       </Card>
     </div>
   );

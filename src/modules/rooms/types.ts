@@ -1,5 +1,3 @@
-
-
 interface IDesk {
   id: number;
   name: string;
@@ -7,22 +5,18 @@ interface IDesk {
   positionY: number;
   ownerId: number;
   width: number;
-  heigt: number
+  heigt: number;
 }
 
 interface IRooms {
   roomId: number;
   name: string;
   photoFileId: number | string | null;
-  desks: IDesk[]
+  desks: IDesk[];
 }
 
-interface IRoomsCreate
-  extends Pick<
-    IRooms,
-    'name' | 'photoFileId'
-  > {
+interface IRoomsCreate extends Pick<IRooms, 'name' | 'photoFileId'> {
   password: string;
 }
 
-export type { IRooms, IRoomsCreate, IDesk, };
+export type { IRooms, IRoomsCreate, IDesk };

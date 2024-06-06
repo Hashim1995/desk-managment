@@ -7,7 +7,7 @@ import { selectOption } from '@/models/common';
 import { IHTTPSParams } from '@/services/adapter-config/config';
 import i18next from 'i18next';
 
-const userToken: any = localStorage.getItem('userToken');
+const userToken: any = JSON.parse(localStorage.getItem('userToken') || '');
 /* eslint-disable no-restricted-syntax */
 function convertFormDataToQueryParams<T>(formData: T): IHTTPSParams[] {
   const z: IHTTPSParams[] = [];
@@ -118,11 +118,16 @@ const tokenizeImage = async (file: any): Promise<any> => {
     const objectUrl = URL.createObjectURL(blob);
     newFile.url = objectUrl;
   } else {
-    const response = await fetch(src, {
-      headers: {
-        AuthPerson: userToken?.replace(/['"]+/g, '')
+    console.log(src, 'test55');
+    const headers = new Headers();
+    headers.append('Authorization', `Bearer ${userToken?.token}`);
+
+    const response = await fetch(
+      src,
+      {
+        headers
       }
-    });
+    );
     if (response.ok) {
       const blob = await response.blob();
       const objectUrl = URL.createObjectURL(blob);

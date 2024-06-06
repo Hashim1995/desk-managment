@@ -20,8 +20,15 @@ interface Table {
   width: string;
 }
 
-function GridCanvas() {
+interface IProps {
+  photoUrl: {
+    fileUrl: string;
+    url: string;
+  };
+}
+function GridCanvas({ photoUrl }: IProps) {
   const [tables, setTables] = useState<Table[]>([]);
+
   const [activeId, setActiveId] = useState<string | null | number>(null);
 
   useEffect(() => {
@@ -141,6 +148,10 @@ function GridCanvas() {
         <div
           id="canvas"
           ref={setNodeRef}
+          style={{
+            backgroundImage: `url(${photoUrl?.url})`,
+            backgroundRepeat: 'no-repeat'
+          }}
           className="relative bg-gray-100 border w-[1400px] h-[700px]"
         >
           {tables.map(table => (
