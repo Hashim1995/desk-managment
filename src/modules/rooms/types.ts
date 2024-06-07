@@ -10,7 +10,6 @@ interface IDesk {
   opacity?: number;
   isCircle?: boolean;
   backgroundColor?: string;
-  isActive?: boolean;
 }
 
 interface IRooms {
@@ -20,8 +19,15 @@ interface IRooms {
   desks: IDesk[];
 }
 
+interface IRoomByIdResponse {
+  desks: IDesk[];
+  id: number;
+  name: string;
+  photoFileId: number
+}
+
 interface IRoomsCreate extends Pick<IRooms, 'name' | 'photoFileId'> {
   password: string;
 }
 
-export type { IRooms, IRoomsCreate, IDesk };
+export type { IRooms, IRoomsCreate, IDesk, IRoomByIdResponse };

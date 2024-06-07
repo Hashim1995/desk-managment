@@ -12,7 +12,6 @@ interface DeskItemProps {
   // eslint-disable-next-line no-unused-vars
   onRemove: (id: string) => void;
   // eslint-disable-next-line no-unused-vars
-  onToggle: (id: string) => void;
 }
 
 function DeskItem({

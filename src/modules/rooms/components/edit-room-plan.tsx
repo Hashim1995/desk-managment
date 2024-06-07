@@ -15,10 +15,12 @@ import AppHandledButton from '@/components/display/button/handle-button';
 import { tokenizeImage } from '@/utils/functions/functions';
 import GridCanvas from './generator/GridCanvas';
 import { RoomsService } from '@/services/rooms-services/rooms-services';
-import { IRooms } from '../types';
+import { IDesk, IRoomByIdResponse,  } from '../types';
 
 function EditRoomPlan() {
-  const [currentRoom, setCurrentRoom] = useState<IRooms>();
+  const [currentRoom, setCurrentRoom] = useState<IRoomByIdResponse>();
+  const [deskList, setDeskList] = useState<IDesk[]>([]);
+
   const [photoUrl, setPhotoUrl] = useState();
   const params = useParams();
 
@@ -53,8 +55,9 @@ function EditRoomPlan() {
       const res = await RoomsService.getInstance().getRoomById(
         params?.id || ''
       );
-      if (res) {
+      if (res?.id) {
         setCurrentRoom(res);
+        setDeskList(res?.desks)
         res?.photoFileId && fetchTokenizedImage(res?.photoFileId?.toString());
       }
     } catch (err) {
@@ -67,6 +70,18 @@ function EditRoomPlan() {
     getRoom();
   }, []);
 
+  async function save () {
+    const payload = {
+      roomId : currentRoom?.id || 0 ,
+      desks: deskList
+    }
+        try {
+      const res = await RoomsService.getInstance().saveDesk(payload);
+     console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  }
   return (
     <div>
       <Card size="small" className="mb-4 box">
@@ -105,9 +120,7 @@ function EditRoomPlan() {
 
               <AppHandledButton
                 onClick={() => {
-                  // if (Object.keys(errors).length !== 0) {
-                  //   setActiveKeys(['1', '2', '3', '4']);
-                  // }
+                save()
                 }}
                 form="create-contract-form"
                 htmlType="submit"
@@ -124,6 +137,8 @@ function EditRoomPlan() {
           ownersCombo={ownersCombo!}
           currentRoom={currentRoom!}
           photoUrl={photoUrl!}
+          setDeskList={setDeskList}
+          deskList={deskList}
         />
       </Card>
     </div>

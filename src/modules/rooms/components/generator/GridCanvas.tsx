@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import {
   DndContext,
   DragEndEvent,
@@ -10,20 +10,21 @@ import {
   UniqueIdentifier
 } from '@dnd-kit/core';
 import AddDeskModal from './add-desk-modal';
-import { IDesk, IRooms } from '../../types';
+import { IDesk, IRoomByIdResponse, IRooms } from '../../types';
 import DeskItem from './desk-item';
 import EditDeskModal from './edit-desk-modal';
 
 interface IProps {
-  currentRoom: IRooms;
+  currentRoom: IRoomByIdResponse;
+  setDeskList: Dispatch<SetStateAction<IDesk[]>>;
+  deskList: IDesk[]
   ownersCombo: { name: string; id: number }[];
   photoUrl: {
     fileUrl: string;
     url: string;
   };
 }
-function GridCanvas({ photoUrl, currentRoom, ownersCombo }: IProps) {
-  const [deskList, setDeskList] = useState<IDesk[]>([]);
+function GridCanvas({ photoUrl, currentRoom, ownersCombo, deskList, setDeskList }: IProps) {
   const [showAddDeskModal, setShowAddDeskModal] = useState<boolean>(false);
   const [showEditDeskModal, setShowEditDeskModal] = useState<boolean>(false);
   const [activeId, setActiveId] = useState<string | null | number>(null);
@@ -44,14 +45,7 @@ function GridCanvas({ photoUrl, currentRoom, ownersCombo }: IProps) {
     setDeskList(deskList.filter(desk => desk.clientId !== id));
   };
 
-  const handleToggleTable = (id: UniqueIdentifier) => {
-    console.log(id);
-    setDeskList(
-      deskList.map(desk =>
-        desk.clientId === id ? { ...desk, active: !desk.isActive } : desk
-      )
-    );
-  };
+
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, delta } = event;
@@ -146,7 +140,6 @@ function GridCanvas({ photoUrl, currentRoom, ownersCombo }: IProps) {
               key={desk?.clientId || desk?.deskId}
               desk={desk}
               onRemove={handleRemoveTable}
-              onToggle={handleToggleTable}
               setSelectedDesk={setSelectedDesk}
               setShowEditDeskModal={setShowEditDeskModal}
             />

@@ -2,7 +2,7 @@
 /* eslint-disable no-useless-constructor */
 /* eslint-disable class-methods-use-this */
 
-import { IRooms, IRoomsCreate } from '@/modules/rooms/types';
+import { IDesk, IRoomByIdResponse, IRooms, IRoomsCreate } from '@/modules/rooms/types';
 import {
   ErrorCallBack,
   HttpUtil
@@ -13,7 +13,7 @@ export class RoomsService {
   // eslint-disable-next-line no-use-before-define
   private static instance: RoomsService | null;
 
-  private constructor() {}
+  private constructor() { }
 
   public static getInstance(): RoomsService {
     if (!this.instance) {
@@ -33,7 +33,7 @@ export class RoomsService {
   public async getRoomById(
     id: string,
     onError?: ErrorCallBack
-  ): Promise<IRooms> {
+  ): Promise<IRoomByIdResponse> {
     const res = await HttpUtil.get(`/Rooms/${id}`, null, false, onError);
     return res;
   }
@@ -42,6 +42,15 @@ export class RoomsService {
     onError?: ErrorCallBack
   ): Promise<{ name: string; id: number }[]> {
     const res = await HttpUtil.get(`/Users/Compact`, null, false, onError);
+    return res;
+  }
+
+
+  public async saveDesk(
+    payload: { roomId: number, desks: IDesk[] },
+    onError?: ErrorCallBack
+  ): Promise<{ id: number }> {
+    const res = await HttpUtil.post('/desks', payload, onError);
     return res;
   }
 

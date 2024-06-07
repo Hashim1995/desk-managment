@@ -119,10 +119,7 @@ function EditDeskModal({
                     value: true,
                     message: inputValidationText(t('name'))
                   },
-                  minLength: {
-                    value: 3,
-                    message: minLengthCheck(t('name'), '3')
-                  }
+           
                 }}
                 required
                 control={control}

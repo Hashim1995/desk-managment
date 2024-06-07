@@ -44,7 +44,6 @@ function AddDeskModal({
       width: '100',
       height: '100',
       opacity: 60,
-      isActive: true,
       backgroundColor: '#16a34a'
     },
     mode: 'onChange'
@@ -113,10 +112,7 @@ function AddDeskModal({
                     value: true,
                     message: inputValidationText(t('name'))
                   },
-                  minLength: {
-                    value: 3,
-                    message: minLengthCheck(t('name'), '3')
-                  }
+              
                 }}
                 required
                 control={control}
