@@ -118,8 +118,7 @@ function EditDeskModal({
                   required: {
                     value: true,
                     message: inputValidationText(t('name'))
-                  },
-           
+                  }
                 }}
                 required
                 control={control}

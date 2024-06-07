@@ -17,14 +17,20 @@ import EditDeskModal from './edit-desk-modal';
 interface IProps {
   currentRoom: IRoomByIdResponse;
   setDeskList: Dispatch<SetStateAction<IDesk[]>>;
-  deskList: IDesk[]
+  deskList: IDesk[];
   ownersCombo: { name: string; id: number }[];
   photoUrl: {
     fileUrl: string;
     url: string;
   };
 }
-function GridCanvas({ photoUrl, currentRoom, ownersCombo, deskList, setDeskList }: IProps) {
+function GridCanvas({
+  photoUrl,
+  currentRoom,
+  ownersCombo,
+  deskList,
+  setDeskList
+}: IProps) {
   const [showAddDeskModal, setShowAddDeskModal] = useState<boolean>(false);
   const [showEditDeskModal, setShowEditDeskModal] = useState<boolean>(false);
   const [activeId, setActiveId] = useState<string | null | number>(null);
@@ -44,8 +50,6 @@ function GridCanvas({ photoUrl, currentRoom, ownersCombo, deskList, setDeskList 
   const handleRemoveTable = (id: UniqueIdentifier) => {
     setDeskList(deskList.filter(desk => desk.clientId !== id));
   };
-
-
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, delta } = event;

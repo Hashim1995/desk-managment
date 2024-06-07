@@ -138,6 +138,8 @@ const tokenizeImage = async (file: any): Promise<any> => {
     const response = await fetch(src, {
       headers
     });
+    console.log(response, 'test55');
+
     if (response.ok) {
       const blob = await response.blob();
       const objectUrl = URL.createObjectURL(blob);

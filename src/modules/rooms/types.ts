@@ -21,9 +21,9 @@ interface IRooms {
 
 interface IRoomByIdResponse {
   desks: IDesk[];
-  id: number;
+  roomId: number;
   name: string;
-  photoFileId: number
+  photoFileId: number;
 }
 
 interface IRoomsCreate extends Pick<IRooms, 'name' | 'photoFileId'> {
