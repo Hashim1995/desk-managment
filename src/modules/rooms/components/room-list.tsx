@@ -27,10 +27,13 @@ import DeleteConfirmationModal from '@/components/display/DeleteConfirmationModa
 import TokenizedImage from '@/components/display/image';
 import AddRoomModal from '../modals/add-room-modal';
 import { IRooms } from '../types';
+import { useDispatch } from 'react-redux';
+import { setCurrentRoom } from '@/redux/rooms/rooms-slice';
 
 function RoomList() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const renderEllipsisText = (record: string) => (
     <Typography.Paragraph
       style={{ margin: 0 }}
@@ -104,9 +107,8 @@ function RoomList() {
               onClick: e => {
                 if (e?.key === '0') {
                   // setShowEditStaffModal(true);
-                  navigate(
-                    `/rooms/edit-room-plan/${raw?.roomId}?photoFileId=${raw?.photoFileId}`
-                  );
+                  dispatch(setCurrentRoom(raw));
+                  navigate(`/rooms/edit-room-plan/${raw?.roomId}`);
                   setSelectedItem(raw);
                 }
                 if (e?.key === '1') {

@@ -6,115 +6,102 @@ import {
   useDroppable,
   useSensors,
   useSensor,
-  PointerSensor
+  PointerSensor,
+  UniqueIdentifier
 } from '@dnd-kit/core';
-import TableItem from './TableItem';
-// import { restrictToGridAndBounds } from "./restrictToGridAndBounds";
-
-interface Table {
-  id: string;
-  x: number;
-  y: number;
-  active: boolean;
-  height: string;
-  width: string;
-}
+import AddDeskModal from './add-desk-modal';
+import { IDesk, IRooms } from '../../types';
+import DeskItem from './desk-item';
+import EditDeskModal from './edit-desk-modal';
 
 interface IProps {
+  currentRoom: IRooms;
+  ownersCombo: {name: string; id: number}[]
   photoUrl: {
     fileUrl: string;
     url: string;
   };
 }
-function GridCanvas({ photoUrl }: IProps) {
-  const [tables, setTables] = useState<Table[]>([]);
-
+function GridCanvas({ photoUrl, currentRoom, ownersCombo }: IProps) {
+  const [deskList, setDeskList] = useState<IDesk[]>([]);
+  const [showAddDeskModal, setShowAddDeskModal] = useState<boolean>(false);
+  const [showEditDeskModal, setShowEditDeskModal] = useState<boolean>(false);
   const [activeId, setActiveId] = useState<string | null | number>(null);
+  const [selectedDesk, setSelectedDesk] = useState<IDesk>();
 
-  useEffect(() => {
-    const savedLayout = localStorage.getItem('layout');
-    if (savedLayout) {
-      setTables(JSON.parse(savedLayout));
-    }
-  }, []);
+  // useEffect(() => {
+  //   const savedLayout = localStorage.getItem('layout');
+  //   if (savedLayout) {
+  //     setTables(JSON.parse(savedLayout));
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    localStorage.setItem('layout', JSON.stringify(tables));
-  }, [tables]);
+  // useEffect(() => {
+  //   localStorage.setItem('layout', JSON.stringify(tables));
+  // }, [deskList]);
 
-  const handleAddTable = () => {
-    setTables([
-      ...tables,
-      {
-        id: `${Date.now()}`,
-        x: 0,
-        y: 0,
-        width: '200px',
-        height: '200px',
-        active: true
-      }
-    ]);
+  const handleRemoveTable = (id: UniqueIdentifier) => {
+    setDeskList(deskList.filter(desk => desk.clientId !== id));
   };
 
-  const handleRemoveTable = (id: string) => {
-    setTables(tables.filter(table => table.id !== id));
-  };
-
-  const handleToggleTable = (id: string) => {
-    setTables(
-      tables.map(table =>
-        table.id === id ? { ...table, active: !table.active } : table
+  const handleToggleTable = (id: UniqueIdentifier) => {
+    console.log(id);
+    setDeskList(
+      deskList.map(desk =>
+        desk.clientId === id ? { ...desk, active: !desk.isActive } : desk
       )
     );
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
-    console.log(event, 'test');
     const { active, delta } = event;
     setActiveId(null);
 
-    setTables(
-      tables.map(table => {
-        if (table.id === active.id) {
-          let newX = table.x + delta.x;
-          let newY = table.y + delta.y;
+    console.log(active, 'hashim-active');
+    console.log(delta, 'hashim-delta');
+
+    setDeskList(
+      deskList.map(desk => {
+        if (desk.clientId === active.id) {
+          let newX = desk.positionX + delta.x;
+          let newY = desk.positionY + delta.y;
 
           const canvasWidth =
             document.getElementById('canvas')?.offsetWidth || 0;
           const canvasHeight =
             document.getElementById('canvas')?.offsetHeight || 0;
 
-          const maxX = canvasWidth - 100; // assuming table width is 100px
-          const maxY = canvasHeight - 100; // assuming table height is 100px
+          const maxX = canvasWidth - 100; // assuming desk width is 100px
+          const maxY = canvasHeight - 100; // assuming desk height is 100px
 
           // Ensure within boundaries
           newX = Math.max(0, Math.min(newX, maxX));
           newY = Math.max(0, Math.min(newY, maxY));
 
           // Ensure no overlap
-          const isOverlapping = tables.some(
+          const isOverlapping = deskList.some(
             otherTable =>
-              otherTable.id !== table.id &&
-              Math.abs(otherTable.x - newX) < 100 &&
-              Math.abs(otherTable.y - newY) < 100
+              otherTable.clientId !== desk.clientId &&
+              Math.abs(otherTable.positionX - newX) < 100 &&
+              Math.abs(otherTable.positionY - newY) < 100
           );
 
           if (!isOverlapping) {
             return {
-              ...table,
-              x: newX,
-              y: newY,
-              height: table.height,
-              width: table.width
+              ...desk,
+              positionX: newX,
+              positionY: newY,
+              height: desk.height,
+              width: desk.width
             };
           }
         }
-        return table;
+        return desk;
       })
     );
   };
 
-  const handleDragStart = (id: string | number) => {
+  const handleDragStart = (id: UniqueIdentifier) => {
     setActiveId(id);
   };
 
@@ -134,7 +121,7 @@ function GridCanvas({ photoUrl }: IProps) {
     <div>
       <button
         type="button"
-        onClick={handleAddTable}
+        onClick={() => setShowAddDeskModal(true)}
         className="bg-blue-500 mb-4 px-4 py-2 rounded text-white"
       >
         Add Table
@@ -154,16 +141,37 @@ function GridCanvas({ photoUrl }: IProps) {
           }}
           className="relative bg-gray-100 border w-[1400px] h-[700px]"
         >
-          {tables.map(table => (
-            <TableItem
-              key={table.id}
-              table={table}
+          {deskList.map(desk => (
+            <DeskItem
+              key={desk?.clientId || desk?.deskId}
+              desk={desk}
               onRemove={handleRemoveTable}
               onToggle={handleToggleTable}
+              setSelectedDesk={setSelectedDesk}
+              setShowEditDeskModal={setShowEditDeskModal}
             />
           ))}
         </div>
       </DndContext>
+
+      {showAddDeskModal && (
+        <AddDeskModal
+          setShowAddDeskModal={setShowAddDeskModal}
+          // setRefreshComponent={setRefreshComponent}
+          ownersCombo={ownersCombo}
+          showAddDeskModal={showAddDeskModal}
+          setDeskList={setDeskList}
+        />
+      )}
+      {showEditDeskModal && (
+        <EditDeskModal
+          setShowEditDeskModal={setShowEditDeskModal}
+          showEditDeskModal={showEditDeskModal}
+          selectedDesk={selectedDesk!}
+          setDeskList={setDeskList}
+          ownersCombo={ownersCombo}
+        />
+      )}
     </div>
   );
 }

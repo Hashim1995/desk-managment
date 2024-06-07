@@ -13,7 +13,7 @@ export class RoomsService {
   // eslint-disable-next-line no-use-before-define
   private static instance: RoomsService | null;
 
-  private constructor() {}
+  private constructor() { }
 
   public static getInstance(): RoomsService {
     if (!this.instance) {
@@ -29,6 +29,24 @@ export class RoomsService {
     const res = await HttpUtil.get('/Rooms', null, false, onError);
     return res;
   }
+
+  public async getRoomById(
+    id: string,
+    onError?: ErrorCallBack
+  ): Promise<IRooms> {
+    const res = await HttpUtil.get(`/Rooms/${id}`, null, false, onError);
+    return res;
+  }
+
+  public async getOwnerComboList(
+    onError?: ErrorCallBack
+  ): Promise<{ name: string; id: number }[]> {
+    const res = await HttpUtil.get(`/Users/Compact`, null, false, onError);
+    return res;
+  }
+
+
+
 
   public async createRoomsMain(
     payload: IRoomsCreate,

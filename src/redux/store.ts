@@ -3,6 +3,7 @@ import { LayoutLanguage } from '@/models/common';
 import authReducer from './auth/auth_slice';
 import drawerReducer from './drawer_slice';
 import coreReducer from './core/core-slice';
+import roomsReducer from './rooms/rooms-slice';
 
 const savedLayoutLanguage = localStorage.getItem('currentLayoutLanguage');
 const initialLayoutLanguage = savedLayoutLanguage
@@ -16,7 +17,12 @@ const preloadedState = {
 };
 
 export const store = configureStore({
-  reducer: { user: authReducer, drawer: drawerReducer, core: coreReducer },
+  reducer: {
+    user: authReducer,
+    drawer: drawerReducer,
+    core: coreReducer,
+    rooms: roomsReducer
+  },
   preloadedState
 });
 

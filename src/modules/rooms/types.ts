@@ -1,11 +1,16 @@
 interface IDesk {
-  id: number;
+  deskId?: number;
+  clientId: string;
   name: string;
   positionX: number;
   positionY: number;
   ownerId: number;
-  width: number;
-  heigt: number;
+  width?: string;
+  height?: string;
+  opacity?: number;
+  isCircle?: boolean;
+  backgroundColor?: string;
+  isActive?: boolean;
 }
 
 interface IRooms {

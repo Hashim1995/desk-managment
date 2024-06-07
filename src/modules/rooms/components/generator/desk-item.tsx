@@ -2,48 +2,59 @@ import { useDraggable } from '@dnd-kit/core';
 import { Button, Dropdown, Menu } from 'antd';
 import { DeleteOutlined, EditOutlined, DragOutlined } from '@ant-design/icons';
 import { BiPen } from 'react-icons/bi';
+import { IDesk } from '../../types';
+import { Dispatch, SetStateAction } from 'react';
 
-interface TableItemProps {
-  table: {
-    id: string;
-    x: number;
-    y: number;
-    active: boolean;
-  };
+interface DeskItemProps {
+  desk: IDesk;
+  setShowEditDeskModal: Dispatch<SetStateAction<boolean>>;
+  setSelectedDesk: Dispatch<SetStateAction<IDesk | undefined>>;
   // eslint-disable-next-line no-unused-vars
   onRemove: (id: string) => void;
   // eslint-disable-next-line no-unused-vars
   onToggle: (id: string) => void;
 }
 
-function TableItem({ table, onRemove, onToggle }: TableItemProps) {
+function DeskItem({
+  desk,
+  onRemove,
+  setShowEditDeskModal,
+  setSelectedDesk
+}: DeskItemProps) {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: table.id
+    id: desk?.clientId
   });
 
   const style = {
-    transform: `translate3d(${transform ? transform.x + table.x : table.x}px, ${
-      transform ? transform.y + table.y : table.y
-    }px, 0)`
+    backgroundColor: desk?.backgroundColor,
+    width: `${desk?.width}px`,
+    height: `${desk?.height}px`,
+    opacity: `${desk?.opacity}%`,
+    transform: `translate3d(${
+      transform ? transform.x + desk.positionX : desk.positionX
+    }px, ${transform ? transform.y + desk.positionY : desk.positionY}px, 0)`
   };
-
-  const backgroundColorClass = table.active
-    ? 'bg-green-600 bg-opacity-60'
-    : 'bg-red-600 bg-opacity-60';
 
   const menu = (
     <Menu>
-      <Menu.Item
-        key="1"
-        icon={<EditOutlined />}
-        onClick={() => onToggle(table.id)}
-      >
-        {table.active ? 'Disable' : 'Enable'}
+      <Menu.Item key="1" disabled>
+        {desk?.name}
       </Menu.Item>
       <Menu.Item
         key="2"
+        icon={<EditOutlined />}
+             onClick={() => {
+          setSelectedDesk(desk);
+          setShowEditDeskModal(true);
+        }}
+      >
+        Edit
+      </Menu.Item>
+      <Menu.Item
+        key="3"
         icon={<DeleteOutlined />}
-        onClick={() => onRemove(table.id)}
+        onClick={() => onRemove(desk.clientId)}
+
       >
         Remove
       </Menu.Item>
@@ -55,7 +66,7 @@ function TableItem({ table, onRemove, onToggle }: TableItemProps) {
       ref={setNodeRef}
       style={style}
       {...attributes}
-      className={`absolute w-20 h-20 rounded-full flex items-center justify-center shadow-md text-white ${backgroundColorClass}`}
+      className={`absolute  rounded-full flex items-center justify-center shadow-md text-white `}
     >
       <Button
         {...listeners}
@@ -80,4 +91,4 @@ function TableItem({ table, onRemove, onToggle }: TableItemProps) {
   );
 }
 
-export default TableItem;
+export default DeskItem;

@@ -4,7 +4,7 @@ import { Breadcrumb, Card, Col, Row, Space, Tooltip } from 'antd';
 import { t } from 'i18next';
 // Ant Design icons
 import { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { HomeOutlined, CloseOutlined } from '@ant-design/icons';
 
 // React and related libraries
@@ -14,11 +14,16 @@ import AppHandledButton from '@/components/display/button/handle-button';
 
 import { tokenizeImage } from '@/utils/functions/functions';
 import GridCanvas from './generator/GridCanvas';
+import { RoomsService } from '@/services/rooms-services/rooms-services';
+import { IRooms } from '../types';
 
 function EditRoomPlan() {
-  const [photoUrl, setPhotoUrl] = useState<{ fileUrl: string; url: string }>();
+  const [currentRoom, setCurrentRoom] = useState<IRooms>();
+  const [photoUrl, setPhotoUrl] = useState();
+  const params = useParams();
 
-  const location = useLocation();
+  const [ownersCombo, setOwnersCombo] = useState<{ name: string; id: number }[]>();
+  
 
   const fetchTokenizedImage = async (id: string) => {
     try {
@@ -32,11 +37,36 @@ function EditRoomPlan() {
     }
   };
 
-  useEffect(() => {
-    const query = new URLSearchParams(location?.search);
+  async function getOwnerCombo () {
+        try {
+      const res = await RoomsService.getInstance().getOwnerComboList(
+      );
+      if (res) {
+        setOwnersCombo(res);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
-    fetchTokenizedImage(query.get('photoFileId') || '');
-  }, [location]);
+  async function getRoom() {
+    try {
+      const res = await RoomsService.getInstance().getRoomById(
+        params?.id || ''
+      );
+      if (res) {
+        setCurrentRoom(res);
+        res?.photoFileId && fetchTokenizedImage(res?.photoFileId?.toString());
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    getOwnerCombo()
+    getRoom();
+  }, []);
 
   return (
     <div>
@@ -91,7 +121,7 @@ function EditRoomPlan() {
         </Row>
       </Card>
       <Card size="small" className="mb-4 box">
-        <GridCanvas photoUrl={photoUrl!} />
+        <GridCanvas ownersCombo={ownersCombo!} currentRoom={currentRoom!} photoUrl={photoUrl!} />
       </Card>
     </div>
   );

@@ -218,6 +218,10 @@
     "userPhoto": "User Photo",
     "uploading": "Uploading",
     "dragOrSelect": "Drag or select a file",
-    "newPassword": "New password"
+    "newPassword": "New password",
+    "width": "Width",
+    "height": "Height",
+    "opacity": "Opacity",
+    "color": "Color"
   }
 }
