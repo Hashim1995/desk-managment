@@ -22,8 +22,8 @@ function EditRoomPlan() {
   const [photoUrl, setPhotoUrl] = useState();
   const params = useParams();
 
-  const [ownersCombo, setOwnersCombo] = useState<{ name: string; id: number }[]>();
-  
+  const [ownersCombo, setOwnersCombo] =
+    useState<{ name: string; id: number }[]>();
 
   const fetchTokenizedImage = async (id: string) => {
     try {
@@ -37,10 +37,9 @@ function EditRoomPlan() {
     }
   };
 
-  async function getOwnerCombo () {
-        try {
-      const res = await RoomsService.getInstance().getOwnerComboList(
-      );
+  async function getOwnerCombo() {
+    try {
+      const res = await RoomsService.getInstance().getOwnerComboList();
       if (res) {
         setOwnersCombo(res);
       }
@@ -64,7 +63,7 @@ function EditRoomPlan() {
   }
 
   useEffect(() => {
-    getOwnerCombo()
+    getOwnerCombo();
     getRoom();
   }, []);
 
@@ -121,7 +120,11 @@ function EditRoomPlan() {
         </Row>
       </Card>
       <Card size="small" className="mb-4 box">
-        <GridCanvas ownersCombo={ownersCombo!} currentRoom={currentRoom!} photoUrl={photoUrl!} />
+        <GridCanvas
+          ownersCombo={ownersCombo!}
+          currentRoom={currentRoom!}
+          photoUrl={photoUrl!}
+        />
       </Card>
     </div>
   );

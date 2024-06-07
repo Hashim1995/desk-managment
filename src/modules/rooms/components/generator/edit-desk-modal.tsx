@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction,  } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { Col, Form, Modal, Row } from 'antd';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -19,7 +19,7 @@ import AppHandledColorPicker from '@/components/forms/color-picker/app-handed-co
 import AppHandledSelect from '@/components/forms/select/handled-select';
 
 interface IEditDeskProps {
-  ownersCombo: {name: string; id: number}[]
+  ownersCombo: { name: string; id: number }[];
   showEditDeskModal: boolean;
   setDeskList: Dispatch<SetStateAction<IDesk[]>>;
   setShowEditDeskModal: Dispatch<SetStateAction<boolean>>;
@@ -30,7 +30,8 @@ function EditDeskModal({
   setShowEditDeskModal,
   showEditDeskModal,
   setDeskList,
-  selectedDesk,ownersCombo
+  selectedDesk,
+  ownersCombo
 }: IEditDeskProps) {
   const {
     formState: { errors, isSubmitting },
@@ -66,11 +67,12 @@ function EditDeskModal({
   };
 
   async function onSubmit(data: IDesk) {
-setDeskList((prev: IDesk[]) => 
-  prev.map((z: IDesk) => 
-    z.clientId === selectedDesk?.clientId ? {...z, ...data} : z
-  )
-);    setShowEditDeskModal(false);
+    setDeskList((prev: IDesk[]) =>
+      prev.map((z: IDesk) =>
+        z.clientId === selectedDesk?.clientId ? { ...z, ...data } : z
+      )
+    );
+    setShowEditDeskModal(false);
   }
 
   return (
@@ -128,26 +130,28 @@ setDeskList((prev: IDesk[]) =>
                 placeholder={inputPlaceholderText(t('width'))}
                 errors={errors}
               />
-                     <AppHandledSelect
-                label={t("owner")}
+              <AppHandledSelect
+                label={t('owner')}
                 name="ownerId"
                 rules={{
                   required: {
                     value: true,
-                    message: inputValidationText(t("owner"))
+                    message: inputValidationText(t('owner'))
                   }
                 }}
                 required
                 control={control}
-                placeholder={inputPlaceholderText(t("owner"))}
+                placeholder={inputPlaceholderText(t('owner'))}
                 errors={errors}
                 selectProps={{
                   allowClear: true,
                   showSearch: true,
                   id: 'ownerId',
-                  placeholder: selectPlaceholderText(t("owner")),
+                  placeholder: selectPlaceholderText(t('owner')),
                   className: 'w-full',
-                  options: ownersCombo?.map((z) => ({value: z?.id, label: z?.name})) || []
+                  options:
+                    ownersCombo?.map(z => ({ value: z?.id, label: z?.name })) ||
+                    []
                 }}
               />
               <AppHandledInput

@@ -16,7 +16,7 @@ import EditDeskModal from './edit-desk-modal';
 
 interface IProps {
   currentRoom: IRooms;
-  ownersCombo: {name: string; id: number}[]
+  ownersCombo: { name: string; id: number }[];
   photoUrl: {
     fileUrl: string;
     url: string;

@@ -43,7 +43,7 @@ function DeskItem({
       <Menu.Item
         key="2"
         icon={<EditOutlined />}
-             onClick={() => {
+        onClick={() => {
           setSelectedDesk(desk);
           setShowEditDeskModal(true);
         }}
@@ -54,7 +54,6 @@ function DeskItem({
         key="3"
         icon={<DeleteOutlined />}
         onClick={() => onRemove(desk.clientId)}
-
       >
         Remove
       </Menu.Item>

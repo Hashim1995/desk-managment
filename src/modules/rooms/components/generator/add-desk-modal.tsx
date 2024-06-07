@@ -19,7 +19,7 @@ import AppHandledColorPicker from '@/components/forms/color-picker/app-handed-co
 import AppHandledSelect from '@/components/forms/select/handled-select';
 
 interface IAddDeskProps {
-  ownersCombo: {name: string; id: number}[]
+  ownersCombo: { name: string; id: number }[];
   showAddDeskModal: boolean;
   setDeskList: Dispatch<SetStateAction<IDesk[]>>;
   setShowAddDeskModal: Dispatch<SetStateAction<boolean>>;
@@ -28,7 +28,8 @@ interface IAddDeskProps {
 function AddDeskModal({
   setShowAddDeskModal,
   showAddDeskModal,
-  setDeskList,ownersCombo
+  setDeskList,
+  ownersCombo
 }: IAddDeskProps) {
   const {
     formState: { errors, isSubmitting },
@@ -123,26 +124,28 @@ function AddDeskModal({
                 placeholder={inputPlaceholderText(t('width'))}
                 errors={errors}
               />
-                     <AppHandledSelect
-                label={t("owner")}
+              <AppHandledSelect
+                label={t('owner')}
                 name="ownerId"
                 rules={{
                   required: {
                     value: true,
-                    message: inputValidationText(t("owner"))
+                    message: inputValidationText(t('owner'))
                   }
                 }}
                 required
                 control={control}
-                placeholder={inputPlaceholderText(t("owner"))}
+                placeholder={inputPlaceholderText(t('owner'))}
                 errors={errors}
                 selectProps={{
                   allowClear: true,
                   showSearch: true,
                   id: 'ownerId',
-                  placeholder: selectPlaceholderText(t("owner")),
+                  placeholder: selectPlaceholderText(t('owner')),
                   className: 'w-full',
-                  options: ownersCombo?.map((z) => ({value: z?.id, label: z?.name})) || []
+                  options:
+                    ownersCombo?.map(z => ({ value: z?.id, label: z?.name })) ||
+                    []
                 }}
               />
               <AppHandledInput
