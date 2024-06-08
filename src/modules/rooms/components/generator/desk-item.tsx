@@ -10,15 +10,15 @@ interface DeskItemProps {
   setShowEditDeskModal: Dispatch<SetStateAction<boolean>>;
   setSelectedDesk: Dispatch<SetStateAction<IDesk | undefined>>;
   // eslint-disable-next-line no-unused-vars
-  onRemove: (id: string) => void;
+  onRemove: (id: IDesk) => void;
   // eslint-disable-next-line no-unused-vars
 }
 
 function DeskItem({
   desk,
-  onRemove,
   setShowEditDeskModal,
-  setSelectedDesk
+  setSelectedDesk,
+  onRemove
 }: DeskItemProps) {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: desk?.clientId
@@ -52,7 +52,10 @@ function DeskItem({
       <Menu.Item
         key="3"
         icon={<DeleteOutlined />}
-        onClick={() => onRemove(desk.clientId)}
+        onClick={() => {
+          onRemove(desk);
+          setSelectedDesk(desk);
+        }}
       >
         Remove
       </Menu.Item>

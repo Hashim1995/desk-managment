@@ -18,7 +18,7 @@ export class RoomsService {
   // eslint-disable-next-line no-use-before-define
   private static instance: RoomsService | null;
 
-  private constructor() {}
+  private constructor() { }
 
   public static getInstance(): RoomsService {
     if (!this.instance) {
@@ -78,4 +78,10 @@ export class RoomsService {
     const res = await HttpUtil.delete(`Users/${id}`, onError);
     return res;
   }
+
+  public async deleteDesk(id: number, onError?: ErrorCallBack): Promise<{ id: number }> {
+    const res = await HttpUtil.delete(`Desks/${id}`, onError);
+    return res;
+  }
+
 }

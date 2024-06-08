@@ -1,11 +1,11 @@
 // Ant Design components
-import { Breadcrumb, Card, Col, Row, Space,  } from 'antd';
+import { Breadcrumb, Card, Col, Row, Space } from 'antd';
 
 import { t } from 'i18next';
 // Ant Design icons
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { HomeOutlined,  } from '@ant-design/icons';
+import { HomeOutlined } from '@ant-design/icons';
 
 // React and related libraries
 
@@ -21,7 +21,7 @@ function EditRoomPlan() {
   const [currentRoom, setCurrentRoom] = useState<IRoomByIdResponse>();
   const [deskList, setDeskList] = useState<IDesk[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   const [photoUrl, setPhotoUrl] = useState();
   const params = useParams();
 
@@ -35,7 +35,7 @@ function EditRoomPlan() {
         fileUrl: `${import.meta.env.VITE_BASE_URL}Files/${id}`
       });
 
-      console.log(tokenizedFile,'test99');
+      console.log(tokenizedFile, 'test99');
       setPhotoUrl(tokenizedFile);
     } catch (err) {
       console.log(err);
@@ -58,7 +58,7 @@ function EditRoomPlan() {
       const res = await RoomsService.getInstance().getRoomById(
         params?.id || ''
       );
-      console.log(res,'akif');
+      console.log(res, 'akif');
       if (res?.roomId) {
         setCurrentRoom(res);
         setDeskList(res?.desks);
@@ -75,19 +75,18 @@ function EditRoomPlan() {
   }, []);
 
   async function save() {
-    setIsSubmitting(true)
+    setIsSubmitting(true);
     const payload = {
       roomId: currentRoom?.roomId || 0,
       desks: deskList
     };
     try {
-   await RoomsService.getInstance().saveDesk(payload);
-      window.location.reload()
+      await RoomsService.getInstance().saveDesk(payload);
+      window.location.reload();
     } catch (err) {
       console.log(err);
     }
-    setIsSubmitting(false)
-
+    setIsSubmitting(false);
   }
   return (
     <div>
@@ -117,8 +116,6 @@ function EditRoomPlan() {
           </Col>
           <Col>
             <Space>
-        
-
               <AppHandledButton
                 onClick={() => {
                   save();
@@ -126,8 +123,8 @@ function EditRoomPlan() {
                 form="create-contract-form"
                 htmlType="submit"
                 type="primary"
-                     disabled={isSubmitting}
-               loading={isSubmitting}
+                disabled={isSubmitting}
+                loading={isSubmitting}
               >
                 <Space>{t('save')}</Space>
               </AppHandledButton>

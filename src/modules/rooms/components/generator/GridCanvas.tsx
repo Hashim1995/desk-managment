@@ -13,6 +13,12 @@ import AddDeskModal from './add-desk-modal';
 import { IDesk, IRoomByIdResponse, IRooms } from '../../types';
 import DeskItem from './desk-item';
 import EditDeskModal from './edit-desk-modal';
+import DeleteConfirmationModal from '@/components/display/DeleteConfirmationModal';
+import { RoomsService } from '@/services/rooms-services/rooms-services';
+import { toast } from 'react-toastify';
+import { toastOptions } from '@/configs/global-configs';
+import { t } from 'i18next';
+import { Modal } from 'antd';
 
 interface IProps {
   currentRoom: IRoomByIdResponse;
@@ -33,22 +39,47 @@ function GridCanvas({
 }: IProps) {
   const [showAddDeskModal, setShowAddDeskModal] = useState<boolean>(false);
   const [showEditDeskModal, setShowEditDeskModal] = useState<boolean>(false);
+  const [deleteBtnLoader, setDeleteBtnLoader] = useState<boolean>(false);
   const [activeId, setActiveId] = useState<string | null | number>(null);
   const [selectedDesk, setSelectedDesk] = useState<IDesk>();
+  const [showDeleteStaffModal, setShowDeleteStaffModal] =
+    useState<boolean>(false);
 
-  // useEffect(() => {
-  //   const savedLayout = localStorage.getItem('layout');
-  //   if (savedLayout) {
-  //     setTables(JSON.parse(savedLayout));
-  //   }
-  // }, []);
+  // Delete document
+  const deleteDocument = async (selectedDeskParam: IDesk) => {
+    setDeleteBtnLoader(true);
+    try {
+      const res = await RoomsService.getInstance().deleteDesk(
+        selectedDeskParam?.deskId || 0
+      );
+      if (res?.id) {
+        setDeskList(
+          deskList?.filter(
+            desk => desk.deskId !== selectedDeskParam?.deskId?.toString()
+          )
+        );
+        setDeskList(
+          deskList?.filter(
+            desk => desk.clientId !== selectedDeskParam?.clientId?.toString()
+          )
+        );
+        toast.success(t('successTxt'), toastOptions);
+        setShowDeleteStaffModal(false);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    setDeleteBtnLoader(false);
+  };
 
-  // useEffect(() => {
-  //   localStorage.setItem('layout', JSON.stringify(tables));
-  // }, [deskList]);
-
-  const handleRemoveTable = (id: UniqueIdentifier) => {
-    setDeskList(deskList.filter(desk => desk.clientId !== id));
+  const handleRemoveTable = (deskItem: IDesk) => {
+    if (!deskItem?.deskId) {
+      setDeskList(
+        deskList.filter(desk => desk.clientId !== deskItem?.clientId)
+      );
+    } else {
+      setShowDeleteStaffModal(true);
+    }
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -169,6 +200,24 @@ function GridCanvas({
           ownersCombo={ownersCombo}
         />
       )}
+
+      <Modal
+        title={t('confirmTitle')}
+        open={showDeleteStaffModal}
+        onOk={() => {
+          deleteDocument(selectedDesk!);
+        }}
+        onCancel={() => setShowDeleteStaffModal(false)}
+        okText={t('yesTxt')}
+        okButtonProps={{
+          disabled: deleteBtnLoader,
+          loading: deleteBtnLoader
+        }}
+        okType="danger"
+        cancelText={t('noTxt')}
+      >
+        <p>{t('confirmDelete')}</p>
+      </Modal>
     </div>
   );
 }

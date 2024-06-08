@@ -1,10 +1,11 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import { Modal } from 'antd';
 import { t } from 'i18next';
 
 interface DeleteConfirmationModalProps {
   visible: boolean;
-  onOk: () => void;
+  onOk: (id?: any) => void;
   onCancel: () => void;
 }
 
