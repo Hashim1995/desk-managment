@@ -147,10 +147,12 @@ function RoomList() {
   };
 
   // Delete document
-  const deleteDocument = async () => {
+  const deleteRoom = async () => {
     if (selectedItem) {
-      await RoomsService.getInstance().delete(selectedItem.roomId);
-      toast.success(t('successTxt'), toastOptions);
+      const res = await RoomsService.getInstance().delete(selectedItem.roomId);
+      if (res?.id) {
+        toast.success(t('successTxt'), toastOptions);
+      }
       setModalVisible(false);
     }
     setRefreshComponent(z => !z);
@@ -158,7 +160,7 @@ function RoomList() {
 
   // Confirm delete
   const onConfirmDelete = () => {
-    deleteDocument();
+    deleteRoom();
   };
 
   // useEffect to fetch Room list data on component mount and when dependencies change

@@ -8,7 +8,7 @@ import roomsReducer from './rooms/rooms-slice';
 const savedLayoutLanguage = localStorage.getItem('currentLayoutLanguage');
 const initialLayoutLanguage = savedLayoutLanguage
   ? (savedLayoutLanguage as LayoutLanguage)
-  : LayoutLanguage.Azerbaijani;
+  : LayoutLanguage.English;
 
 const preloadedState = {
   core: {

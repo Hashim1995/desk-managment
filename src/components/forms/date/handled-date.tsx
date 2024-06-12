@@ -47,7 +47,6 @@ function AppHandledDate({
           <DatePicker
             value={value}
             // @ts-ignore
-            locale={DatePickerLanguage}
             status={required && errors[name] ? 'error' : undefined}
             onChange={e => {
               onChange(e);

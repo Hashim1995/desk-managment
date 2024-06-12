@@ -146,7 +146,7 @@
     "date": "Tarix",
     "ok": "Tamam",
     "selectOrSlide": "Seçin və ya sürüşdürün",
-    "footerVersionText": "© Blue-Box » - 2024 Versiya 1.0",
+    "footerVersionText": "© Desk » - 2024 Versiya 1.0",
     "goods": "Mal",
     "preparation": "Hazırlama",
     "product": "Məhsul",
@@ -162,11 +162,9 @@
     "mustBeCharacter": "xarakter olmalıdır",
     "books": "Kitablar",
     "documentCirculation": "Sənəd Dövriyyəsi",
-
     "startDate": "Başlangıç tarixi",
     "endDate": "Bitiş tarixi",
     "DateRange": "Tarix aralığı",
-
     "personalCabinet": "Şəxsi kabinet",
     "legalCabinet": "Şirkət məlumatları",
     "report": "Hesabat",
@@ -269,9 +267,7 @@
     "voenMustBeDifferent": "Daxil edilən VÖEN fərqli olmalıdır",
     "internalStructure": "Daxili struktur",
     "circulationType": "Dövriyyə növü",
-
     "approve": "Təsdiq",
-
     "docDate": "Sənədin tarixi",
     "receiver": "Qəbul edən şəxs",
     "forInfo": "Məlumat üçün",
@@ -287,7 +283,6 @@
     "addPermission": "Səlahiyyət  əlavə edin",
     "updatePermission": "Səlahiyyət redaktə edin",
     "changeLegalEntity": "Şirkəti dəyiş",
-
     "createdDate": "Yaradılma tarixi",
     "expireDate": "Etibarlılıq müddəti",
     "left": "qalıb",
@@ -297,7 +292,6 @@
     "confirmPassword": "Yeni şifrəni təsdiqləyin",
     "currentPassword": "Mövcud Şifrə",
     "forgotPassword": "Şifrəni unutdum",
-
     "initialLogin": "İlkin giriş",
     "passwordsDoNotMatch": "Şifrələr uyğunlaşmır",
     "sendOTPAgain": "E-poçtunuzda təhlükəsizlik kodu (OTP) almamısınızsa, onu yenidən göndərmək üçün bura klikləyin.",

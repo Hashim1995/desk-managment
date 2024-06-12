@@ -68,6 +68,13 @@ function Sidebar() {
       <BiUser size={18} />,
       undefined,
       'show'
+    ),
+    getItem(
+      <Link to="/reports"> {t('reports')} </Link>,
+      '/reports',
+      <BiUser size={18} />,
+      undefined,
+      'show'
     )
   ];
 

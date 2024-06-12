@@ -2,6 +2,7 @@
 /* eslint-disable no-useless-constructor */
 /* eslint-disable class-methods-use-this */
 
+import { IBookingReportsResponse } from '@/modules/reports/types';
 import {
   IDesk,
   IRoomByIdResponse,
@@ -10,7 +11,8 @@ import {
 } from '@/modules/rooms/types';
 import {
   ErrorCallBack,
-  HttpUtil
+  HttpUtil,
+  IHTTPSParams
   // IHTTPSParams
 } from '../adapter-config/config';
 
@@ -32,6 +34,14 @@ export class RoomsService {
     onError?: ErrorCallBack
   ): Promise<IRooms[]> {
     const res = await HttpUtil.get('/Rooms', null, false, onError);
+    return res;
+  }
+
+  public async getReports(
+    params: IHTTPSParams[],
+    onError?: ErrorCallBack
+  ): Promise<IBookingReportsResponse> {
+    const res = await HttpUtil.get('/Bookings', params, false, onError);
     return res;
   }
 
@@ -74,7 +84,7 @@ export class RoomsService {
     return res;
   }
 
-  public async delete(id: number, onError?: ErrorCallBack): Promise<any> {
+  public async delete(id: number, onError?: ErrorCallBack): Promise<{ id: number }> {
     const res = await HttpUtil.delete(`Rooms/${id}`, onError);
     return res;
   }

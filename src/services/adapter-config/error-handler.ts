@@ -9,7 +9,7 @@ import { toastOptions } from '@/configs/global-configs';
 export class ErrorHandler {
   private static instance: ErrorHandler | null;
 
-  private constructor() { }
+  private constructor() {}
 
   public static getInstance(): ErrorHandler {
     if (!this.instance) {
@@ -21,7 +21,7 @@ export class ErrorHandler {
   public showError(messageText: any): void {
     console.log(messageText);
     if (Array.isArray(messageText)) {
-      messageText.map((z: { code: number, message: string }) => {
+      messageText.map((z: { code: number; message: string }) => {
         toast.error(z?.message, toastOptions);
       });
     } else {
