@@ -4,7 +4,7 @@ import enJSON from './translations/en.json';
 import azJSON from './translations/az.json';
 
 const currentLayoutLanguage =
-  localStorage.getItem('currentLayoutLanguage') || 'en'; // 
+  localStorage.getItem('currentLayoutLanguage') || 'en'; //
 
 i18n.use(initReactI18next).init({
   resources: {
