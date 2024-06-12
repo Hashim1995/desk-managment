@@ -68,7 +68,7 @@ function RoomList() {
 
   const columns: ColumnsType<IRooms> = [
     {
-      title: t('photo'),
+      title: 'Photo',
       dataIndex: 'photoFileId',
       key: (Math.random() + 1).toString(12).substring(7),
       render: record => (
@@ -88,7 +88,7 @@ function RoomList() {
       )
     },
     {
-      title: t('name'),
+      title: 'Name',
       dataIndex: 'name',
       key: 'name',
       render: record => renderEllipsisText(record)
@@ -184,7 +184,7 @@ function RoomList() {
                     )
                   },
                   {
-                    title: t('rooms')
+                    title: 'Rooms'
                   }
                 ]}
               />

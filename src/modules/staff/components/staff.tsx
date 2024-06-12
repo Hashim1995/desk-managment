@@ -1,4 +1,4 @@
-import { HomeOutlined, FileAddOutlined, MoreOutlined } from '@ant-design/icons';
+import { HomeOutlined, MoreOutlined } from '@ant-design/icons';
 import {
   Card,
   Row,
@@ -27,6 +27,7 @@ import { IStaff } from '../types';
 import AddStaffModal from './add-staff-modal';
 import EditStaffModal from './edit-staff-modal';
 import ChangePasswordStaffModal from './change-password-staff-modal';
+import { BiUser } from 'react-icons/bi';
 
 export default function Staff() {
   const renderEllipsisText = (record: string) => (
@@ -71,13 +72,13 @@ export default function Staff() {
       )
     },
     {
-      title: t('firstName'),
+      title: 'First name',
       dataIndex: 'firstName',
       key: 'firstName',
       render: record => renderEllipsisText(record)
     },
     {
-      title: t('lastName'),
+      title: 'Last name',
       dataIndex: 'lastName',
       key: 'lastName',
       render: record => renderEllipsisText(record)
@@ -202,7 +203,7 @@ export default function Staff() {
                   type="primary"
                 >
                   <Space>
-                    <FileAddOutlined rev={undefined} />
+                    <BiUser />
                     {t('addBtn')}
                   </Space>
                 </AppHandledButton>

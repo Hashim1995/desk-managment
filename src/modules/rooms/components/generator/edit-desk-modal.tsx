@@ -109,7 +109,7 @@ function EditDeskModal({
           <Col span={24}>
             <div className="pb-3">
               <AppHandledInput
-                label={t('name')}
+                label={'Name'}
                 name="name"
                 inputProps={{
                   id: 'name'
@@ -117,33 +117,33 @@ function EditDeskModal({
                 rules={{
                   required: {
                     value: true,
-                    message: inputValidationText(t('name'))
+                    message: inputValidationText('Name')
                   }
                 }}
                 required
                 control={control}
                 inputType="text"
-                placeholder={inputPlaceholderText(t('width'))}
+                placeholder={inputPlaceholderText('Name')}
                 errors={errors}
               />
               <AppHandledSelect
-                label={t('owner')}
+                label={'Owner'}
                 name="ownerId"
                 rules={{
                   required: {
                     value: false,
-                    message: inputValidationText(t('owner'))
+                    message: inputValidationText('Owner')
                   }
                 }}
                 required
                 control={control}
-                placeholder={inputPlaceholderText(t('owner'))}
+                placeholder={inputPlaceholderText('Owner')}
                 errors={errors}
                 selectProps={{
                   allowClear: true,
                   showSearch: true,
                   id: 'ownerId',
-                  placeholder: selectPlaceholderText(t('owner')),
+                  placeholder: selectPlaceholderText('Owner'),
                   className: 'w-full',
                   options:
                     ownersCombo?.map(z => ({ value: z?.id, label: z?.name })) ||
@@ -151,7 +151,7 @@ function EditDeskModal({
                 }}
               />
               <AppHandledInput
-                label={t('width')}
+                label={'Width'}
                 name="width"
                 inputProps={{
                   id: 'width'
@@ -159,25 +159,25 @@ function EditDeskModal({
                 rules={{
                   required: {
                     value: true,
-                    message: inputValidationText(t('width'))
+                    message: inputValidationText('Width')
                   },
                   min: {
                     value: 20,
-                    message: minLengthCheck(t('width'), '20')
+                    message: minLengthCheck('Width', '20')
                   },
                   max: {
                     value: 200,
-                    message: minLengthCheck(t('width'), '200')
+                    message: minLengthCheck('Width', '200')
                   }
                 }}
                 required
                 control={control}
                 inputType="number"
-                placeholder={inputPlaceholderText(t('width'))}
+                placeholder={inputPlaceholderText('Width')}
                 errors={errors}
               />
               <AppHandledInput
-                label={t('height')}
+                label={'Height'}
                 name="height"
                 inputProps={{
                   id: 'height'
@@ -185,25 +185,25 @@ function EditDeskModal({
                 rules={{
                   required: {
                     value: true,
-                    message: inputValidationText(t('height'))
+                    message: inputValidationText('Height')
                   },
                   min: {
                     value: 20,
-                    message: minLengthCheck(t('height'), '20')
+                    message: minLengthCheck('Height', '20')
                   },
                   max: {
                     value: 200,
-                    message: minLengthCheck(t('height'), '200')
+                    message: minLengthCheck('Height', '200')
                   }
                 }}
                 required
                 control={control}
                 inputType="number"
-                placeholder={inputPlaceholderText(t('height'))}
+                placeholder={inputPlaceholderText('Height')}
                 errors={errors}
               />
               <AppHandledInput
-                label={t('opacity')}
+                label={'Opacity'}
                 name="opacity"
                 inputProps={{
                   id: 'opacity'
@@ -211,35 +211,35 @@ function EditDeskModal({
                 rules={{
                   required: {
                     value: true,
-                    message: inputValidationText(t('opacity'))
+                    message: inputValidationText('Opacity')
                   },
                   min: {
                     value: 5,
-                    message: minLengthCheck(t('opacity'), '5')
+                    message: minLengthCheck('Opacity', '5')
                   },
                   max: {
                     value: 100,
-                    message: minLengthCheck(t('opacity'), '100')
+                    message: minLengthCheck('Opacity', '100')
                   }
                 }}
                 required
                 control={control}
                 inputType="text"
-                placeholder={inputPlaceholderText(t('opacity'))}
+                placeholder={inputPlaceholderText('Opacity')}
                 errors={errors}
               />
               <AppHandledColorPicker
-                label={t('color')}
+                label={'Color'}
                 name="backgroundColor"
                 rules={{
                   required: {
                     value: true,
-                    message: inputValidationText(t('color'))
+                    message: inputValidationText('Color')
                   }
                 }}
                 required
                 control={control}
-                placeholder={inputPlaceholderText(t('color'))}
+                placeholder={inputPlaceholderText('Color')}
                 errors={errors}
                 colorPickerProps={{
                   format: 'hex',

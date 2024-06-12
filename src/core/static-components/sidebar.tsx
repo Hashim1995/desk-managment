@@ -9,7 +9,7 @@ import {
   FaRegArrowAltCircleRight
 } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
-import { BiFile, BiUser } from 'react-icons/bi';
+import { BiFile, BiTable, BiUser } from 'react-icons/bi';
 import lg from '@assets/images/logo.png';
 import AppHandledButton from '@/components/display/button/handle-button';
 
@@ -72,7 +72,7 @@ function Sidebar() {
     getItem(
       <Link to="/reports"> {t('reports')} </Link>,
       '/reports',
-      <BiUser size={18} />,
+      <BiTable size={18} />,
       undefined,
       'show'
     )

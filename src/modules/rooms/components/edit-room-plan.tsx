@@ -105,10 +105,10 @@ function EditRoomPlan() {
                   },
 
                   {
-                    title: <Link to="/rooms">{t('rooms')}</Link>
+                    title: <Link to="/rooms">{'Rooms'}</Link>
                   },
                   {
-                    title: t('create')
+                    title: 'Update'
                   }
                 ]}
               />

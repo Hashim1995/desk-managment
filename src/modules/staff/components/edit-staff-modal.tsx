@@ -112,7 +112,7 @@ function EditStaffModal({
           <Col span={24}>
             <div className="pb-3">
               <AppHandledInput
-                label={t('firstName')}
+                label={'First name'}
                 name="firstName"
                 inputProps={{
                   id: 'firstName'
@@ -120,23 +120,23 @@ function EditStaffModal({
                 rules={{
                   required: {
                     value: true,
-                    message: inputValidationText(t('firstName'))
+                    message: inputValidationText('First name')
                   },
                   minLength: {
                     value: 3,
-                    message: minLengthCheck(t('firstName'), '3')
+                    message: minLengthCheck('First name', '3')
                   }
                 }}
                 required
                 control={control}
                 inputType="text"
-                placeholder={inputPlaceholderText(t('firstName'))}
+                placeholder={inputPlaceholderText('First name')}
                 errors={errors}
               />
             </div>
             <div className="pb-3">
               <AppHandledInput
-                label={t('lastName')}
+                label={'Last name'}
                 name="lastName"
                 inputProps={{
                   id: 'lastName'
@@ -144,17 +144,17 @@ function EditStaffModal({
                 rules={{
                   required: {
                     value: true,
-                    message: inputValidationText(t('lastName'))
+                    message: inputValidationText('Last name')
                   },
                   minLength: {
                     value: 3,
-                    message: minLengthCheck(t('lastName'), '3')
+                    message: minLengthCheck('Last name', '3')
                   }
                 }}
                 required
                 control={control}
                 inputType="text"
-                placeholder={inputPlaceholderText(t('lastName'))}
+                placeholder={inputPlaceholderText('Last name')}
                 errors={errors}
               />
             </div>{' '}

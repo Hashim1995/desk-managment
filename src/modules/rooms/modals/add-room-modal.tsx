@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import { Col, Form, Modal, Row, UploadFile } from 'antd';
+import { Alert, Col, Form, Modal, Row, UploadFile } from 'antd';
 import { useForm } from 'react-hook-form';
 import {
   inputPlaceholderText,
@@ -97,7 +97,7 @@ function AddRoomModal({
           <Col span={24}>
             <div className="pb-3">
               <AppHandledInput
-                label={t('name')}
+                label={'Name'}
                 name="name"
                 inputProps={{
                   id: 'Name'
@@ -105,26 +105,23 @@ function AddRoomModal({
                 rules={{
                   required: {
                     value: true,
-                    message: inputValidationText(t('name'))
+                    message: inputValidationText('Name')
                   },
                   minLength: {
                     value: 3,
-                    message: minLengthCheck(t('name'), '3')
+                    message: minLengthCheck('Name', '3')
                   }
                 }}
                 required
                 control={control}
                 inputType="text"
-                placeholder={inputPlaceholderText(t('name'))}
+                placeholder={inputPlaceholderText('Name')}
                 errors={errors}
               />
             </div>
 
             <div className="pb-3">
-              <Form.Item
-                className="uploadIcon"
-                label={t('roomBackgroundPhoto')}
-              >
+              <Form.Item className="uploadIcon" label={'Room photo'}>
                 <AppFileUpload
                   listType="text"
                   loadingText={t('uploading')}
@@ -145,6 +142,10 @@ function AddRoomModal({
                 />
               </Form.Item>
             </div>
+            <Alert
+              message="Upload photo sizes must be (width: 1400px, height: 800px)"
+              type="warning"
+            />
           </Col>
         </Row>
       </Form>

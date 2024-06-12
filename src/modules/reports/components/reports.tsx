@@ -158,7 +158,7 @@ export default function Reports() {
           </Col>
         </Row>
       </Card>
-      <Card size="small" className="box">
+      <Card size="small" className="mb-4 box">
         <div className="generalFilter">
           <Collapse
             expandIconPosition="end"
