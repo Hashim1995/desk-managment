@@ -147,7 +147,12 @@ function GridCanvas({
   );
 
   return (
-    <div>
+    <div
+      style={{
+        overflow: 'hidden !important'
+      }}
+      className="overflow-scroll"
+    >
       <button
         type="button"
         onClick={() => setShowAddDeskModal(true)}
@@ -168,7 +173,7 @@ function GridCanvas({
             backgroundImage: `url(${photoUrl?.url})`,
             backgroundRepeat: 'no-repeat'
           }}
-          className="relative bg-gray-100 border w-[1400px] h-[800px]"
+          className="relative bg-gray-100 border w-[1400px] h-[800px] overflow-hidden"
         >
           {deskList.map(desk => (
             <DeskItem

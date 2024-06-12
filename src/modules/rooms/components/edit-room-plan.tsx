@@ -132,7 +132,13 @@ function EditRoomPlan() {
           </Col>
         </Row>
       </Card>
-      <Card size="small" className="mb-4 box">
+      <Card
+        size="small"
+        style={{
+          overflow: 'hidden !important'
+        }}
+        className="mb-4 box"
+      >
         <GridCanvas
           ownersCombo={ownersCombo!}
           currentRoom={currentRoom!}
