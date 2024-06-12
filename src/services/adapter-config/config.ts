@@ -16,8 +16,8 @@ axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 const axiosErrorHandler = (error: unknown) => {
   if (error instanceof AxiosError) {
     console.log(error.response?.data);
-    if (error?.response?.data?.Errors?.length) {
-      return error.response.data.Errors;
+    if (error?.response?.data?.length) {
+      return error.response.data;
     }
     return i18n.t('errorOccurred');
   }
@@ -131,7 +131,7 @@ export class HttpUtil {
       if (error.preventDefault) {
         return null;
       }
-      ErrorHandler.getInstance().showError(error.message);
+      ErrorHandler.getInstance().showError(error);
     }
     return null;
   }

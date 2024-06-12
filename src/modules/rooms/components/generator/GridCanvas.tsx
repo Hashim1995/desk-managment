@@ -100,8 +100,8 @@ function GridCanvas({
           const canvasHeight =
             document.getElementById('canvas')?.offsetHeight || 0;
 
-          const maxX = canvasWidth - 100; // assuming desk width is 100px
-          const maxY = canvasHeight - 100; // assuming desk height is 100px
+          const maxX = canvasWidth - 10; // assuming desk width is 10px
+          const maxY = canvasHeight - 10; // assuming desk height is 10px
 
           // Ensure within boundaries
           newX = Math.max(0, Math.min(newX, maxX));
@@ -111,8 +111,8 @@ function GridCanvas({
           const isOverlapping = deskList.some(
             otherTable =>
               otherTable.clientId !== desk.clientId &&
-              Math.abs(otherTable.positionX - newX) < 100 &&
-              Math.abs(otherTable.positionY - newY) < 100
+              Math.abs(otherTable.positionX - newX) < 10 &&
+              Math.abs(otherTable.positionY - newY) < 10
           );
 
           if (!isOverlapping) {
@@ -141,7 +141,7 @@ function GridCanvas({
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 5
+        distance: 1
       }
     })
   );
@@ -168,7 +168,7 @@ function GridCanvas({
             backgroundImage: `url(${photoUrl?.url})`,
             backgroundRepeat: 'no-repeat'
           }}
-          className="relative bg-gray-100 border w-[1400px] h-[700px]"
+          className="relative bg-gray-100 border w-[1400px] h-[800px]"
         >
           {deskList.map(desk => (
             <DeskItem

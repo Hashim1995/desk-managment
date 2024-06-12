@@ -48,7 +48,7 @@ function RoomList() {
   const [refreshComponent, setRefreshComponent] = useState<boolean>(false);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   // eslint-disable-next-line no-unused-vars
-  const [selectedItem, setSelectedItem] = useState<Partial<any> | null>(null);
+  const [selectedItem, setSelectedItem] = useState<IRooms>();
   const [showAddRoomModal, setShowAddRoomModal] = useState<boolean>(false);
   const forceUpdate = useRef<number>(0);
 
@@ -113,7 +113,7 @@ function RoomList() {
                 }
                 if (e?.key === '1') {
                   setSelectedItem(raw);
-                  // setShowDeleteStaffModal(true);
+                  setModalVisible(true);
                 }
                 if (e?.key === '2') {
                   setSelectedItem(raw);
@@ -139,10 +139,6 @@ function RoomList() {
     {
       label: <Typography.Text>{t('delete')}</Typography.Text>,
       key: '1'
-    },
-    {
-      label: <Typography.Text>{t('changePassword')}</Typography.Text>,
-      key: '2'
     }
   ];
 
@@ -153,11 +149,9 @@ function RoomList() {
   // Delete document
   const deleteDocument = async () => {
     if (selectedItem) {
-      const res: any = await RoomsService.getInstance().delete(selectedItem.Id);
-      if (res.isSuccess) {
-        toast.success(t('successTxt'), toastOptions);
-        setModalVisible(false);
-      }
+      await RoomsService.getInstance().delete(selectedItem.roomId);
+      toast.success(t('successTxt'), toastOptions);
+      setModalVisible(false);
     }
     setRefreshComponent(z => !z);
   };

@@ -124,7 +124,7 @@ function AddDeskModal({
                 name="ownerId"
                 rules={{
                   required: {
-                    value: true,
+                    value: false,
                     message: inputValidationText(t('owner'))
                   }
                 }}
@@ -236,7 +236,7 @@ function AddDeskModal({
                 errors={errors}
                 colorPickerProps={{
                   format: 'hex',
-                  disabledAlpha: true
+                  disabledAlpha: false
                 }}
               />
             </div>

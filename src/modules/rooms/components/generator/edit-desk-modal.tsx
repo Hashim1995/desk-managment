@@ -131,7 +131,7 @@ function EditDeskModal({
                 name="ownerId"
                 rules={{
                   required: {
-                    value: true,
+                    value: false,
                     message: inputValidationText(t('owner'))
                   }
                 }}
