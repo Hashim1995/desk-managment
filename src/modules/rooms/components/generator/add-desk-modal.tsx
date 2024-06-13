@@ -53,7 +53,6 @@ function AddDeskModal({
   const darkMode = useReadLocalStorage('darkTheme');
 
   const handleClose = () => {
-    console.log('aaa');
     showCloseConfirmationModal({
       isDark: Boolean(darkMode),
       onClose: () => {
@@ -128,7 +127,7 @@ function AddDeskModal({
                     message: inputValidationText('Owner')
                   }
                 }}
-                required
+                required={false}
                 control={control}
                 placeholder={inputPlaceholderText('Owner')}
                 errors={errors}

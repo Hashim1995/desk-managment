@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Controller, FieldValues, RegisterOptions } from 'react-hook-form';
 import { Form, FormItemProps, SelectProps } from 'antd';
 import { ReactNode } from 'react';
@@ -78,12 +79,7 @@ function AppHandledSelect({
             allowClear={allowClear}
             status={status}
             optionFilterProp="label"
-            onChange={(e, a) => {
-              onChange(e);
-              if (onChangeApp) {
-                getLabelOnChange ? onChangeApp(a) : onChangeApp(e);
-              }
-            }}
+            onChange={onChange}
             placeholder={placeholder}
             {...selectProps}
           />

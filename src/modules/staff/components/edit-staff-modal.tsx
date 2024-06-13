@@ -53,7 +53,6 @@ function EditStaffModal({
   const darkMode = useReadLocalStorage('darkTheme');
 
   const handleClose = () => {
-    console.log('aaa');
     showCloseConfirmationModal({
       isDark: Boolean(darkMode),
       onClose: () => {

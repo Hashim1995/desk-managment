@@ -4,7 +4,7 @@ interface IDesk {
   name: string;
   positionX: number;
   positionY: number;
-  ownerId: number;
+  ownerId: any;
   width?: string;
   height?: string;
   opacity?: number;

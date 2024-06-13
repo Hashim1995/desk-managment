@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import { Col, Form, Modal, Row } from 'antd';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -36,6 +36,7 @@ function EditDeskModal({
   const {
     formState: { errors, isSubmitting },
     control,
+    setValue,
     handleSubmit
   } = useForm<IDesk>({
     defaultValues: {
@@ -46,8 +47,13 @@ function EditDeskModal({
       width: selectedDesk?.width,
       height: selectedDesk?.height,
       opacity: selectedDesk?.opacity,
-      backgroundColor: selectedDesk?.backgroundColor,
-      ownerId: selectedDesk?.ownerId
+      backgroundColor: selectedDesk?.backgroundColor
+      // ownerId: ownersCombo?.find(z => z?.id === selectedDesk?.ownerId)
+      //   ? {
+      //       value: selectedDesk?.ownerId,
+      //       label: ownersCombo.find(z => z?.id === selectedDesk?.ownerId)?.name
+      //     }
+      //   : null
     },
 
     mode: 'onChange'
@@ -75,6 +81,17 @@ function EditDeskModal({
     setShowEditDeskModal(false);
   }
 
+  useEffect(() => {
+    setValue(
+      'ownerId',
+      ownersCombo?.find(z => z?.id === selectedDesk?.ownerId)
+        ? {
+            value: selectedDesk?.ownerId,
+            label: ownersCombo.find(z => z?.id === selectedDesk?.ownerId)?.name
+          }
+        : null
+    );
+  }, [selectedDesk]);
   return (
     <Modal
       width={700}
@@ -135,13 +152,16 @@ function EditDeskModal({
                     message: inputValidationText('Owner')
                   }
                 }}
-                required
+                required={false}
+                allowClear
                 control={control}
                 placeholder={inputPlaceholderText('Owner')}
                 errors={errors}
                 selectProps={{
                   allowClear: true,
+
                   showSearch: true,
+
                   id: 'ownerId',
                   placeholder: selectPlaceholderText('Owner'),
                   className: 'w-full',
