@@ -14,6 +14,7 @@ import {
   Tooltip
 } from 'antd';
 import { useEffect, useState } from 'react';
+import { format, parseISO } from 'date-fns';
 import { Link } from 'react-router-dom';
 import { ColumnsType } from 'antd/es/table';
 import AppEmpty from '@/components/display/empty';
@@ -95,13 +96,15 @@ export default function Reports() {
       title: 'Start date',
       dataIndex: 'startDate',
       key: 'startDate',
-      render: record => renderEllipsisText(record)
+      render: record =>
+        renderEllipsisText(format(parseISO(record), 'dd.MM.yyyy HH:mm'))
     },
     {
       title: 'End date',
       dataIndex: 'endDate',
       key: 'endDate',
-      render: record => renderEllipsisText(record)
+      render: record =>
+        renderEllipsisText(format(parseISO(record), 'dd.MM.yyyy HH:mm'))
     }
   ];
 
