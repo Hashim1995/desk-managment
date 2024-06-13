@@ -1,7 +1,6 @@
 import { Col, Dropdown, Layout, MenuProps, Row, Typography } from 'antd';
 import { useLocalStorage, useReadLocalStorage } from 'usehooks-ts';
-import { FaMoon, FaSun } from 'react-icons/fa';
-import { BiLogOut, BiUser } from 'react-icons/bi';
+import { BiLogOut } from 'react-icons/bi';
 import { useSelector } from 'react-redux';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -27,7 +26,6 @@ function LayoutPage() {
   const user = useSelector((state: RootState) => state.user.user);
 
   const [, setUserToken] = useLocalStorage<any>('userToken', null);
-  const [isDarkTheme, setDarkTheme] = useLocalStorage('darkTheme', true);
   const navigate = useNavigate();
   const darkMode = useReadLocalStorage('darkTheme');
   // const dispatch = useDispatch();
@@ -40,20 +38,7 @@ function LayoutPage() {
   //   dispatch(setCurrentLayoutLanguage(lang as LayoutLanguage));
   // };
 
-  const toggleTheme = () => {
-    setDarkTheme(prevValue => !prevValue);
-  };
-
   const handleMenuClick: MenuProps['onClick'] = e => {
-    if (e.key === '0') {
-      navigate('personal-cabinet');
-    }
-    if (e.key === '1') {
-      navigate('legal-cabinet');
-    }
-    if (e.key === '2') {
-      toggleTheme();
-    }
     if (e.key === '3') {
       setUserToken(null);
       navigate('/login');
@@ -61,31 +46,6 @@ function LayoutPage() {
   };
 
   const items: MenuProps['items'] = [
-    {
-      label: (
-        <Row>
-          <BiUser /> <Text>{t('personalCabinet')}</Text>
-        </Row>
-      ),
-      key: '0'
-    },
-
-    {
-      label: (
-        <Row>
-          {isDarkTheme ? (
-            <>
-              <FaSun /> <Text>{t('lightMode')}</Text>
-            </>
-          ) : (
-            <>
-              <FaMoon /> <Text>{t('nightMode')}</Text>
-            </>
-          )}
-        </Row>
-      ),
-      key: '2'
-    },
     {
       label: (
         <Row>

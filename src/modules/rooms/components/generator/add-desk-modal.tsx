@@ -15,7 +15,7 @@ import AppHandledInput from '@/components/forms/input/handled-input';
 
 import AppHandledButton from '@/components/display/button/handle-button';
 import { IDesk } from '../../types';
-import AppHandledColorPicker from '@/components/forms/color-picker/app-handed-color-picker';
+// import AppHandledColorPicker from '@/components/forms/color-picker/app-handed-color-picker';
 import AppHandledSelect from '@/components/forms/select/handled-select';
 
 interface IAddDeskProps {
@@ -220,24 +220,24 @@ function AddDeskModal({
                 placeholder={inputPlaceholderText('Opacity')}
                 errors={errors}
               />
-              <AppHandledColorPicker
-                label={'Opacity'}
+              {/* <AppHandledColorPicker
+                label={'Color'}
                 name="backgroundColor"
                 rules={{
                   required: {
                     value: true,
-                    message: inputValidationText('Opacity')
+                    message: inputValidationText('Color')
                   }
                 }}
                 required
                 control={control}
-                placeholder={inputPlaceholderText('Opacity')}
+                placeholder={inputPlaceholderText('Color')}
                 errors={errors}
                 colorPickerProps={{
                   format: 'hex',
                   disabledAlpha: false
                 }}
-              />
+              /> */}
             </div>
           </Col>
         </Row>

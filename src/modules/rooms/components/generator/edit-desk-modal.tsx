@@ -15,7 +15,7 @@ import AppHandledInput from '@/components/forms/input/handled-input';
 
 import AppHandledButton from '@/components/display/button/handle-button';
 import { IDesk } from '../../types';
-import AppHandledColorPicker from '@/components/forms/color-picker/app-handed-color-picker';
+// import AppHandledColorPicker from '@/components/forms/color-picker/app-handed-color-picker';
 import AppHandledSelect from '@/components/forms/select/handled-select';
 
 interface IEditDeskProps {
@@ -248,7 +248,7 @@ function EditDeskModal({
                 placeholder={inputPlaceholderText('Opacity')}
                 errors={errors}
               />
-              <AppHandledColorPicker
+              {/* <AppHandledColorPicker
                 label={'Color'}
                 name="backgroundColor"
                 rules={{
@@ -265,7 +265,7 @@ function EditDeskModal({
                   format: 'hex',
                   disabledAlpha: true
                 }}
-              />
+              /> */}
             </div>
           </Col>
         </Row>
