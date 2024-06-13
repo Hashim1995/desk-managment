@@ -22,6 +22,7 @@
     "shouldConsistOfCharacter": "should consist of characters",
     "mustBeCharacter": "must be character",
     "confirmTitle": "Confirm",
+    "discardChanges": "Are you sure you want to discard changes?",
     "confirmDelete": "Are you sure you want to delete?",
     "noTxt": "No",
     "yesTxt": "Yes",

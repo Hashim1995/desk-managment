@@ -55,7 +55,7 @@ const showCloseConfirmationModal = ({
 }: IshowCloseConfirmationModal) => {
   Modal.confirm({
     title: titleText ?? i18next.t('confirmTitle'),
-    content: descriptionText ?? i18next.t('confirmDelete'),
+    content: descriptionText ?? i18next.t('discardChanges'),
     onOk: onClose,
     cancelText: closeText ?? i18next.t('noTxt'),
     okText: okText ?? i18next.t('yesTxt'),
@@ -168,12 +168,12 @@ function findEnumValue(object: Record<string, any>, targetValue: any) {
 }
 
 function inputPlaceholderText(param?: string): string {
-  return param ? `${param} ${i18next.t('enterTheBox')}` : i18next.t('enter');
+  return param ? `Enter ${param} field to here` : i18next.t('enter');
 }
 
 function selectPlaceholderText(param?: string): string {
   return param
-    ? `${param} ${i18next.t('selectFromTheBox')}`
+    ? `Select ${param} field here`
     : i18next.t('select');
 }
 
