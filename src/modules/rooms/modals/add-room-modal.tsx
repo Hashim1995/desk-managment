@@ -142,7 +142,7 @@ function AddRoomModal({
               </Form.Item>
             </div>
             <Alert
-              message="Upload photo sizes must be (width: 1400px, height: 800px)"
+              message="Upload photo sizes must be (width: 1000px, height: 1000px)"
               type="warning"
             />
           </Col>

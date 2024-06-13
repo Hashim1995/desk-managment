@@ -170,11 +170,15 @@ function GridCanvas({
           id="canvas"
           ref={setNodeRef}
           style={{
-            backgroundImage: `url(${photoUrl?.url})`,
             backgroundRepeat: 'no-repeat'
           }}
-          className="relative bg-gray-100 border w-[1400px] h-[800px] overflow-hidden"
+          className="relative bg-gray-100 border w-[1000px] h-[1000px] overflow-scroll"
         >
+          <img
+            alt=""
+            src={photoUrl?.url}
+            className="absolute inset-0 object-contain"
+          />
           {deskList.map(desk => (
             <DeskItem
               key={desk?.clientId || desk?.deskId}
