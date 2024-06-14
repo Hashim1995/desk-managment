@@ -172,9 +172,7 @@ function inputPlaceholderText(param?: string): string {
 }
 
 function selectPlaceholderText(param?: string): string {
-  return param
-    ? `Select ${param} field here`
-    : i18next.t('select');
+  return param ? `Select ${param} field here` : i18next.t('select');
 }
 
 function onlyNumber(param?: string): string {
