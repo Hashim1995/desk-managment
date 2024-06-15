@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-unused-vars */
 import { HomeOutlined, UndoOutlined } from '@ant-design/icons';
 import {
@@ -73,6 +74,12 @@ export default function Reports() {
 
   const columns: ColumnsType<any> = [
     {
+      title: 'User name',
+      dataIndex: 'userName',
+      key: 'userName',
+      render: record => renderEllipsisText(record)
+    },
+    {
       title: 'Room name',
       dataIndex: 'roomName',
       key: 'roomName',
@@ -90,11 +97,17 @@ export default function Reports() {
       key: 'deskOwnerName',
       render: record => renderEllipsisText(record)
     },
+
     {
-      title: 'Room name',
-      dataIndex: 'roomName',
-      key: 'roomName',
-      render: record => renderEllipsisText(record)
+      title: 'Operation type',
+      dataIndex: 'operationType',
+      key: 'operationType',
+      render: record =>
+        record?.operationType === 1
+          ? 'Booking'
+          : record?.operationType === 2
+          ? 'Cancel'
+          : '-'
     },
     {
       title: 'Start date',
