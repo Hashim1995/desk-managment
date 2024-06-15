@@ -34,6 +34,10 @@ import { IHTTPSParams } from '@/services/adapter-config/config';
 import AppHandledDate from '@/components/forms/date/handled-date';
 import AppPagination from '@/components/display/pagination';
 
+function convertDateToISO(inputDate: string): any {
+  return format(inputDate, "yyyy-MM-dd'T'HH:mm");
+}
+
 export default function Reports() {
   const {
     reset,
@@ -44,11 +48,11 @@ export default function Reports() {
   } = useForm<IReportFilter>({
     mode: 'onChange',
     defaultValues: {
-      startDate: null,
-      endDate: null,
+      bookingDate: null,
       deskName: '',
       deskOwnerName: '',
-      userName: ''
+      roomName: '',
+      operationType: null
     }
   });
 
@@ -69,9 +73,9 @@ export default function Reports() {
 
   const columns: ColumnsType<any> = [
     {
-      title: 'User name',
-      dataIndex: 'userName',
-      key: 'userName',
+      title: 'Room name',
+      dataIndex: 'roomName',
+      key: 'roomName',
       render: record => renderEllipsisText(record)
     },
     {
@@ -101,8 +105,8 @@ export default function Reports() {
     },
     {
       title: 'End date',
-      dataIndex: 'endDate',
-      key: 'endDate',
+      dataIndex: 'startDate',
+      key: 'startDate',
       render: record =>
         renderEllipsisText(format(parseISO(record), 'dd.MM.yyyy HH:mm'))
     }
@@ -126,6 +130,9 @@ export default function Reports() {
     data: IReportFilter
   ) => {
     setCurrentPage(1);
+    if (data.bookingDate) {
+      data.bookingDate = convertDateToISO(data?.bookingDate?.toDate());
+    }
     const queryParamsData: IHTTPSParams[] =
       convertFormDataToQueryParams<IReportFilter>(data);
     console.log(queryParams, 'xaliq');
@@ -212,25 +219,25 @@ export default function Reports() {
                   </Col>
                   <Col span={8}>
                     <AppHandledInput
-                      label={'User name'}
-                      name="userName"
+                      label={'Room name'}
+                      name="roomName"
                       inputProps={{
-                        id: 'userName'
+                        id: 'roomName'
                       }}
                       control={control}
                       required={false}
                       inputType="text"
-                      placeholder={inputPlaceholderText('User name')}
+                      placeholder={inputPlaceholderText('Room name')}
                       errors={errors}
                     />
                   </Col>
                   <Col span={8}>
                     <AppHandledDate
-                      label={'Start Date'}
-                      name="startDate"
+                      label={'Booking Date'}
+                      name="bookingDate"
                       control={control}
                       required={false}
-                      placeholder={'Start Date'}
+                      placeholder={'Booking Date'}
                       errors={errors}
                       formItemProps={{
                         labelAlign: 'left',
@@ -238,7 +245,6 @@ export default function Reports() {
                         style: { fontWeight: 'bolder' }
                       }}
                       dateProps={{
-                        size: 'large',
                         style: {
                           width: '100%'
                         },
@@ -247,24 +253,29 @@ export default function Reports() {
                     />
                   </Col>
                   <Col span={8}>
-                    <AppHandledDate
-                      label={'End Date'}
-                      name="endDate"
-                      control={control}
+                    <AppHandledSelect
+                      label={'Operation type'}
+                      name="operationType"
                       required={false}
-                      placeholder={'End Date'}
+                      control={control}
+                      placeholder={inputPlaceholderText('Operation type')}
                       errors={errors}
-                      formItemProps={{
-                        labelAlign: 'left',
-                        labelCol: { span: 8, sm: 12, md: 10, lg: 8 },
-                        style: { fontWeight: 'bolder' }
-                      }}
-                      dateProps={{
-                        size: 'large',
-                        style: {
-                          width: '100%'
-                        },
-                        format: 'DD.MM.YYYY'
+                      selectProps={{
+                        allowClear: true,
+                        showSearch: true,
+                        id: 'operationType',
+                        placeholder: selectPlaceholderText('Operation type'),
+                        className: 'w-full',
+                        options: [
+                          {
+                            value: 1,
+                            label: 'Booking'
+                          },
+                          {
+                            value: 2,
+                            label: 'Cancel'
+                          }
+                        ]
                       }}
                     />
                   </Col>

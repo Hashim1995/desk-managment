@@ -11,6 +11,7 @@ interface IReportItem {
   startDate: string;
   endDate: string;
   deletedAt: string | null;
+  operationType: 1 | 2;
 }
 
 interface IBookingReportsResponse {
@@ -19,9 +20,9 @@ interface IBookingReportsResponse {
 }
 
 interface IReportFilter {
-  startDate: any;
-  endDate: any;
-  userName: string;
+  bookingDate: any;
+  operationType: any;
+  roomName: string;
   deskName: string;
   deskOwnerName: string;
 }
