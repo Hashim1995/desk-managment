@@ -1,5 +1,4 @@
 /* eslint-disable no-nested-ternary */
-/* eslint-disable no-unused-vars */
 import { HomeOutlined, UndoOutlined } from '@ant-design/icons';
 import {
   Card,
@@ -28,7 +27,6 @@ import {
 import { RoomsService } from '@/services/rooms-services/rooms-services';
 import { IBookingReportsResponse, IReportFilter } from '../types';
 import AppHandledButton from '@/components/display/button/handle-button';
-import AppHandledInput from '@/components/forms/input/handled-input';
 import AppHandledSelect from '@/components/forms/select/handled-select';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { IHTTPSParams } from '@/services/adapter-config/config';
@@ -44,7 +42,6 @@ export default function Reports() {
     reset,
     control,
     handleSubmit,
-    setValue,
     formState: { errors }
   } = useForm<IReportFilter>({
     mode: 'onChange',
@@ -71,7 +68,15 @@ export default function Reports() {
   const [refreshComponent, setRefreshComponent] = useState<boolean>(false);
   const [page, setCurrentPage] = useState<number>(1);
   const [queryParams, setQueryParams] = useState<IHTTPSParams[]>([]);
-
+  const [desksList, setDesksList] = useState<{ name: string; id: number }[]>(
+    []
+  );
+  const [roomsList, setRoomsList] = useState<{ name: string; id: number }[]>(
+    []
+  );
+  const [ownersList, setOwnerssList] = useState<{ name: string; id: number }[]>(
+    []
+  );
   const columns: ColumnsType<any> = [
     {
       title: 'User name',
@@ -153,9 +158,36 @@ export default function Reports() {
     setRefreshComponent(!refreshComponent);
   };
 
+  async function getLists() {
+    try {
+      const roomsService = RoomsService.getInstance();
+      const [desksRes, roomsRes, ownersRes] = await Promise.all([
+        roomsService.getDesksComboList(),
+        roomsService.getRoomsComboList(),
+        roomsService.getOwnerComboList()
+      ]);
+
+      if (desksRes) {
+        setDesksList(desksRes);
+      }
+      if (roomsRes) {
+        setRoomsList(roomsRes);
+      }
+      if (ownersRes) {
+        setOwnerssList(ownersRes);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   useEffect(() => {
     fetchReportsList();
   }, [refreshComponent, page]);
+
+  useEffect(() => {
+    getLists();
+  }, []);
 
   return (
     <div>
@@ -202,46 +234,70 @@ export default function Reports() {
               <Form onFinish={handleSubmit(onSubmit)} layout="vertical">
                 <Row gutter={16}>
                   <Col span={8}>
-                    <AppHandledInput
+                    <AppHandledSelect
                       label={'Desk name'}
-                      name="deskName"
-                      inputProps={{
-                        id: 'deskName'
-                      }}
-                      control={control}
+                      name="deskId"
                       required={false}
-                      inputType="text"
+                      control={control}
                       placeholder={inputPlaceholderText('Desk name')}
                       errors={errors}
+                      selectProps={{
+                        allowClear: true,
+                        showSearch: true,
+                        id: 'deskId',
+                        placeholder: selectPlaceholderText('Desk name'),
+                        className: 'w-full',
+                        options:
+                          desksList?.map(z => ({
+                            value: z?.id,
+                            label: z?.name
+                          })) || []
+                      }}
                     />
                   </Col>
 
                   <Col span={8}>
-                    <AppHandledInput
-                      label={'Desk owner name'}
-                      name="deskOwnerName"
-                      inputProps={{
-                        id: 'deskOwnerName'
-                      }}
-                      control={control}
+                    <AppHandledSelect
+                      label={'Desk owner'}
+                      name="deskOwnerId"
                       required={false}
-                      inputType="text"
-                      placeholder={inputPlaceholderText('Desk owner name')}
+                      control={control}
+                      placeholder={inputPlaceholderText('Desk owner')}
                       errors={errors}
+                      selectProps={{
+                        allowClear: true,
+                        showSearch: true,
+                        id: 'deskOwnerId',
+                        placeholder: selectPlaceholderText('Desk owner'),
+                        className: 'w-full',
+                        options:
+                          ownersList?.map(z => ({
+                            value: z?.id,
+                            label: z?.name
+                          })) || []
+                      }}
                     />
                   </Col>
                   <Col span={8}>
-                    <AppHandledInput
+                    <AppHandledSelect
                       label={'Room name'}
-                      name="roomName"
-                      inputProps={{
-                        id: 'roomName'
-                      }}
-                      control={control}
+                      name="roomId"
                       required={false}
-                      inputType="text"
+                      control={control}
                       placeholder={inputPlaceholderText('Room name')}
                       errors={errors}
+                      selectProps={{
+                        allowClear: true,
+                        showSearch: true,
+                        id: 'roomId',
+                        placeholder: selectPlaceholderText('Room name'),
+                        className: 'w-full',
+                        options:
+                          roomsList?.map(z => ({
+                            value: z?.id,
+                            label: z?.name
+                          })) || []
+                      }}
                     />
                   </Col>
                   <Col span={8}>
