@@ -34,7 +34,7 @@ import AppHandledDate from '@/components/forms/date/handled-date';
 import AppPagination from '@/components/display/pagination';
 
 function convertDateToISO(inputDate: string): any {
-  return format(inputDate, "yyyy-MM-dd'T'HH:mm");
+  return format(inputDate, "yyyy-MM-dd'T'00:00");
 }
 
 export default function Reports() {
@@ -46,7 +46,8 @@ export default function Reports() {
   } = useForm<IReportFilter>({
     mode: 'onChange',
     defaultValues: {
-      bookingDate: null,
+      startDate: null,
+      endDate: null,
       deskName: '',
       deskOwnerName: '',
       roomName: '',
@@ -108,25 +109,21 @@ export default function Reports() {
       dataIndex: 'operationType',
       key: 'operationType',
       render: record =>
-        record?.operationType === 1
-          ? 'Booking'
-          : record?.operationType === 2
-          ? 'Cancel'
-          : '-'
+        record === 1 ? 'Booking' : record === 2 ? 'Cancel' : '-'
     },
     {
       title: 'Start date',
       dataIndex: 'startDate',
       key: 'startDate',
       render: record =>
-        renderEllipsisText(format(parseISO(record), 'dd.MM.yyyy HH:mm'))
+        renderEllipsisText(format(parseISO(record), 'dd.MM.yyyy'))
     },
     {
       title: 'End date',
-      dataIndex: 'startDate',
-      key: 'startDate',
+      dataIndex: 'endDate',
+      key: 'endDate',
       render: record =>
-        renderEllipsisText(format(parseISO(record), 'dd.MM.yyyy HH:mm'))
+        renderEllipsisText(format(parseISO(record), 'dd.MM.yyyy'))
     }
   ];
 
@@ -148,8 +145,11 @@ export default function Reports() {
     data: IReportFilter
   ) => {
     setCurrentPage(1);
-    if (data.bookingDate) {
-      data.bookingDate = convertDateToISO(data?.bookingDate?.toDate());
+    if (data.startDate) {
+      data.startDate = convertDateToISO(data?.startDate?.toDate());
+    }
+    if (data.endDate) {
+      data.endDate = convertDateToISO(data?.endDate?.toDate());
     }
     const queryParamsData: IHTTPSParams[] =
       convertFormDataToQueryParams<IReportFilter>(data);
@@ -302,11 +302,11 @@ export default function Reports() {
                   </Col>
                   <Col span={8}>
                     <AppHandledDate
-                      label={'Booking Date'}
-                      name="bookingDate"
+                      label={'Start date'}
+                      name="startDate"
                       control={control}
                       required={false}
-                      placeholder={'Booking Date'}
+                      placeholder={'Start date'}
                       errors={errors}
                       formItemProps={{
                         labelAlign: 'left',
@@ -314,6 +314,29 @@ export default function Reports() {
                         style: { fontWeight: 'bolder' }
                       }}
                       dateProps={{
+                        allowClear: true,
+                        style: {
+                          width: '100%'
+                        },
+                        format: 'DD.MM.YYYY'
+                      }}
+                    />
+                  </Col>
+                  <Col span={8}>
+                    <AppHandledDate
+                      label={'End date'}
+                      name="endDate"
+                      control={control}
+                      required={false}
+                      placeholder={'End date'}
+                      errors={errors}
+                      formItemProps={{
+                        labelAlign: 'left',
+                        labelCol: { span: 8, sm: 12, md: 10, lg: 8 },
+                        style: { fontWeight: 'bolder' }
+                      }}
+                      dateProps={{
+                        allowClear: true,
                         style: {
                           width: '100%'
                         },

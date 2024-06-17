@@ -20,7 +20,8 @@ interface IBookingReportsResponse {
 }
 
 interface IReportFilter {
-  bookingDate: any;
+  startDate: any;
+  endDate: any;
   operationType: any;
   roomName: string;
   deskName: string;
