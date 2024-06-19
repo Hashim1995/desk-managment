@@ -9,7 +9,7 @@ import {
   FaRegArrowAltCircleRight
 } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
-import { BiFile, BiTable, BiUser } from 'react-icons/bi';
+import { BiEnvelope, BiFile, BiTable, BiUser } from 'react-icons/bi';
 import lg from '@assets/images/logo.png';
 import AppHandledButton from '@/components/display/button/handle-button';
 
@@ -66,6 +66,13 @@ function Sidebar() {
       <Link to="/staff"> {t('staff')} </Link>,
       '/staff',
       <BiUser size={18} />,
+      undefined,
+      'show'
+    ),
+    getItem(
+      <Link to="/allowed-emails"> Allowed emails </Link>,
+      '/allowed-emails',
+      <BiEnvelope size={18} />,
       undefined,
       'show'
     ),

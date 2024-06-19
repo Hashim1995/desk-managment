@@ -5,6 +5,7 @@ import EditRoomPlanPage from '@/modules/rooms/pages/edit-room-plan-page';
 import StaffPage from '@/modules/staff/pages/staff-page';
 import FallbackSpinner from '@/components/display/FallbackSpinner';
 import ReportsPage from '@/modules/reports/pages/reports-page';
+import AllowedEmailsPage from '@/modules/allowed-emails/pages/allowed-emails-page';
 
 const LoginPage = React.lazy(() => import('@/core/static-pages/login_page'));
 
@@ -38,6 +39,10 @@ const routes = [
       {
         path: '/staff',
         element: <StaffPage />
+      },
+      {
+        path: '/allowed-emails',
+        element: <AllowedEmailsPage />
       },
       {
         path: '/rooms',
