@@ -1,8 +1,10 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable default-param-last */
 /* eslint-disable no-empty-function */
 /* eslint-disable no-useless-constructor */
 /* eslint-disable class-methods-use-this */
 
-import { IBookingReportsResponse } from '@/modules/reports/types';
+import { IBookingReportsResponse, ICreateBook } from '@/modules/reports/types';
 import {
   IDesk,
   IRoomByIdResponse,
@@ -20,7 +22,7 @@ export class RoomsService {
   // eslint-disable-next-line no-use-before-define
   private static instance: RoomsService | null;
 
-  private constructor() {}
+  private constructor() { }
 
   public static getInstance(): RoomsService {
     if (!this.instance) {
@@ -61,9 +63,10 @@ export class RoomsService {
   }
 
   public async getDesksComboList(
+    params?: IHTTPSParams[],
     onError?: ErrorCallBack
   ): Promise<{ name: string; id: number }[]> {
-    const res = await HttpUtil.get(`/desks/Compact`, null, false, onError);
+    const res = await HttpUtil.get(`/desks/Compact`, params || null, false, onError);
     return res;
   }
 
@@ -82,6 +85,22 @@ export class RoomsService {
     return res;
   }
 
+  public async createBooking(
+    payload: ICreateBook,
+    onError?: ErrorCallBack
+  ): Promise<{ id: number }> {
+    const res = await HttpUtil.post('/bookings', payload, onError);
+    return res;
+  }
+
+  public async cancelBook(
+    id: number,
+    onError?: ErrorCallBack
+  ): Promise<any> {
+    const res = await HttpUtil.delete(`/bookings/${id}`, onError);
+    return res;
+  }
+
   public async createRoomsMain(
     payload: IRoomsCreate,
     onError?: ErrorCallBack
@@ -89,6 +108,8 @@ export class RoomsService {
     const res = await HttpUtil.post('/Rooms', payload, onError);
     return res;
   }
+
+
 
   public async updateRoomsMain(
     payload: any,
@@ -105,6 +126,8 @@ export class RoomsService {
     const res = await HttpUtil.delete(`Rooms/${id}`, onError);
     return res;
   }
+
+
 
   public async deleteDesk(
     id: number,

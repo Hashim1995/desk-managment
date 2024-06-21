@@ -12,6 +12,7 @@ interface IReportItem {
   endDate: string;
   deletedAt: string | null;
   operationType: 1 | 2;
+  canCancel: boolean;
 }
 
 interface IBookingReportsResponse {
@@ -28,4 +29,12 @@ interface IReportFilter {
   deskOwnerName: string;
 }
 
-export type { IReportItem, IReportFilter, IBookingReportsResponse };
+interface ICreateBook {
+  userId: any;
+  deskId: any;
+  roomId?: any;
+  startDate: any;
+  endDate: any;
+}
+
+export type { IReportItem, IReportFilter, IBookingReportsResponse, ICreateBook };

@@ -11,13 +11,16 @@ import {
   Table,
   Collapse,
   Form,
-  Tooltip
+  Tooltip,
+  Modal
 } from 'antd';
 import { useEffect, useState } from 'react';
 import { format, parseISO } from 'date-fns';
 import { Link } from 'react-router-dom';
 import { ColumnsType } from 'antd/es/table';
 import AppEmpty from '@/components/display/empty';
+import { TiCancel } from 'react-icons/ti';
+
 import {
   convertFormDataToQueryParams,
   deepClone,
@@ -25,13 +28,18 @@ import {
   selectPlaceholderText
 } from '@/utils/functions/functions';
 import { RoomsService } from '@/services/rooms-services/rooms-services';
-import { IBookingReportsResponse, IReportFilter } from '../types';
+import { IBookingReportsResponse, IReportFilter, IReportItem } from '../types';
 import AppHandledButton from '@/components/display/button/handle-button';
 import AppHandledSelect from '@/components/forms/select/handled-select';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { IHTTPSParams } from '@/services/adapter-config/config';
 import AppHandledDate from '@/components/forms/date/handled-date';
 import AppPagination from '@/components/display/pagination';
+import { BiUser } from 'react-icons/bi';
+import AddBookingModal from './add-booking-modal';
+import { toast } from 'react-toastify';
+import { toastOptions } from '@/configs/global-configs';
+import { t } from 'i18next';
 
 function convertDateToISO(inputDate: string): any {
   return format(inputDate, "yyyy-MM-dd'T'00:00");
@@ -63,6 +71,12 @@ export default function Reports() {
       {record}
     </Typography.Paragraph>
   );
+  const [showAddBookingModal, setShowAddBookingModal] =
+    useState<boolean>(false);
+  const [showCancelBookModal, setShowCancelBookModal] =
+    useState<boolean>(false);
+
+  const [selectedItem, setSelectedItem] = useState<IReportItem>();
 
   const [reportsList, setReportsList] = useState<IBookingReportsResponse>();
   const [loading, setLoading] = useState<boolean>(true);
@@ -116,14 +130,31 @@ export default function Reports() {
       dataIndex: 'startDate',
       key: 'startDate',
       render: record =>
-        renderEllipsisText(format(parseISO(record), 'dd.MM.yyyy'))
+        renderEllipsisText(format(parseISO(record), 'dd.MM.yyyy HH:mm'))
     },
     {
       title: 'End date',
       dataIndex: 'endDate',
       key: 'endDate',
       render: record =>
-        renderEllipsisText(format(parseISO(record), 'dd.MM.yyyy'))
+        renderEllipsisText(format(parseISO(record), 'dd.MM.yyyy HH:mm'))
+    },
+    {
+      title: '',
+      key: 'actions',
+      align: 'end',
+      width: 0,
+      render: (_, raw: IReportItem) => (
+        <AppHandledButton
+          danger
+          disabled={!raw?.canCancel}
+          onClick={() => {
+            setSelectedItem(raw);
+            setShowCancelBookModal(true);
+          }}
+          icon={<TiCancel size={18} />}
+        />
+      )
     }
   ];
 
@@ -189,6 +220,15 @@ export default function Reports() {
     getLists();
   }, []);
 
+  const cancelBook = async (id: number) => {
+    const res = await RoomsService.getInstance().cancelBook(id);
+    if (res) {
+      toast.success(res.Data?.Message, toastOptions);
+      setRefreshComponent(z => !z);
+      setShowCancelBookModal(false);
+    }
+  };
+
   return (
     <div>
       <Card size="small" className="mb-4 box">
@@ -209,6 +249,23 @@ export default function Reports() {
                   }
                 ]}
               />
+            </Space>
+          </Col>
+          <Col>
+            <Space>
+              <div>
+                <AppHandledButton
+                  onClick={() => {
+                    setShowAddBookingModal(true);
+                  }}
+                  type="primary"
+                >
+                  <Space>
+                    <BiUser />
+                    Add Booking
+                  </Space>
+                </AppHandledButton>
+              </div>
             </Space>
           </Col>
         </Row>
@@ -429,6 +486,28 @@ export default function Reports() {
           </Spin>
         )}
       </Card>
+      {showAddBookingModal && (
+        <AddBookingModal
+          setShowAddBookingModal={setShowAddBookingModal}
+          setRefreshComponent={setRefreshComponent}
+          showAddBookingModal={showAddBookingModal}
+          roomsList={roomsList}
+          ownersList={ownersList}
+        />
+      )}
+      <Modal
+        title={t('confirmTitle')}
+        open={showCancelBookModal}
+        onOk={() => {
+          cancelBook(selectedItem?.bookingId || 0);
+        }}
+        onCancel={() => setShowCancelBookModal(false)}
+        okText={t('yesTxt')}
+        okType="danger"
+        cancelText={t('noTxt')}
+      >
+        <p>Are you sure you want to cancel?</p>
+      </Modal>
     </div>
   );
 }
