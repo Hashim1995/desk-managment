@@ -22,7 +22,7 @@ export class RoomsService {
   // eslint-disable-next-line no-use-before-define
   private static instance: RoomsService | null;
 
-  private constructor() { }
+  private constructor() {}
 
   public static getInstance(): RoomsService {
     if (!this.instance) {
@@ -66,7 +66,12 @@ export class RoomsService {
     params?: IHTTPSParams[],
     onError?: ErrorCallBack
   ): Promise<{ name: string; id: number }[]> {
-    const res = await HttpUtil.get(`/desks/Compact`, params || null, false, onError);
+    const res = await HttpUtil.get(
+      `/desks/Compact`,
+      params || null,
+      false,
+      onError
+    );
     return res;
   }
 
@@ -93,10 +98,7 @@ export class RoomsService {
     return res;
   }
 
-  public async cancelBook(
-    id: number,
-    onError?: ErrorCallBack
-  ): Promise<any> {
+  public async cancelBook(id: number, onError?: ErrorCallBack): Promise<any> {
     const res = await HttpUtil.delete(`/bookings/${id}`, onError);
     return res;
   }
@@ -108,8 +110,6 @@ export class RoomsService {
     const res = await HttpUtil.post('/Rooms', payload, onError);
     return res;
   }
-
-
 
   public async updateRoomsMain(
     payload: any,
@@ -126,8 +126,6 @@ export class RoomsService {
     const res = await HttpUtil.delete(`Rooms/${id}`, onError);
     return res;
   }
-
-
 
   public async deleteDesk(
     id: number,

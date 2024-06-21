@@ -37,4 +37,9 @@ interface ICreateBook {
   endDate: any;
 }
 
-export type { IReportItem, IReportFilter, IBookingReportsResponse, ICreateBook };
+export type {
+  IReportItem,
+  IReportFilter,
+  IBookingReportsResponse,
+  ICreateBook
+};
