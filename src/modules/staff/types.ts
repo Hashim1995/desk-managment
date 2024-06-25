@@ -9,12 +9,13 @@ interface IStaff {
   email: string;
   phoneNumber?: string | null;
   photoFileId: number | string | null;
+  ownedDesks?: any
 }
 
 interface IStaffCreate
   extends Pick<
     IStaff,
-    'firstName' | 'lastName' | 'email' | 'phoneNumber' | 'photoFileId'
+    'firstName' | 'lastName' | 'email' | 'ownedDesks' | 'phoneNumber' | 'photoFileId'
   > {
   password: string;
 }

@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Col, Form, Modal, Row, UploadFile } from 'antd';
 import { useForm } from 'react-hook-form';
 import { useReadLocalStorage } from 'usehooks-ts';
@@ -9,6 +9,7 @@ import {
   inputPlaceholderText,
   inputValidationText,
   minLengthCheck,
+  selectPlaceholderText,
   showCloseConfirmationModal
 } from '@/utils/functions/functions';
 
@@ -18,6 +19,8 @@ import AppFileUpload from '@/components/forms/file-upload';
 import TokenizedImage from '@/components/display/image';
 import AppHandledInput from '@/components/forms/input/handled-input';
 import { IStaff, IStaffUpdate } from '../types';
+import AppHandledSelect from '@/components/forms/select/handled-select';
+import { RoomsService } from '@/services/rooms-services/rooms-services';
 
 interface IEditStaffProps {
   showEditStaffModal: boolean;
@@ -44,11 +47,16 @@ function EditStaffModal({
       lastName: selectedItem?.lastName || '-',
       email: selectedItem?.email || '-',
       phoneNumber: selectedItem?.phoneNumber || '-',
-      photoFileId: selectedItem?.photoFileId || null
+      photoFileId: selectedItem?.photoFileId || null,
+      ownedDesks:
+        selectedItem?.ownedDesks?.map((z: { id: string | number }) => z?.id) ||
+        []
     },
     mode: 'onChange'
   });
-
+  const [desksList, setDesksList] = useState<{ name: string; id: number }[]>(
+    []
+  );
   const { t } = useTranslation();
   const darkMode = useReadLocalStorage('darkTheme');
 
@@ -63,11 +71,13 @@ function EditStaffModal({
   };
 
   async function onSubmit(data: IStaffUpdate) {
+    const payload = {
+      ...data,
+      id: selectedItem?.id,
+      ownedDesks: data?.ownedDesks?.map((z: any) => ({ id: z })) || null
+    };
     try {
-      const res = await StaffService.getInstance().updateStaffMain({
-        ...data,
-        id: selectedItem?.id
-      });
+      const res = await StaffService.getInstance().updateStaffMain(payload);
       if (res?.id) {
         setRefreshComponent(z => !z);
         setShowEditStaffModal(false);
@@ -76,6 +86,20 @@ function EditStaffModal({
       console.log(err);
     }
   }
+
+  async function getLists() {
+    try {
+      const res = await RoomsService.getInstance().getDesksComboList();
+      if (res) {
+        setDesksList(res);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  useEffect(() => {
+    getLists();
+  }, []);
 
   return (
     <Modal
@@ -203,6 +227,33 @@ function EditStaffModal({
                 inputType="text"
                 placeholder={inputPlaceholderText(t('phoneNumber'))}
                 errors={errors}
+              />
+            </div>
+            <div className="pb-3">
+              <AppHandledSelect
+                label={'Desk name'}
+                name="ownedDesks"
+                rules={{
+                  required: {
+                    value: false,
+                    message: inputValidationText('Owner')
+                  }
+                }}
+                control={control}
+                placeholder={inputPlaceholderText('Desk name')}
+                errors={errors}
+                selectProps={{
+                  showSearch: true,
+                  id: 'ownedDesks',
+                  mode: 'multiple',
+                  placeholder: selectPlaceholderText('Desk name'),
+                  className: 'w-full',
+                  options:
+                    desksList?.map(z => ({
+                      value: z?.id,
+                      label: z?.name
+                    })) || []
+                }}
               />
             </div>
             {selectedItem?.photoFileId ? (

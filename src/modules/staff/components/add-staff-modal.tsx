@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Col, Form, Modal, Row, UploadFile } from 'antd';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -8,6 +8,7 @@ import {
   inputPlaceholderText,
   inputValidationText,
   minLengthCheck,
+  selectPlaceholderText,
   showCloseConfirmationModal
 } from '@/utils/functions/functions';
 import { StaffService } from '@/services/staff-services/staff-services';
@@ -16,6 +17,8 @@ import AppHandledInput from '@/components/forms/input/handled-input';
 import AppHandledButton from '@/components/display/button/handle-button';
 import AppFileUpload from '@/components/forms/file-upload';
 import { IStaffCreate } from '../types';
+import AppHandledSelect from '@/components/forms/select/handled-select';
+import { RoomsService } from '@/services/rooms-services/rooms-services';
 
 interface IAddStaffProps {
   showAddStaffModal: boolean;
@@ -28,6 +31,9 @@ function AddStaffModal({
   setShowAddStaffModal,
   showAddStaffModal
 }: IAddStaffProps) {
+  const [desksList, setDesksList] = useState<{ name: string; id: number }[]>(
+    []
+  );
   const {
     setValue,
     formState: { errors, isSubmitting },
@@ -58,8 +64,12 @@ function AddStaffModal({
   };
 
   async function onSubmit(data: IStaffCreate) {
+    const payload = {
+      ...data,
+      ownedDesks: data?.ownedDesks?.map((z: any) => ({ id: z })) || null
+    };
     try {
-      const res = await StaffService.getInstance().createStaffMain(data);
+      const res = await StaffService.getInstance().createStaffMain(payload);
       if (res?.id) {
         setRefreshComponent(z => !z);
         setShowAddStaffModal(false);
@@ -68,6 +78,20 @@ function AddStaffModal({
       console.log(err);
     }
   }
+
+  async function getLists() {
+    try {
+      const res = await RoomsService.getInstance().getDesksComboList();
+      if (res) {
+        setDesksList(res);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  useEffect(() => {
+    getLists();
+  }, []);
 
   return (
     <Modal
@@ -195,6 +219,33 @@ function AddStaffModal({
                 inputType="text"
                 placeholder={inputPlaceholderText(t('phoneNumber'))}
                 errors={errors}
+              />
+            </div>
+            <div className="pb-3">
+              <AppHandledSelect
+                label={'Desk name'}
+                name="ownedDesks"
+                rules={{
+                  required: {
+                    value: false,
+                    message: inputValidationText('Owner')
+                  }
+                }}
+                control={control}
+                placeholder={inputPlaceholderText('Desk name')}
+                errors={errors}
+                selectProps={{
+                  showSearch: true,
+                  id: 'ownedDesks',
+                  mode: 'multiple',
+                  placeholder: selectPlaceholderText('Desk name'),
+                  className: 'w-full',
+                  options:
+                    desksList?.map(z => ({
+                      value: z?.id,
+                      label: z?.name
+                    })) || []
+                }}
               />
             </div>
             <div className="pb-3">

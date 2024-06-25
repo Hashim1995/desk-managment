@@ -96,6 +96,22 @@ export default function Staff() {
       render: record => renderEllipsisText(record)
     },
     {
+      title: 'Desks',
+      dataIndex: 'ownedDesks',
+      key: 'ownedDesks',
+      render: record => (
+        <Typography.Paragraph
+          style={{ margin: 0 }}
+          ellipsis={{
+            rows: 1,
+            tooltip: record.map((desk: { name: any }) => desk.name).join(', ')
+          }}
+        >
+          {record.map((desk: { name: any }) => desk.name).join(', ')}
+        </Typography.Paragraph>
+      )
+    },
+    {
       title: '',
       key: 'actions',
       align: 'end',
