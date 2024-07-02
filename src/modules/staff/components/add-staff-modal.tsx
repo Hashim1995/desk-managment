@@ -206,7 +206,7 @@ function AddStaffModal({
                 }}
                 rules={{
                   required: {
-                    value: true,
+                    value: false,
                     message: inputValidationText(t('phoneNumber'))
                   },
                   minLength: {
@@ -214,7 +214,6 @@ function AddStaffModal({
                     message: minLengthCheck(t('phoneNumber'), '3')
                   }
                 }}
-                required
                 control={control}
                 inputType="text"
                 placeholder={inputPlaceholderText(t('phoneNumber'))}

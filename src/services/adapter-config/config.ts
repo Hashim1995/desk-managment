@@ -49,9 +49,6 @@ axios.interceptors.response.use(
             localStorage.removeItem('userToken');
             window.location.href = `/login`;
             break;
-          case 403:
-            window.location.href = '/no-permission';
-            break;
           default:
             // ErrorHandler.getInstance().showError(axiosErrorHandler(error))
             break;
